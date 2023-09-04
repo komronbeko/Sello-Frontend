@@ -13,7 +13,7 @@ import Thank from "../pages/Thank/Thank";
 
 const routes = [
     {
-        path: '/main',
+        path: '/',
         element: <Main/> 
     },
     {

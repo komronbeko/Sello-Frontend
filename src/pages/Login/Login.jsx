@@ -13,7 +13,7 @@ const Login = () => {
   }, []);
 
   function handleClick() {
-    navigate("/main");
+    navigate("/");
     dispatch(setAuthTrue());
   }
   return (

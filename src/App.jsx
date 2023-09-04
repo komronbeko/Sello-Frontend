@@ -11,11 +11,9 @@ import { fetchCategories } from "./features/CategoriesSLice";
 import { fetchPartners } from "./features/PartnersSlice";
 import { fetchUserOne } from "./features/UserOneSlice";
 import { fetchOrders } from "./features/OrdersSlice";
-import { useNavigate } from "react-router";
 
 function App() {
   const authModal = useSelector((state) => state.authModal.state);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchLikes());
@@ -25,7 +23,6 @@ function App() {
     dispatch(fetchPartners());
     dispatch(fetchUserOne());
     dispatch(fetchOrders());
-    navigate('/main')
   }, []);
   return (
     <div className="App">

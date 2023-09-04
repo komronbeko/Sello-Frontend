@@ -33,7 +33,7 @@ const ProfileNav = ({ activePage }) => {
   }
   function logout() {
     localStorage.removeItem("token");
-    navigate("/main");
+    navigate("/");
   }
   return (
     <div id="navigate">

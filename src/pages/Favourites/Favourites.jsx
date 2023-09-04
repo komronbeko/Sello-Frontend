@@ -23,7 +23,7 @@ const Likes = () => {
   const userLikes = useSelector((state) => state.like.likes);
 
   useEffect(() => {
-    if (!token) navigate("/main");
+    if (!token) navigate("/");
   }, []);
 
   async function clearLikes() {
@@ -65,7 +65,7 @@ const Likes = () => {
                 <p className="no-products-text">
                   Sorry, there are no favorite products here yet.
                 </p>
-                <Link to="/main" className="link">
+                <Link to="/" className="link">
                   Start shopping
                 </Link>
               </div>

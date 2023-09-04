@@ -13,7 +13,7 @@ const AllProducts = () => {
   const userAllProducts = useSelector((state) => state.product.products);
 
   useEffect(() => {
-    if (!token) navigate("/main");
+    if (!token) navigate("/");
   }, []);
 
   return (
