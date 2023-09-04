@@ -13,6 +13,7 @@ import { fetchProductInfos } from "../../features/ProductInfoSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
+import { URL_IMAGE } from "../../constants/api";
 
 
 const ProductOne = () => {
@@ -124,10 +125,10 @@ const ProductOne = () => {
               <div
                 className="bg"
                 style={{
-                  backgroundImage: `url('http://localhost:3000/uploads/${productOne?.photo}')`,
+                  backgroundImage: `url('${URL_IMAGE}/uploads/${productOne?.photo}')`,
                 }}
               ></div>
-              <img src={`http://localhost:3000/uploads/${productOne?.photo}`} alt="" />
+              <img src={`${URL_IMAGE}/uploads/${productOne?.photo}`} alt="" />
             </div>
             <div className="end">
               <div className="end_header">

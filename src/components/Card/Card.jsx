@@ -9,6 +9,7 @@ import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { useDispatch } from "react-redux";
 import { fetchLikes } from "../../features/LikesSlice";
 import { fetchCarts } from "../../features/CartSlice";
+import { URL_IMAGE } from "../../constants/api";
 
 const Card = ({ image, title, price, discount, id, count }) => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const Card = ({ image, title, price, discount, id, count }) => {
       </button>
       <Link className="clicklable_link" to={`/product/${id}`}>
         <img
-          src={`http://localhost:3000/uploads/${image}`}
+          src={`${URL_IMAGE}/uploads/${image}`}
           alt=""
           className="start"
         />

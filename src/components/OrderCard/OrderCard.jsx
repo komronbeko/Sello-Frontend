@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
+import { URL_IMAGE } from "../../constants/api";
 
 const CartCard = ({
   title,
@@ -57,7 +58,7 @@ const CartCard = ({
   }
   return (
     <div id="card">
-      <img src={`http://localhost:3000/uploads/${photo}`} alt="" />
+      <img src={`${URL_IMAGE}/uploads/${photo}`} alt="" />
       <div className="end-card">
         <Link className="link" to={`/product/${id}`}>
           {title}

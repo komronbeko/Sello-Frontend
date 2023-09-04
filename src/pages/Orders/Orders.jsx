@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { URL_IMAGE } from "../../constants/api";
 
 const Orders = () => {
   const orders = useSelector((state) => state.order.orders);
@@ -106,7 +107,7 @@ const Orders = () => {
                         <div className="product" key={p.id}>
                           <div className="product-start">
                             <img
-                              src={`http://localhost:3000/uploads/${p.product.photo}`}
+                              src={`${URL_IMAGE}/uploads/${p.product.photo}`}
                               alt=""
                             />
                           </div>

@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import requestImg from "../../../public/zayavka2.png";
 import './Partners.scss';
 import { Link } from 'react-router-dom';
+import { URL_IMAGE } from '../../constants/api';
 
 const Partners = () => {
     const partners = useSelector(state => state.partner.partners);
@@ -23,7 +24,7 @@ const Partners = () => {
                         key={b.id}
                         className="link-btn"
                       >
-                        <img src={`http://localhost:3000/uploads/${b.photo}`} alt="" />
+                        <img src={`${URL_IMAGE}/uploads/${b.photo}`} alt="" />
                       </Link>
                     );
                   })

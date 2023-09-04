@@ -7,6 +7,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from "react-alice-carousel";
 import "./Hero.scss";
 import { Link } from "react-router-dom";
+import { URL_IMAGE } from "../../constants/api";
 
 const Hero = () => {
   const banners = useSelector((state) => state.banner);
@@ -16,7 +17,7 @@ const Hero = () => {
     ? banners.banners.map((el) => {
         return (
           <Link key={el.id} className="link" to={`/catalog/${el.catalog_id}`}>
-            <img src={`http://localhost:3000/uploads/${el.photo}`} alt="" />
+            <img src={`${URL_IMAGE}/uploads/${el.photo}`} alt="" />
           </Link>
         );
       })
