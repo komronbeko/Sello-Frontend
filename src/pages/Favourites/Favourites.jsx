@@ -22,6 +22,7 @@ const Likes = () => {
   const userLikes = useSelector((state) => state.like.likes);
 
   useEffect(() => {
+    dispatch(fetchLikes());
     if (!token) navigate("/");
   }, []);
 

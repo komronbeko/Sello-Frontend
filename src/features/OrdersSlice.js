@@ -5,7 +5,7 @@ import http from "../service/api";
 export const fetchOrders = createAsyncThunk("order/fetchOrders", () => {
   const authAssets = getAuthAssetsFromLocalStorage();
   return http
-    .get(`/order/ofusers/${authAssets.user_id}`)
+    .get(`/order/ofusers/${authAssets?.user_id}`)
     .then((res) => res.data.data);
 });
 

@@ -57,7 +57,6 @@ const ReplenishForm = ({user_id}) => {
     if (!error) {
       try {
         const { id } = paymentMethod;
-        console.log(user_id);
         await http.patch(`/user/${user_id}/replenish`, {
           amount: +values.amount,
           id,

@@ -9,7 +9,6 @@ import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
 import { dollarToSom } from "../../utils/exchange";
 import { handleTotal } from "../../utils/total";
-import { fetchUserOne } from "../../features/UserOneSlice";
 
 const Checkout = () => {
   const dispatch = useDispatch();

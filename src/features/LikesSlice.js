@@ -5,7 +5,7 @@ import http from "../service/api";
 export const fetchLikes = createAsyncThunk("like/fetchLikes", () => {
   const authAssets = getAuthAssetsFromLocalStorage();
   return http
-    .get(`/like/${authAssets.user_id}`)
+    .get(`/like/${authAssets?.user_id}`)
     .then((res) => res.data.data);
 });
 

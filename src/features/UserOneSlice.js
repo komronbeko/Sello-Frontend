@@ -4,7 +4,7 @@ import http from "../service/api";
 
 export const fetchUserOne = createAsyncThunk("userOne/fetchUserOne", () => {
     const authAssets = getAuthAssetsFromLocalStorage();
-  return http.get(`/user/${authAssets.user_id}`).then((res) => res.data.data);
+  return http.get(`/user/${authAssets?.user_id}`).then((res) => res.data.data);
 });
 
 const initialState = {

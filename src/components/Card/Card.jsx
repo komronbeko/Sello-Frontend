@@ -9,19 +9,26 @@ import { URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
+import { setAuthModalTrue } from "../../features/AuthModalSlice";
 
 const Card = ({ image, title, price, discount, id, count }) => {
   const dispatch = useDispatch();
 
-  const { user_id } = getAuthAssetsFromLocalStorage();
+  const authAssets = getAuthAssetsFromLocalStorage();
 
   async function handleAddingToCart(id) {
-    await addToCart(id, user_id);
+    if(!authAssets?.user_id){
+      return dispatch(setAuthModalTrue());
+    }
+    await addToCart(id, authAssets?.user_id);
     dispatch(fetchCarts());
   }
 
   async function handleLiking(id) {
-    await addToLike(id, user_id);
+    if(!authAssets?.user_id){
+      return dispatch(setAuthModalTrue());
+    }
+    await addToLike(id, authAssets?.user_id);
     dispatch(fetchLikes());
   }
 

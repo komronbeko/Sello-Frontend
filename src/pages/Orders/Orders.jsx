@@ -20,7 +20,7 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(fetchOrders());
-  }, [])
+  }, []);
 
   const [selected, setSelected] = useState(null);
 

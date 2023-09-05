@@ -11,7 +11,7 @@ import { setAuthModalFalse } from "../../features/AuthModalSlice";
 const VerifyForm = () => {
   const dispatch = useDispatch();
 
-  const {user_id, verifyCode} = getAuthAssetsFromLocalStorage();
+  const authAssets = getAuthAssetsFromLocalStorage();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -19,11 +19,11 @@ const VerifyForm = () => {
     const { code } = e.target.elements;
     try {
       const { data } = await http.post(
-        `/auth/verify-user/${user_id}`,
+        `/auth/verify-user/${authAssets?.user_id}`,
         {
           verify_code: code.value,
-          code: verifyCode,
-          user_id: user_id,
+          code: authAssets?.verifyCode,
+          user_id: authAssets?.user_id,
         }
       );
       toast(data.message, { type: "success" });

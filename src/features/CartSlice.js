@@ -5,7 +5,7 @@ import http from "../service/api";
 export const fetchCarts = createAsyncThunk("cart/fetchCarts", () => {
   const authAssets = getAuthAssetsFromLocalStorage();
   return http
-    .get(`/cart/${authAssets.user_id}`)
+    .get(`/cart/${authAssets?.user_id}`)
     .then((res) => res.data.data);
 });
 

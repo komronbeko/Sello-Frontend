@@ -17,6 +17,7 @@ import { URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
+import { setAuthModalTrue } from "../../features/AuthModalSlice";
 
 
 const ProductOne = () => {
@@ -35,7 +36,7 @@ const ProductOne = () => {
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
 
-  const {user_id} = getAuthAssetsFromLocalStorage();
+  const authAssets = getAuthAssetsFromLocalStorage();
 
 
   function hover(number) {
@@ -64,26 +65,35 @@ const ProductOne = () => {
 
  
   async function handleAddingToCart(id) {
-    await addToCart(id, user_id);
+    if(!authAssets?.user_id){
+      return dispatch(setAuthModalTrue());
+    }
+    await addToCart(id, authAssets?.user_id);
     dispatch(fetchCarts());
   }
 
 
   async function handleLiking(id) {
-    await addToLike(id, user_id);
+    if(!authAssets?.user_id){
+      return dispatch(setAuthModalTrue());
+    }
+    await addToLike(id, authAssets?.user_id);
     dispatch(fetchLikes());
   }
 
   const navigate = useNavigate();
 
   async function purchase(id) {
+    if(!authAssets?.user_id){
+      return dispatch(setAuthModalTrue());
+    }
      try {
       await http.post("/cart", {
         product_id: id,
-        user_id: +user_id,
+        user_id: +authAssets?.user_id,
       });
       dispatch(fetchCarts());
-      navigate(`/profile/${user_id}/carts`)
+      navigate(`/profile/${authAssets?.user_id}/carts`)
     } catch (error) {
       toast(error.message, { type: "error" });
     }

@@ -35,6 +35,7 @@ const Cart = () => {
   }
 
   useEffect(() => {
+    dispatch(fetchCarts());
     const result = handleTotal(filteredCarts, setUpdateCart);
     setCount(result.count);
     setPrice(result.price);

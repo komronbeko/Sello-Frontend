@@ -8,6 +8,7 @@ import { fetchLikes } from "../../features/LikesSlice";
 import { URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
+import { setAuthModalTrue } from "../../features/AuthModalSlice";
 
 const CartCard = ({
   title,
@@ -39,6 +40,9 @@ const CartCard = ({
   }
 
   async function handleLiking(id) {
+    if(!user_id){
+      return dispatch(setAuthModalTrue());
+    }
     await addToLike(id, user_id);
     dispatch(fetchLikes());
   }

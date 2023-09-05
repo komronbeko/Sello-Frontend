@@ -31,7 +31,7 @@ const Header = () => {
 
     const authAssets = getAuthAssetsFromLocalStorage();
 
-    navigate(`/profile/${authAssets.user_id}${directory}`)
+    navigate(`/profile/${authAssets?.user_id}${directory}`)
   }
 
   useEffect(() => {

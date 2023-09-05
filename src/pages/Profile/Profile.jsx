@@ -4,9 +4,11 @@ import User from "../../../public/default-user.png";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserOne } from "../../features/UserOneSlice";
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const [me, setMe] = useState(null);
   const [modalActive, setActiveModal] = useState(false);
   const [gender, setGender] = useState(null);
@@ -35,12 +37,14 @@ const Profile = () => {
     }
   }
   useEffect(() => {
+    dispatch(fetchUserOne());
     (async function () {
       setMe(userOne);
       setUpdate(false);
       setGender(userOne.gender);
     })();
   }, [update]);
+
   async function senData(e) {
     e.preventDefault();
     if (
