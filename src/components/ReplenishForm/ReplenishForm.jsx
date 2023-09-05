@@ -9,7 +9,6 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import http from "../../service/api";
 import { useDispatch } from "react-redux";
 import { fetchUserOne } from "../../features/UserOneSlice";
@@ -30,9 +29,8 @@ const CARD_OPTIONS = {
   },
 };
 
-const ReplenishForm = () => {
+const ReplenishForm = ({user_id}) => {
   const dispatch = useDispatch();
-  const { user_id } = getAuthAssetsFromLocalStorage();
   const [values, setValues] = useState({
     card_number: "",
     card_cvc: "",
@@ -59,6 +57,7 @@ const ReplenishForm = () => {
     if (!error) {
       try {
         const { id } = paymentMethod;
+        console.log(user_id);
         await http.patch(`/user/${user_id}/replenish`, {
           amount: +values.amount,
           id,

@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
 import http from "../../service/api";
-import { useDispatch } from "react-redux";
 import { setAuthAssetsToLocalStorage } from "../../utils/storage";
 
 const RegisterForm = ({ setAuthNavigator }) => {
-  const dispatch = useDispatch();
   async function handleSubmit(e) {
     e.preventDefault();
     const { email, password, username } = e.target.elements;

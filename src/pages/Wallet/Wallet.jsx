@@ -2,22 +2,31 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ReplenishForm from "../../components/ReplenishForm/ReplenishForm";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { useSelector } from "react-redux";
-const stripePromise = loadStripe(
-  "pk_test_51NXavzDU6UVW8TMJ74sw5Y8EvVk6ZYKvoNIHpC0VPllpheTt0a7JOamgZc4gwnjejvfxy5tCTuziZ4j2eqTnlZVC00V4861pDX"
-);
+import { useDispatch, useSelector } from "react-redux";
+import { dollarToSom } from "../../utils/exchange";
+import { useParams } from "react-router";
 import "./Wallet.scss";
+import { STRIPE_PK } from "../../constants/api";
+import { useEffect } from "react";
+import { fetchUserOne } from "../../features/UserOneSlice";
+
+
+const stripePromise = loadStripe(STRIPE_PK);
 
 const Wallet = () => {
+  const { user_id } = useParams();
   const user = useSelector((state) => state.user.userOne);
-  function $toSom(number) {
-    const exchangeRate = 10500;
-    const sum = number * exchangeRate;
-    return sum.toLocaleString();
-  }
+
+  const dispatch = useDispatch()
+  
+
+  useEffect(()=>{
+    dispatch(fetchUserOne());
+  }, [])
+
   return user?.is_verified ? (
     <div id="wallet">
-      <ProfileNav activePage={"Wallet"} />
+      <ProfileNav activePage={"Wallet"} user_id={user_id}/>
       <div id="data">
         <div className="data-head">
           <h3>Wallet</h3>
@@ -28,11 +37,11 @@ const Wallet = () => {
         <div className="data-body">
           <h4>
             Payment will be automatically taken from your Sello wallet{" "}
-            <span>Your Balance: {$toSom(user?.money_amount)} som</span>
+            <span>Your Balance: {dollarToSom(user?.money_amount)} som</span>
           </h4>
         </div>
         <Elements stripe={stripePromise}>
-          <ReplenishForm />
+          <ReplenishForm user_id={user_id} />
         </Elements>
       </div>
     </div>

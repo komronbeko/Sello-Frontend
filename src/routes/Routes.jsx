@@ -25,23 +25,23 @@ const routes = [
         element: <Register/>
     },
     {
-        path: '/profile/:id',
+        path: '/profile/:user_id',
         element: <Profile/>
     },
     {
-        path: '/profile/:id/carts',
+        path: '/profile/:user_id/carts',
         element: <Carts/>
     },
     {
-        path: '/profile/:id/favourites',
+        path: '/profile/:user_id/favourites',
         element: <Favourites/>
     },
     {
-        path: '/profile/:id/orders',
+        path: '/profile/:user_id/orders',
         element: <Orders/>
     },
     {
-        path: '/profile/:id/wallet',
+        path: '/profile/:user_id/wallet',
         element: <Wallet/>
     },
     {
@@ -49,11 +49,11 @@ const routes = [
         element: <ProductOne/>
     },
     {
-        path: '/checkout',
+        path: '/:user_id/checkout',
         element: <Checkout/>
     },
     {
-        path: '/thank',
+        path: '/:user_id/thank',
         element: <Thank/>
     },
 ];

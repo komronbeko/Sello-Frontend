@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-// import "./AllProducts.scss";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -27,7 +26,7 @@ const NewProducts = () => {
                   <Card
                     key={el.id}
                     image={el.photo}
-                    discount={el.discount_rate}
+                    discount={el.discount?.rate}
                     id={el.id}
                     price={el.price}
                     title={el.name}

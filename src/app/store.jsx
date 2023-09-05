@@ -13,6 +13,7 @@ import UserOneReducer from "../features/UserOneSlice";
 import ProductOneReducer from "../features/ProductOneSlice";
 import ProductInfoReducer from "../features/ProductInfoSlice";
 import OrdersReducer from "../features/OrdersSlice";
+import TotalReducer from "../features/TotalSlice";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     authModal: AuthModalReducer,
     authAssets: AuthAssetsReducer,
     productInfo: ProductInfoReducer,
+    total: TotalReducer
   },
 });
 

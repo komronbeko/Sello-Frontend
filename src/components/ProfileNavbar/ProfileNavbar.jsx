@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import "./ProfileNavbar.scss";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 
-const ProfileNav = ({ activePage }) => {
-  const { user_id } = getAuthAssetsFromLocalStorage();
+const ProfileNav = ({ activePage, user_id }) => {
   const navigate = useNavigate();
   const links = [
     {

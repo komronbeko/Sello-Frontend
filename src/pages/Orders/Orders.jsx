@@ -1,23 +1,29 @@
 /* eslint-disable no-unused-vars */
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import "./Orders.scss";
 import Empty from "../../../public/empty_orders.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { URL_IMAGE } from "../../constants/api";
+import { fetchOrders } from "../../features/OrdersSlice";
+import { dollarToSom } from "../../utils/exchange";
 
 const Orders = () => {
   const orders = useSelector((state) => state.order.orders);
   const user = useSelector((state) => state.user.userOne);
+  
+  const {user_id} = useParams();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, [])
 
   const [selected, setSelected] = useState(null);
-  function $toSom(number) {
-    const exchangeRate = 10500;
-    const sum = number * exchangeRate;
-    return sum.toLocaleString();
-  }
+
   async function Cancel(id) {
     try {
       toast("Order canceled", { type: "info" });
@@ -25,9 +31,10 @@ const Orders = () => {
       toast(error.response.data.message, { type: "error" });
     }
   }
+
   return user?.is_verified ? (
     <div id="purchase">
-      <ProfileNav activePage={"My orders"} />
+      <ProfileNav activePage={"My orders"} user_id={user_id}/>
       <section id="data">
         <div className="data-head">
           <h3>My orders</h3>
@@ -119,7 +126,7 @@ const Orders = () => {
                               {p.product.name}
                             </Link>
                             <ul>
-                              <li>Price : {$toSom(p.product.price)} som</li>
+                              <li>Price : {dollarToSom(p.product.price)} som</li>
                               <li>Description : {p.product.description}</li>
                               <li>Count: {p.count}</li>
                             </ul>
@@ -154,7 +161,7 @@ const Orders = () => {
                       </div>
                       <div className="table">
                         <p className="key">Total amount :</p>
-                        <p className="value">{$toSom(o.cost)} som</p>
+                        <p className="value">{dollarToSom(o.cost)} som</p>
                       </div>
                     </div>
                   </div>

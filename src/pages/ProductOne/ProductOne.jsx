@@ -14,6 +14,9 @@ import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { URL_IMAGE } from "../../constants/api";
+import { dollarToSom } from "../../utils/exchange";
+import { addToLike } from "../../utils/add-to-like";
+import { addToCart } from "../../utils/add-to-cart";
 
 
 const ProductOne = () => {
@@ -32,18 +35,13 @@ const ProductOne = () => {
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
 
-  const authAssets = getAuthAssetsFromLocalStorage();
+  const {user_id} = getAuthAssetsFromLocalStorage();
 
 
   function hover(number) {
     setTootlip(number);
   }
 
-  function $toSom(number) {
-    const exchangeRate = 12000;
-    const sum = number * exchangeRate;
-    return sum.toLocaleString();
-  }
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -62,32 +60,18 @@ const ProductOne = () => {
     //   const rec = recomendation.filter((p) => p.id !== productOne.id).slice(0, 12);
     //   setRec(rec);
     })();
-
   }, [id]);
-  async function addToCart(id) {
-    try {
-      await http.post("/cart", {
-        product_id: id,
-        user_id: authAssets.user_id,
-      });
-      dispatch(fetchCarts());
-    } catch (error) {
-      toast(error.message, { type: "error" });
-    }
+
+ 
+  async function handleAddingToCart(id) {
+    await addToCart(id, user_id);
+    dispatch(fetchCarts());
   }
-  async function addToLike(id) {
-    try {
-      await http.post("/like", {
-        product_id: id,
-        user_id: authAssets.user_id,
-      });
-      dispatch(fetchLikes());
-    } catch (error) {
-      if (error.response.data.message !== "Product already liked")
-        return toast(error.response.data.message, { type: "error" });
-      await http.delete(`/like/${id}`);
-      dispatch(fetchLikes());
-    }
+
+
+  async function handleLiking(id) {
+    await addToLike(id, user_id);
+    dispatch(fetchLikes());
   }
 
   const navigate = useNavigate();
@@ -96,14 +80,15 @@ const ProductOne = () => {
      try {
       await http.post("/cart", {
         product_id: id,
-        user_id: authAssets.user_id,
+        user_id: +user_id,
       });
       dispatch(fetchCarts());
-      navigate(`/profile/${authAssets.user_id}/carts`)
+      navigate(`/profile/${user_id}/carts`)
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   }
+
   return productOne ? (
     <div>
       <section id="product">
@@ -116,7 +101,7 @@ const ProductOne = () => {
                 Rating
               </p>
             </div>
-            <button onClick={() => addToLike(productOne?.id)}>
+            <button onClick={() => handleLiking(productOne?.id)}>
               <i className="fa-regular fa-heart"></i> ADD TO LIKED
             </button>
           </div>
@@ -135,18 +120,18 @@ const ProductOne = () => {
                 <h4>Buy product for</h4>
                 <div className="price">
                   <h2>
-                    {productOne?.discount_rate
-                      ? $toSom(
+                    {productOne?.discount?.rate
+                      ? dollarToSom(
                           productOne?.price -
-                            (productOne?.price * productOne?.discount_rate) / 100
+                            (productOne?.price * productOne?.discount?.rate) / 100
                         )
-                      : $toSom(productOne?.price)}{" "}
+                      : dollarToSom(productOne?.price)}{" "}
                     som
                   </h2>
-                  {productOne?.discount_rate ? (
+                  {productOne?.discount?.rate ? (
                     <p className="discount_rate">
-                      With discount_rate {productOne?.discount_rate}%{" "}
-                      <del>{$toSom(productOne?.price)} som</del>
+                      With discount_rate {productOne?.discount?.rate}%{" "}
+                      <del>{dollarToSom(productOne?.price)} som</del>
                     </p>
                   ) : null}
                 </div>
@@ -154,7 +139,7 @@ const ProductOne = () => {
                 <div className="btns">
                   <button
                     className="add-to-cart"
-                    onClick={() => addToCart(productOne?.id)}
+                    onClick={() => handleAddingToCart(productOne?.id)}
                   >
                     ADD TO CART
                   </button>
@@ -271,7 +256,7 @@ const ProductOne = () => {
                   title={p.title}
                   price={p.price}
                   id={p.id}
-                  discount_rate={p.discount_rate}
+                  discount_rate={p.discount?.rate}
                 />
               );
             })}

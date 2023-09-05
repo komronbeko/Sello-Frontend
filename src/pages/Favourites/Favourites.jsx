@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import "./Favourites.scss";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Empty from "../../../public/empty_orders.png";
 import { toast } from "react-toastify";
 import {
   getAccessTokenFromLocalStorage,
-  getAuthAssetsFromLocalStorage,
 } from "../../utils/storage";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
@@ -16,9 +15,9 @@ import { fetchLikes } from "../../features/LikesSlice";
 const Likes = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {user_id} = useParams();
 
   const token = getAccessTokenFromLocalStorage();
-  const { user_id } = getAuthAssetsFromLocalStorage();
 
   const userLikes = useSelector((state) => state.like.likes);
 
@@ -31,9 +30,10 @@ const Likes = () => {
     toast("Cart cleared.", { type: "info" });
     dispatch(fetchLikes());
   }
+
   return (
     <div id="liked">
-      <ProfileNav activePage={"Favorites"} />
+      <ProfileNav activePage={"Favorites"} user_id={user_id}/>
       <section id="data">
         <div className="data-head">
           <h3>Favorites</h3>
@@ -51,7 +51,7 @@ const Likes = () => {
                     <Card
                       key={el.product.id}
                       image={el.product.photo}
-                      discount={el.product.discount_rate}
+                      discount={el.product.discount?.rate}
                       id={el.product.id}
                       price={el.product.price}
                       title={el.product.name}

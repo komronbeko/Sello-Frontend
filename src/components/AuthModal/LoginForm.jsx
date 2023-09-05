@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
 import http from "../../service/api";

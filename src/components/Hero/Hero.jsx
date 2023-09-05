@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import StaticBanner from "../../../public/zayavka1.png";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +32,6 @@ const Hero = () => {
           mouseTracking
           items={mappedBanners}
           autoPlay
-        //   disableButtonsControls={true}
           autoPlayInterval={4000}
           infinite
         />

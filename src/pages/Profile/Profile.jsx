@@ -90,7 +90,7 @@ const Profile = () => {
   return (
     <section id="profile-all">
       <section id="profile">
-        <ProfileNav activePage={"Profile"} />
+        <ProfileNav activePage={"Profile"} user_id={userOne.id}/>
         <div id="data">
           <div className="data-head">
             <h3>Personal Information</h3>

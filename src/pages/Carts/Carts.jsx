@@ -1,72 +1,51 @@
 import { useEffect, useState } from "react";
 import "./Carts.scss";
 import UZImage from "../../../public/uz.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CartCard from "../../components/OrderCard/OrderCard";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import http from "../../service/api";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchUserOne } from "../../features/UserOneSlice";
+import { dollarToSom } from "../../utils/exchange";
+import { handleTotal } from "../../utils/total";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {user_id} = useParams();
+
+
+  const [tootlip, setTootlip] = useState(0);
+  const [updateCart, setUpdateCart] = useState(false);
+  const [count, setCount] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [total, setTotal] = useState(0);
+
 
   const carts = useSelector((state) => state.cart.carts);
 
   const filteredCarts = carts.filter((el) => el.status === "unpaid");
 
-  const { user_id } = getAuthAssetsFromLocalStorage();
 
-  const [tootlip, setTootlip] = useState(0);
-  const [count, setCount] = useState(0);
-  const [price, setPrice] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [updateCart, setUpdateCart] = useState(false);
-
-  function $toSom(number) {
-    const exchangeRate = 12000;
-    const sum = number * exchangeRate;
-    return sum.toLocaleString();
-  }
   function hover(number) {
     setTootlip(number);
   }
 
   useEffect(() => {
-    (function handleTotal() {
-      let count = 0;
-      let price = 0;
-      let discount = 0;
-      let total = 0;
-      setUpdateCart(false);
-      for (let i = 0; i < filteredCarts.length; i++) {
-        count += filteredCarts[i].count;
-        price += +filteredCarts[i].product.price * filteredCarts[i].count;
-        total += price;
-        if (filteredCarts[i].product.discount_rate) {
-          discount +=
-            +filteredCarts[i].product.price * filteredCarts[i].count -
-            (+filteredCarts[i].product.price *
-              filteredCarts[i].count *
-              filteredCarts[i].product.discount_rate) /
-              100;
-        }
-        total = price - discount;
-      }
-
-      setCount(count);
-      setTotal(total);
-      setDiscount(discount);
-      setPrice(price);
-    })();
+    const result = handleTotal(filteredCarts, setUpdateCart);
+    setCount(result.count);
+    setPrice(result.price);
+    setDiscount(result.discount);
+    setTotal(result.total);
   }, [updateCart, filteredCarts]);
+
 
   async function clearCart() {
     if (filteredCarts.length) {
-      await http.delete(`/cart/all/${user_id}`);
+      await http.delete(`/cart/all/${+user_id}`);
       toast("Cart cleared.", { type: "info" });
       dispatch(fetchCarts());
       dispatch(fetchUserOne());
@@ -76,12 +55,14 @@ const Cart = () => {
     }
   }
 
-  const navigate = useNavigate();
+
   function Order() {
     if (!filteredCarts.length)
       return toast("Cart is empty.", { type: "error" });
-    navigate("/checkout");
+    navigate(`/${user_id}/checkout`);
   }
+
+
   return (
     <section id="cart">
       <div className="cart-start">
@@ -104,9 +85,10 @@ const Cart = () => {
                 id={i.product.id}
                 count={i.count}
                 price={i.product.price}
-                discount={i.product.discount_rate}
+                discount={i.product.discount?.rate}
                 cart_item_id={i.id}
                 setUpdate={setUpdateCart}
+                user_id={user_id}
               />
             );
           })}
@@ -120,16 +102,17 @@ const Cart = () => {
               Count of products: <span>{count}</span>
             </li>
             <li>
-              Price <span>{$toSom(price)} som</span>
+              Price <span>{dollarToSom(price)} som</span>
             </li>
             <li>
-              Discount<span>-{discount ? $toSom(discount) : null} som</span>
+              Discount
+              <span>-{discount ? dollarToSom(discount) : null} som</span>
             </li>
             <li>
               Delivery<span>0</span>
             </li>
             <li>
-              Total payable:<span>{$toSom(total)} som</span>
+              Total payable:<span>{dollarToSom(total)} som</span>
             </li>
           </ul>
           <button id="checkout-btn" onClick={Order}>

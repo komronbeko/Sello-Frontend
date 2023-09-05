@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import "./OrderCard.scss";
 import http from "../../service/api";
 import { useDispatch } from "react-redux";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { URL_IMAGE } from "../../constants/api";
+import { dollarToSom } from "../../utils/exchange";
+import { addToLike } from "../../utils/add-to-like";
 
 const CartCard = ({
   title,
@@ -18,14 +18,10 @@ const CartCard = ({
   photo,
   cart_item_id,
   setUpdate,
+  user_id,
 }) => {
   const dispatch = useDispatch();
-  const authAssets = getAuthAssetsFromLocalStorage()
-  function $toSom(number) {
-    const exchangeRate = 12000;
-    const sum = number * exchangeRate;
-    return sum.toLocaleString();
-  }
+
   async function PlusCount(id) {
     await http.patch(`/cart/count/plus/${id}`);
     dispatch(fetchCarts());
@@ -42,20 +38,11 @@ const CartCard = ({
     setUpdate(true);
   }
 
-   async function addToLike(id) {
-    try {
-      await http.post("/like", {
-        product_id: id,
-        user_id: authAssets.user_id,
-      });
-      dispatch(fetchLikes());
-    } catch (error) {
-      if (error.response.data.message !== "Product already liked")
-        return toast(error.response.data.message, { type: "error" });
-      await http.delete(`/like/${id}`);
-      dispatch(fetchLikes());
-    }
+  async function handleLiking(id) {
+    await addToLike(id, user_id);
+    dispatch(fetchLikes());
   }
+
   return (
     <div id="card">
       <img src={`${URL_IMAGE}/uploads/${photo}`} alt="" />
@@ -64,12 +51,14 @@ const CartCard = ({
           {title}
         </Link>
         <p className="price">
-          {discount ? $toSom(price - (price * discount) / 100) : $toSom(price)}{" "}
+          {discount
+            ? dollarToSom(price - (price * discount) / 100)
+            : dollarToSom(price)}{" "}
           somm{" "}
           {discount ? (
             <span>
               Discount: {discount}%
-              <b className="discount-minus">{$toSom(price)} som</b>
+              <b className="discount-minus">{dollarToSom(price)} som</b>
             </span>
           ) : null}
         </p>
@@ -78,7 +67,7 @@ const CartCard = ({
         </p>
         <div className="end-card-footer">
           <div className="btns">
-            <button onClick={() => addToLike(id)}>
+            <button onClick={() => handleLiking(id)}>
               <i className="fa-regular fa-heart"></i>Add to favorite
             </button>
             <button onClick={() => deleteFromCart(cart_item_id)}>
