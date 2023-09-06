@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import Empty from "../../assets/empty_orders.png";
-import {
-  getAccessTokenFromLocalStorage,
-} from "../../utils/storage";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import Card from "../../components/Card/Card";
 import http from "../../service/api";
 import { fetchLikes } from "../../features/LikesSlice";
@@ -16,15 +14,15 @@ import "./Favourites.scss";
 const Likes = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {user_id} = useParams();
+  const { user_id } = useParams();
 
   const token = getAccessTokenFromLocalStorage();
 
   const userLikes = useSelector((state) => state.like.likes);
 
   useEffect(() => {
-    dispatch(fetchLikes());
     if (!token) navigate("/");
+    dispatch(fetchLikes());
   }, [dispatch, navigate, token]);
 
   async function clearLikes() {
@@ -35,7 +33,7 @@ const Likes = () => {
 
   return (
     <div id="liked">
-      <ProfileNav activePage={"Favorites"} user_id={user_id}/>
+      <ProfileNav activePage={"Favorites"} />
       <section id="data">
         <div className="data-head">
           <h3>Favorites</h3>

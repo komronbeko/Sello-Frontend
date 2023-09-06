@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import {useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
@@ -10,19 +10,22 @@ import { dollarToSom } from "../../utils/exchange";
 import Empty from "../../assets/empty_orders.png";
 
 import "./Orders.scss";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 const Orders = () => {
   const orders = useSelector((state) => state.order.orders);
   const user = useSelector((state) => state.user.userOne);
-  
-  const {user_id} = useParams();
+  const token = getAccessTokenFromLocalStorage();
+
+  const { user_id } = useParams();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!token) navigate("/");
     dispatch(fetchOrders());
-  }, [dispatch
-  ]);
+  }, [dispatch, token, navigate]);
 
   const [selected, setSelected] = useState(null);
 
@@ -36,7 +39,7 @@ const Orders = () => {
 
   return user?.is_verified ? (
     <div id="purchase">
-      <ProfileNav activePage={"My orders"} user_id={user_id}/>
+      <ProfileNav activePage={"My orders"} />
       <section id="data">
         <div className="data-head">
           <h3>My orders</h3>
@@ -128,7 +131,9 @@ const Orders = () => {
                               {p.product.name}
                             </Link>
                             <ul>
-                              <li>Price : {dollarToSom(p.product.price)} som</li>
+                              <li>
+                                Price : {dollarToSom(p.product.price)} som
+                              </li>
                               <li>Description : {p.product.description}</li>
                               <li>Count: {p.count}</li>
                             </ul>

@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import "./ProfileNavbar.scss";
+import { useSelector } from "react-redux";
 
-const ProfileNav = ({ activePage, user_id }) => {
+const ProfileNav = ({ activePage }) => {
   const navigate = useNavigate();
+  
+  const user = useSelector(state => state.user.userOne);
 
   const links = [
     {
@@ -29,7 +32,7 @@ const ProfileNav = ({ activePage, user_id }) => {
   ];
 
   function page(link) {
-    navigate(`/profile/${user_id}${link}`);
+    navigate(`/profile/${user.user_id}${link}`);
   }
 
   function logout() {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import ReplenishForm from "../../components/ReplenishForm/ReplenishForm";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
@@ -10,23 +10,30 @@ import { STRIPE_PK } from "../../constants/api";
 import { fetchUserOne } from "../../features/UserOneSlice";
 
 import "./Wallet.scss";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 const stripePromise = loadStripe(STRIPE_PK);
 
 const Wallet = () => {
   const { user_id } = useParams();
   const user = useSelector((state) => state.user.userOne);
+  
+  const token = getAccessTokenFromLocalStorage();
 
-  const dispatch = useDispatch()
+  console.log(user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   
 
   useEffect(()=>{
+    if(!token) navigate('/main');
     dispatch(fetchUserOne());
-  }, [dispatch]);
+  }, [dispatch, token, navigate]);
 
   return user?.is_verified ? (
     <div id="wallet">
-      <ProfileNav activePage={"Wallet"} user_id={user_id}/>
+      <ProfileNav activePage={"Wallet"} />
       <div id="data">
         <div className="data-head">
           <h3>Wallet</h3>

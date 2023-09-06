@@ -6,9 +6,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserOne } from "../../features/UserOneSlice";
+import { useNavigate } from "react-router";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const [modalActive, setActiveModal] = useState(false);
   const [gender, setGender] = useState(null);
@@ -27,6 +31,8 @@ const Profile = () => {
   const [file, setFile] = useState(null);
 
   const userOne = useSelector((state) => state.user.userOne);
+  const token = getAccessTokenFromLocalStorage();
+
 
   const handleInputChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -39,12 +45,13 @@ const Profile = () => {
   }
   
   useEffect(() => {
+    if(!token) navigate("/")
     dispatch(fetchUserOne());
     (async function () {
       setUpdate(false);
       setGender(userOne.gender);
     })();
-  }, [update, userOne, dispatch]);
+  }, [update, userOne, dispatch, navigate, token]);
 
   
   async function senData(e) {
@@ -96,7 +103,7 @@ const Profile = () => {
   return (
     <section id="profile-all">
       <section id="profile">
-        <ProfileNav activePage={"Profile"} user_id={userOne.id}/>
+        <ProfileNav activePage={"Profile"} />
         <div id="data">
           <div className="data-head">
             <h3>Personal Information</h3>
