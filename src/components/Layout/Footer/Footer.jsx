@@ -1,10 +1,10 @@
-import Img from "../../../../public/footer_start.png";
-import LogoFooter from "../../../../public/logo2.svg";
-import Payment1 from "../../../../public/sellopay.svg";
-import Payment2 from "../../../../public/humo.svg";
-import Payment3 from "../../../../public/zoomrad.svg";
-import Payment4 from "../../../../public/uzcard.svg";
-import App from "../../../../public/iphone.svg";
+import Img from "../../../assets/footer_start.png";
+import LogoFooter from "../../../assets/logo2.svg";
+import Payment1 from "../../../assets/sellopay.svg";
+import Payment2 from "../../../assets/humo.svg";
+import Payment3 from "../../../assets/zoomrad.svg";
+import Payment4 from "../../../assets/uzcard.svg";
+import App from "../../../assets/iphone.svg";
 import { Link } from "react-router-dom";
 import "./Footer.scss";
 

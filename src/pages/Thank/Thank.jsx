@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import img from "../../../public/success.svg";
 import { useSelector } from "react-redux";
+import img from "../../assets/success.svg";
 import "./Thank.scss";
 
 const Thank = () => {

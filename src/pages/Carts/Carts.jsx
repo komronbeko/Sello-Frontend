@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import "./Carts.scss";
-import UZImage from "../../../public/uz.svg";
 import { useNavigate, useParams } from "react-router-dom";
-import CartCard from "../../components/OrderCard/OrderCard";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import CartCard from "../../components/OrderCard/OrderCard";
 import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { dollarToSom } from "../../utils/exchange";
 import { handleTotal } from "../../utils/total";
+import UZImage from "../../assets/uz.svg";
+
+import "./Carts.scss";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Cart = () => {
     setPrice(result.price);
     setDiscount(result.discount);
     setTotal(result.total);
-  }, [updateCart, filteredCarts]);
+  }, [updateCart, filteredCarts, dispatch]);
 
 
   async function clearCart() {

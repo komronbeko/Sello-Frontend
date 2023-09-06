@@ -4,6 +4,7 @@ import "./ProfileNavbar.scss";
 
 const ProfileNav = ({ activePage, user_id }) => {
   const navigate = useNavigate();
+
   const links = [
     {
       icon: "fa-regular fa-user",
@@ -26,13 +27,16 @@ const ProfileNav = ({ activePage, user_id }) => {
       link: "/wallet",
     },
   ];
+
   function page(link) {
     navigate(`/profile/${user_id}${link}`);
   }
+
   function logout() {
     localStorage.removeItem("token");
     navigate("/");
   }
+  
   return (
     <div id="navigate">
       {links.map((l) => {

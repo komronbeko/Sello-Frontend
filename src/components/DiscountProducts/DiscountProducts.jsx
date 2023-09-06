@@ -14,7 +14,7 @@ const DiscountProducts = () => {
 
   useEffect(() => {
     if (!token) navigate("/");
-  }, []);
+  }, [token, navigate]);
 
   return (
     <div className="all-products discounts">

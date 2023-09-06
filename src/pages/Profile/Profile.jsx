@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Profile.scss";
-import User from "../../../public/default-user.png";
+import User from "../../assets/default-user.png";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -9,16 +9,16 @@ import { fetchUserOne } from "../../features/UserOneSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const [me, setMe] = useState(null);
+
   const [modalActive, setActiveModal] = useState(false);
   const [gender, setGender] = useState(null);
   const [values, setValues] = useState({
     username: "",
-    last_name: "",
+    l_name: "",
+    f_name: "",
     email: "",
-    first_name: "",
-    number: "",
-    birth: "",
+    phone_number: "",
+    birthdate: "",
     language: "",
     gender: "",
     photo: "",
@@ -31,30 +31,32 @@ const Profile = () => {
   const handleInputChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   function upperCase(str) {
     if (str) {
       return str[0].toUpperCase() + str.slice(1);
     }
   }
+  
   useEffect(() => {
     dispatch(fetchUserOne());
     (async function () {
-      setMe(userOne);
       setUpdate(false);
       setGender(userOne.gender);
     })();
-  }, [update]);
+  }, [update, userOne, dispatch]);
 
+  
   async function senData(e) {
     e.preventDefault();
     if (
       !file &&
       !values.username &&
-      !values.last_name &&
+      !values.l_name &&
       !values.email &&
-      !values.first_name &&
-      !values.number &&
-      !values.birth &&
+      !values.f_name &&
+      !values.phone_number &&
+      !values.birthdate &&
       !values.language &&
       !values.gender
     )
@@ -105,33 +107,33 @@ const Profile = () => {
           </div>
           <div className="data-body">
             <img
-              src={me?.photo ? `http://localhost:5000/${me?.photo}` : User}
+              src={userOne?.photo ? `http://localhost:5000/${userOne?.photo}` : User}
               alt=""
             />
             <div id="info">
               <ul>
                 <li>
                   <span>FullName</span>
-                  {me?.first_name} {me?.last_name}
+                  {userOne?.f_name} {userOne?.l_name}
                 </li>
                 <li>
-                  <span>Phone number</span>+{me?.number}
+                  <span>Phone number</span>+{userOne?.phone_number}
                 </li>
               </ul>
               <ul>
                 <li>
                   <span>Email</span>
-                  {me?.email}
+                  {userOne?.email}
                 </li>
                 <li>
                   <span>Language of communication with Sello</span>
-                  {upperCase(me?.language)}
+                  {upperCase(userOne?.language)}
                 </li>
               </ul>
               <ul className="with-edit">
                 <li>
                   <span>Gender</span>
-                  {upperCase(me?.gender)}
+                  {upperCase(userOne?.gender)}
                 </li>
                 <li className="edit">
                   <button
@@ -169,7 +171,7 @@ const Profile = () => {
                 <div className="table">
                   <img
                     src={
-                      me?.photo ? `http://localhost:5000/${me?.photo}` : User
+                      userOne?.photo ? `http://localhost:5000/${userOne?.photo}` : User
                     }
                     alt=""
                   />
@@ -194,21 +196,21 @@ const Profile = () => {
                       value={values.username}
                       type="text"
                       name="username"
-                      defaultValue={me?.username}
+                      defaultValue={userOne?.username}
                       id="username"
-                      placeholder={me?.username}
+                      placeholder={userOne?.username}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="last_name">Last-name</label>
                     <input
                       onChange={handleInputChange}
-                      value={values.last_name}
+                      value={values.l_name}
                       type="text"
-                      name="last_name"
+                      name="l_name"
                       id="last_name"
-                      defaultValue={me?.last_name}
-                      placeholder={me?.last_name}
+                      defaultValue={userOne?.l_name}
+                      placeholder={userOne?.l_name}
                     />
                   </div>
                   <div className="inp-label">
@@ -216,18 +218,18 @@ const Profile = () => {
                     <input
                       onChange={handleInputChange}
                       value={values.email}
-                      defaultValue={me?.email}
+                      defaultValue={userOne?.email}
                       type="email"
                       name="email"
                       id="email"
-                      placeholder={me?.email}
+                      placeholder={userOne?.email}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="gender">Gender</label>
                     <div className="inputs">
                       <div className="radio-label">
-                        {me?.gender === "male" ? (
+                        {userOne?.gender === "male" ? (
                           <input
                             onChange={() => {
                               setGender("male");
@@ -254,7 +256,7 @@ const Profile = () => {
                         <label htmlFor="">Male</label>
                       </div>
                       <div className="radio-label">
-                        {me?.gender === "female" ? (
+                        {userOne?.gender === "female" ? (
                           <input
                             onChange={() => {
                               setGender("female");
@@ -288,38 +290,38 @@ const Profile = () => {
                     <label htmlFor="firs_name">First-name</label>
                     <input
                       onChange={handleInputChange}
-                      value={values.first_name}
+                      value={values.f_name}
                       type="text"
-                      name="first_name"
+                      name="f_name"
                       id="firs_name"
-                      placeholder={me?.first_name}
+                      placeholder={userOne?.f_name}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="number">Phone number</label>
                     <input
                       onChange={handleInputChange}
-                      value={values.number}
+                      value={values.phone_number}
                       type="number"
-                      name="number"
+                      name="phone_number"
                       id="number"
-                      placeholder={me?.number}
+                      placeholder={userOne?.phone_number}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="birth">Birth</label>
                     <input
                       onChange={handleInputChange}
-                      value={values.birth}
+                      value={values.birthdate}
                       type="date"
-                      name="birth"
+                      name="birthdate"
                       id="birth"
-                      placeholder={me?.birth}
+                      placeholder={userOne?.birthdate}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="language">Language</label>
-                    {me?.language === "English" ? (
+                    {userOne?.language === "English" ? (
                       <select
                         onChange={handleInputChange}
                         value={values.language}
@@ -332,7 +334,7 @@ const Profile = () => {
                         <option value="Uzbek">Uzbek</option>
                       </select>
                     ) : null}
-                    {me?.language === "Russian" ? (
+                    {userOne?.language === "Russian" ? (
                       <select
                         onChange={handleInputChange}
                         value={values.language}
@@ -345,7 +347,7 @@ const Profile = () => {
                         <option value="Uzbek">Uzbek</option>
                       </select>
                     ) : null}
-                    {me?.language === "Uzbek" ? (
+                    {userOne?.language === "Uzbek" ? (
                       <select
                         onChange={handleInputChange}
                         value={values.language}

@@ -1,15 +1,15 @@
+import { useEffect } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import ReplenishForm from "../../components/ReplenishForm/ReplenishForm";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { useDispatch, useSelector } from "react-redux";
 import { dollarToSom } from "../../utils/exchange";
-import { useParams } from "react-router";
-import "./Wallet.scss";
 import { STRIPE_PK } from "../../constants/api";
-import { useEffect } from "react";
 import { fetchUserOne } from "../../features/UserOneSlice";
 
+import "./Wallet.scss";
 
 const stripePromise = loadStripe(STRIPE_PK);
 
@@ -22,7 +22,7 @@ const Wallet = () => {
 
   useEffect(()=>{
     dispatch(fetchUserOne());
-  }, [])
+  }, [dispatch]);
 
   return user?.is_verified ? (
     <div id="wallet">

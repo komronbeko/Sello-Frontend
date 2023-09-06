@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 import http from "../../service/api";
 import {
   getAuthAssetsFromLocalStorage,
   setAccessTokenToLocalStorage,
 } from "../../utils/storage";
-import { useDispatch } from "react-redux";
 import { setAuthModalFalse } from "../../features/AuthModalSlice";
+
 
 const VerifyForm = () => {
   const dispatch = useDispatch();

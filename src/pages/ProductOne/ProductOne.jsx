@@ -1,12 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import "./ProductOne.scss";
-import UZImage from "../../../public/uz.svg";
-import Card from "../../components/Card/Card";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import Card from "../../components/Card/Card";
 import { fetchProductOne } from "../../features/ProductOneSlice";
 import http from "../../service/api";
 import { fetchProductInfos } from "../../features/ProductInfoSlice";
@@ -18,12 +16,19 @@ import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
+import UZImage from "../../assets/uz.svg";
 
+import "./ProductOne.scss";
 
 const ProductOne = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
+  const authAssets = getAuthAssetsFromLocalStorage();
+
   const [tootlip, setTootlip] = useState(0);
   const [rec, setRec] = useState([]);
+  const [modal, setModal] = useState(false);
   const [starsActive, setStars] = useState({
     star1: false,
     star2: false,
@@ -32,18 +37,15 @@ const ProductOne = () => {
     star5: false,
   });
   const [starCount, setStarCount] = useState(0);
-  const dispatch = useDispatch();
+
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
-
-  const authAssets = getAuthAssetsFromLocalStorage();
 
 
   function hover(number) {
     setTootlip(number);
   }
 
-  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProductOne(id));
@@ -61,7 +63,7 @@ const ProductOne = () => {
     //   const rec = recomendation.filter((p) => p.id !== productOne.id).slice(0, 12);
     //   setRec(rec);
     })();
-  }, [id]);
+  }, [id, dispatch]);
 
  
   async function handleAddingToCart(id) {
@@ -81,7 +83,6 @@ const ProductOne = () => {
     dispatch(fetchLikes());
   }
 
-  const navigate = useNavigate();
 
   async function purchase(id) {
     if(!authAssets?.user_id){

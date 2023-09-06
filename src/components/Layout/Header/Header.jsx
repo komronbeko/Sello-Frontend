@@ -1,17 +1,19 @@
-import "./Header.scss";
-import Logo from "../../../../public/logo.svg";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { Badge } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import Logo from "../../../assets/logo.svg";
 import { fetchCatalogs } from "../../../features/CatalogsSlice";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 import { getAccessTokenFromLocalStorage, getAuthAssetsFromLocalStorage } from "../../../utils/storage";
-import { useNavigate } from "react-router";
+
+import "./Header.scss";
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -36,7 +38,8 @@ const Header = () => {
 
   useEffect(() => {
     dispatch(fetchCatalogs());
-  }, []);
+  }, [dispatch]);
+
   return (
     <div className="header">
       <div className="header__main">

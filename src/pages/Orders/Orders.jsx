@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 import {useEffect, useState } from "react";
-import "./Orders.scss";
-import Empty from "../../../public/empty_orders.png";
 import { Link, useParams } from "react-router-dom";
-import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { URL_IMAGE } from "../../constants/api";
 import { fetchOrders } from "../../features/OrdersSlice";
 import { dollarToSom } from "../../utils/exchange";
+import Empty from "../../assets/empty_orders.png";
+
+import "./Orders.scss";
 
 const Orders = () => {
   const orders = useSelector((state) => state.order.orders);
@@ -20,7 +21,8 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(fetchOrders());
-  }, []);
+  }, [dispatch
+  ]);
 
   const [selected, setSelected] = useState(null);
 

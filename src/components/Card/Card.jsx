@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import "./Card.scss";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { useDispatch } from "react-redux";
+import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { fetchLikes } from "../../features/LikesSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { URL_IMAGE } from "../../constants/api";
@@ -10,6 +9,8 @@ import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
+
+import "./Card.scss";
 
 const Card = ({ image, title, price, discount, id, count }) => {
   const dispatch = useDispatch();

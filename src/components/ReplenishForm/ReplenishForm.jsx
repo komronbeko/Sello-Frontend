@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import "./ReplenishForm.scss";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
   CardNumberElement,
@@ -10,8 +10,9 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import http from "../../service/api";
-import { useDispatch } from "react-redux";
 import { fetchUserOne } from "../../features/UserOneSlice";
+
+import "./ReplenishForm.scss";
 
 const CARD_OPTIONS = {
   style: {
@@ -39,9 +40,11 @@ const ReplenishForm = ({user_id}) => {
   });
   const stripe = useStripe();
   const elements = useElements();
+
   function onChange(e) {
     setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
   }
+
   async function replenish(e) {
     e.preventDefault();
     if (!values.amount)
@@ -70,6 +73,7 @@ const ReplenishForm = ({user_id}) => {
       toast(error.message, { type: "error" });
     }
   }
+  
   return (
     <form id="replenish-form" onSubmit={replenish}>
       <div className="form-head">

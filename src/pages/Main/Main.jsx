@@ -4,6 +4,7 @@ import Hero from "../../components/Hero/Hero";
 import NewProducts from "../../components/NewProducts/NewProducts";
 import Partners from "../../components/Partners/Partners";
 import SpecialCategories from "../../components/SpecialCategories/SpecialCategories";
+
 import "./Main.scss";
 
 const Main = () => {

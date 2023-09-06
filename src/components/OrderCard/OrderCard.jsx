@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import "./OrderCard.scss";
-import http from "../../service/api";
 import { useDispatch } from "react-redux";
+import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
+
+import "./OrderCard.scss";
 
 const CartCard = ({
   title,

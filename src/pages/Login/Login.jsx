@@ -16,6 +16,7 @@ const Login = () => {
     navigate("/");
     dispatch(setAuthTrue());
   }
+  
   return (
     <div>
       <button onClick={() => handleClick()}>push me</button>

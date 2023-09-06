@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch } from "react-redux";
-import { setAuthFalse, setAuthTrue } from "../../features/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { setAuthFalse, setAuthTrue } from "../../features/AuthSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -16,6 +16,7 @@ const Register = () => {
     navigate("/");
     dispatch(setAuthTrue());
   }
+  
   return (
     <div>
       <button onClick={() => handleClick()}>push me</button>

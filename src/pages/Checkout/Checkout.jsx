@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import "./Checkout.scss";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import logistic from "../../../public/logistic.svg";
+import logistic from "../../assets/logistic.svg";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import http from "../../service/api";

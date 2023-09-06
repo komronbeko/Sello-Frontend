@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
-import Logo from "../../../public/sello-logo.svg";
-import Phone from "../../../public/iphone.svg";
-import { setAuthModalFalse } from "../../features/AuthModalSlice";
-import "./AuthModal.scss";
-import RegisterForm from "./RegisterForm";
 import { useState } from "react";
+import RegisterForm from "./RegisterForm";
 import VerifyForm from "./VerifyForm";
 import LoginForm from "./LoginForm";
+import { setAuthModalFalse } from "../../features/AuthModalSlice";
+import Phone from "../../assets/iphone.svg";
+import Logo from "../../assets/sello-logo.svg";
+
+
+import "./AuthModal.scss";
 
 const AuthModal = () => {
   const [authNavigator, setAuthNavigator] = useState("auth-login");

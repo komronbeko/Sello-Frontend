@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
-import requestImg from "../../../public/zayavka2.png";
-import './Partners.scss';
 import { Link } from 'react-router-dom';
 import { URL_IMAGE } from '../../constants/api';
+import requestImg from "../../assets/zayavka2.png";
+
+import './Partners.scss';
 
 const Partners = () => {
     const partners = useSelector(state => state.partner.partners);

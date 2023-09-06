@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import StaticBanner from "../../../public/zayavka1.png";
+import StaticBanner from "../../assets/zayavka1.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBanners } from "../../features/BannersSlice";
 import "react-alice-carousel/lib/alice-carousel.css";
 import AliceCarousel from "react-alice-carousel";
-import "./Hero.scss";
 import { Link } from "react-router-dom";
 import { URL_IMAGE } from "../../constants/api";
+import "./Hero.scss";
 
 const Hero = () => {
   const banners = useSelector((state) => state.banner);
@@ -24,7 +24,8 @@ const Hero = () => {
 
   useEffect(() => {
     dispatch(fetchBanners());
-  }, []);
+  }, [dispatch]);
+  
   return (
     <div className="hero">
       <div className="hero__banners-swipe">

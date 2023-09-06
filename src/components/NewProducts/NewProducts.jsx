@@ -13,7 +13,7 @@ const NewProducts = () => {
 
   useEffect(() => {
     if (!token) navigate("/");
-  }, []);
+  }, [navigate, token]);
 
   return (
     <div className="all-products">

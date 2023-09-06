@@ -1,20 +1,23 @@
 import { useNavigate } from "react-router";
-import "./AllProducts.scss";
-import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+
+import "./AllProducts.scss";
 
 const AllProducts = () => {
   const navigate = useNavigate();
 
   const token = getAccessTokenFromLocalStorage();
 
-  const userAllProducts = useSelector((state) => state.product.products);
-
   useEffect(() => {
     if (!token) navigate("/");
-  }, []);
+  }, [token, navigate]);
+
+
+  const userAllProducts = useSelector((state) => state.product.products);
+
 
   return (
     <div className="all-products">

@@ -1,16 +1,17 @@
 import { useEffect } from "react";
-import "./Favourites.scss";
-import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Empty from "../../../public/empty_orders.png";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
+import Empty from "../../assets/empty_orders.png";
 import {
   getAccessTokenFromLocalStorage,
 } from "../../utils/storage";
-import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import http from "../../service/api";
 import { fetchLikes } from "../../features/LikesSlice";
+
+import "./Favourites.scss";
 
 const Likes = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Likes = () => {
   useEffect(() => {
     dispatch(fetchLikes());
     if (!token) navigate("/");
-  }, []);
+  }, [dispatch, navigate, token]);
 
   async function clearLikes() {
     await http.delete(`/like/all/${user_id}`);
