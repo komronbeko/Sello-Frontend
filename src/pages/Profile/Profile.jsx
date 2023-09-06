@@ -6,13 +6,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserOne } from "../../features/UserOneSlice";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const {user_id} = useParams();
 
   const [modalActive, setActiveModal] = useState(false);
   const [gender, setGender] = useState(null);
@@ -103,7 +104,7 @@ const Profile = () => {
   return (
     <section id="profile-all">
       <section id="profile">
-        <ProfileNav activePage={"Profile"} />
+        <ProfileNav activePage={"Profile"} user_id={user_id}/>
         <div id="data">
           <div className="data-head">
             <h3>Personal Information</h3>

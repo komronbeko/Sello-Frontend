@@ -39,7 +39,7 @@ const Orders = () => {
 
   return user?.is_verified ? (
     <div id="purchase">
-      <ProfileNav activePage={"My orders"} />
+      <ProfileNav activePage={"My orders"} user_id={user_id} />
       <section id="data">
         <div className="data-head">
           <h3>My orders</h3>

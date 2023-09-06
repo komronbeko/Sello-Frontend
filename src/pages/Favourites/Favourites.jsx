@@ -33,7 +33,7 @@ const Likes = () => {
 
   return (
     <div id="liked">
-      <ProfileNav activePage={"Favorites"} />
+      <ProfileNav activePage={"Favorites"} user_id={user_id} />
       <section id="data">
         <div className="data-head">
           <h3>Favorites</h3>

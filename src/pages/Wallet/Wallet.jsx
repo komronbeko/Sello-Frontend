@@ -15,12 +15,11 @@ import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 const stripePromise = loadStripe(STRIPE_PK);
 
 const Wallet = () => {
-  const { user_id } = useParams();
+  const {user_id} = useParams();
   const user = useSelector((state) => state.user.userOne);
   
   const token = getAccessTokenFromLocalStorage();
 
-  console.log(user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +32,7 @@ const Wallet = () => {
 
   return user?.is_verified ? (
     <div id="wallet">
-      <ProfileNav activePage={"Wallet"} />
+      <ProfileNav activePage={"Wallet"} user_id={user_id}/>
       <div id="data">
         <div className="data-head">
           <h3>Wallet</h3>
