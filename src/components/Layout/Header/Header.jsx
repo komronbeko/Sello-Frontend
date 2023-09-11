@@ -10,35 +10,41 @@ import { Badge } from "@mui/material";
 import Logo from "../../../assets/logo.svg";
 import { fetchCatalogs } from "../../../features/CatalogsSlice";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
-import { getAccessTokenFromLocalStorage, getAuthAssetsFromLocalStorage } from "../../../utils/storage";
+import {
+  getAccessTokenFromLocalStorage,
+  getAuthAssetsFromLocalStorage,
+} from "../../../utils/storage";
+import { fetchCarts } from "../../../features/CartSlice";
+import { fetchLikes } from "../../../features/LikesSlice";
 
 import "./Header.scss";
-
 
 const Header = () => {
   const navigate = useNavigate();
   const catalog = useSelector((state) => state.catalog);
   const userLikes = useSelector((state) => state.like.likes);
-  const userCarts = useSelector((state) => state.cart.carts);
+  const carts = useSelector((state) => state.cart.carts);
 
-  const filteredCarts = userCarts.filter(el => el.status === 'unpaid');
 
+  const token = getAccessTokenFromLocalStorage();
 
   const dispatch = useDispatch();
 
-
-  function handleAuthModal(directory){
-    const token = getAccessTokenFromLocalStorage();
-    if(!token) return dispatch(setAuthModalTrue());
+  function handleAuthModal(directory) {
+    if (!token) return dispatch(setAuthModalTrue());
 
     const authAssets = getAuthAssetsFromLocalStorage();
 
-    navigate(`/profile/${authAssets?.user_id}${directory}`)
+    navigate(`/profile/${authAssets?.user_id}${directory}`);
   }
 
   useEffect(() => {
-    dispatch(fetchCatalogs());
-  }, [dispatch]);
+    if (token) {
+      dispatch(fetchCatalogs(token));
+      dispatch(fetchCarts(token));
+      dispatch(fetchLikes(token));
+    }
+  }, [dispatch, token]);
 
   return (
     <div className="header">
@@ -60,16 +66,22 @@ const Header = () => {
         </div>
         <div>
           <div onClick={() => handleAuthModal("/favourites")}>
-            <Badge badgeContent={userLikes ? userLikes.length : 1} color="secondary">
+            <Badge
+              badgeContent={userLikes ? userLikes.length : 1}
+              color="secondary"
+            >
               <FavoriteBorderIcon fontSize="large" color="success" />
             </Badge>
             <p>Favourites</p>
           </div>
           <div onClick={() => handleAuthModal("/carts")}>
-            <Badge badgeContent={filteredCarts ? filteredCarts.length : 1} color="warning">
+            <Badge
+              badgeContent={carts ? carts.length : 1}
+              color="warning"
+            >
               <AddShoppingCartIcon fontSize="large" color="success" />
             </Badge>
-            <p>Cart</p> 
+            <p>Cart</p>
           </div>
           <div onClick={() => handleAuthModal("/")}>
             <PersonOutlineIcon color="success" fontSize="large" />
@@ -81,7 +93,7 @@ const Header = () => {
       <div className="header__navbar">
         <ul>
           <li>🔥Discounts</li>
-          {catalog.catalogs 
+          {catalog.catalogs
             ? catalog.catalogs.map((el) => <li key={el.id}>{el.name}</li>)
             : ""}
           <li>Brands</li>

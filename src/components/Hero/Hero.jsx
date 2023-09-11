@@ -1,22 +1,24 @@
 import { useEffect } from "react";
-import StaticBanner from "../../assets/zayavka1.png";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchBanners } from "../../features/BannersSlice";
-import "react-alice-carousel/lib/alice-carousel.css";
-import AliceCarousel from "react-alice-carousel";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import AliceCarousel from "react-alice-carousel";
+import { fetchBanners } from "../../features/BannersSlice";
 import { URL_IMAGE } from "../../constants/api";
+import StaticBanner from "../../assets/zayavka1.png";
+
 import "./Hero.scss";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 const Hero = () => {
   const banners = useSelector((state) => state.banner);
+
   const dispatch = useDispatch();
 
   const mappedBanners = banners.banners
     ? banners.banners.map((el) => {
         return (
           <Link key={el.id} className="link" to={`/catalog/${el.catalog_id}`}>
-            <img src={`${URL_IMAGE}/uploads/${el.photo}`} alt="" />
+            <img src={`${URL_IMAGE}/${el.photo}`} alt="" />
           </Link>
         );
       })

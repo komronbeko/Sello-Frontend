@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
 import { fetchLikes } from "../../features/LikesSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { URL_IMAGE } from "../../constants/api";
@@ -9,28 +7,31 @@ import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
-
+ 
 import "./Card.scss";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import { useDispatch } from "react-redux";
 
 const Card = ({ image, title, price, discount, id, count }) => {
   const dispatch = useDispatch();
 
-  const authAssets = getAuthAssetsFromLocalStorage();
+  const token = getAccessTokenFromLocalStorage();
+
 
   async function handleAddingToCart(id) {
-    if(!authAssets?.user_id){
+    if (!token) {
       return dispatch(setAuthModalTrue());
     }
-    await addToCart(id, authAssets?.user_id);
-    dispatch(fetchCarts());
+    await addToCart(id, token);
+    dispatch(fetchCarts(token));
   }
 
   async function handleLiking(id) {
-    if(!authAssets?.user_id){
+    if (!token) {
       return dispatch(setAuthModalTrue());
     }
-    await addToLike(id, authAssets?.user_id);
-    dispatch(fetchLikes());
+    await addToLike(id, token);
+    dispatch(fetchLikes(token));
   }
 
   return (
@@ -39,7 +40,7 @@ const Card = ({ image, title, price, discount, id, count }) => {
         <i className="fa-regular fa-heart"></i>
       </button>
       <Link className="clicklable_link" to={`/product/${id}`}>
-        <img src={`${URL_IMAGE}/uploads/${image}`} alt="" className="start" />
+        <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />
         <p>{title}</p>
         {discount ? (
           <h4 className="old-price">{dollarToSom(price)} som</h4>

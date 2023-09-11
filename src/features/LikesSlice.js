@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAuthAssetsFromLocalStorage } from "../utils/storage";
-import http from "../service/api";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/api";
 
-export const fetchLikes = createAsyncThunk("like/fetchLikes", () => {
-  const authAssets = getAuthAssetsFromLocalStorage();
-  return http
-    .get(`/like/${authAssets?.user_id}`)
+export const fetchLikes = createAsyncThunk("like/fetchLikes", (token) => {
+  return axios
+    .get(`${API_BASE_URL}/like/ofuser`, {headers: { Authorization: 'Bearer ' + token}})
     .then((res) => res.data.data);
 });
 

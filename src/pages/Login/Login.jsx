@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch } from "react-redux";
 import { setAuthFalse, setAuthTrue } from "../../features/AuthSlice";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +9,7 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(setAuthFalse());
-  }, []);
+  }, [dispatch]);
 
   function handleClick() {
     navigate("/");

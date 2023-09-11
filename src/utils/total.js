@@ -1,20 +1,18 @@
 
-export function handleTotal(filteredCarts, setUpdateCart) {
+export function handleTotal(carts) {
   let count = 0;
   let price = 0;
   let discount = 0;
   let total = 0;
 
-  setUpdateCart(false);
-
-  for (let i = 0; i < filteredCarts.length; i++) {
-    count += filteredCarts[i].count;
-    price += +filteredCarts[i].product.price * filteredCarts[i].count;
-    if (filteredCarts[i].product.discount?.rate) {
+  for (let i = 0; i < carts.length; i++) {
+    count += carts[i].count;
+    price += +carts[i].product.price * carts[i].count;
+    if (carts[i].product.discount?.rate) {
       discount +=
-        (+filteredCarts[i].product.price *
-          filteredCarts[i].count *
-          filteredCarts[i].product.discount?.rate) /
+        (+carts[i].product.price *
+          carts[i].count *
+          carts[i].product.discount?.rate) /
         100;
     }
   }

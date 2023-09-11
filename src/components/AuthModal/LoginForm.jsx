@@ -1,10 +1,12 @@
-/* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
 import http from "../../service/api";
 import { setAuthAssetsToLocalStorage } from "../../utils/storage";
 
+// eslint-disable-next-line react/prop-types
 const LoginForm = ({ setAuthNavigator }) => {
+
   async function handleSubmit(e) {
+    toast('Please wait...', {type: 'info'});
     e.preventDefault();
     const { email, password } = e.target.elements;
     try {
@@ -19,7 +21,6 @@ const LoginForm = ({ setAuthNavigator }) => {
         user_id: data.data.user_id,
       });
     } catch (error) {
-      toast(error.message, { type: "error" });
       toast(error.response.data.message, { type: "error" });
     }
 

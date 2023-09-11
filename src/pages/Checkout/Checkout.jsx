@@ -9,12 +9,16 @@ import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
 import { dollarToSom } from "../../utils/exchange";
 import { handleTotal } from "../../utils/total";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import axios from "axios";
+import { API_BASE_URL } from "../../constants/api";
 
 const Checkout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user_id} = useParams();
+  const { user_id } = useParams();
 
+  const token = getAccessTokenFromLocalStorage();
 
   const [updateCart, setUpdateCart] = useState(false);
   const [values, setValues] = useState({
@@ -31,31 +35,30 @@ const Checkout = () => {
   const carts = useSelector((state) => state.cart.carts);
   const user = useSelector((state) => state.user.userOne);
 
-  const filteredCarts = carts.filter((el) => el.status === "unpaid");
-
   function onChange(e) {
     setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
   }
 
   useEffect(() => {
-    const {count, discount, price, total} = handleTotal(filteredCarts, setUpdateCart);
+    if (!token) return navigate("/");
+
+    const { count, discount, price, total } = handleTotal(carts, setUpdateCart);
     setCount(count);
     setPrice(price);
     setDiscount(discount);
     setTotal(total);
-  }, [updateCart, filteredCarts]);
+  }, [updateCart, carts, token, navigate]);
 
   async function newPurchase(e) {
     e.preventDefault();
     if (!values.avenue || !values.city || !values.district || !values.street)
       return toast("Please field all the fields", { type: "error" });
     try {
-      const data = await http.post("/order", {
-        user_id: +user_id,
+      const data = await axios.post(`${API_BASE_URL}/order`, {
         cost: Math.round(total),
         location: values,
-      });
-      dispatch(fetchCarts());
+      }, {headers: { Authorization: 'Bearer ' + token}});
+      dispatch(fetchCarts(token));
       toast(data.data.message, { type: "success" });
       navigate(`/${user_id}/thank`);
     } catch (error) {
@@ -63,7 +66,7 @@ const Checkout = () => {
     }
   }
 
-  return user?.is_verified ? (
+  return (
     <section id="purchase">
       <div className="purchase-header">
         <div className="header-start">
@@ -140,9 +143,7 @@ const Checkout = () => {
               </li>
               <li>
                 Discount
-                <span>
-                  -{discount ? dollarToSom(discount) : null} som
-                </span>
+                <span>-{discount ? dollarToSom(discount) : null} som</span>
               </li>
               <li>
                 Delivery<span>0</span>
@@ -172,7 +173,7 @@ const Checkout = () => {
         </div>
       </div>
     </section>
-  ) : null;
+  );
 };
 
 export default Checkout;

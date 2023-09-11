@@ -4,17 +4,21 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { URL_IMAGE } from "../../constants/api";
+import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { fetchOrders } from "../../features/OrdersSlice";
 import { dollarToSom } from "../../utils/exchange";
 import Empty from "../../assets/empty_orders.png";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import http from "../../service/api";
 
 import "./Orders.scss";
-import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import axios from "axios";
 
 const Orders = () => {
+  const [verifyModal, setVerifyModal] = useState(false);
+  const [orderId, setOrderId] = useState(null);
+
   const orders = useSelector((state) => state.order.orders);
-  const user = useSelector((state) => state.user.userOne);
   const token = getAccessTokenFromLocalStorage();
 
   const { user_id } = useParams();
@@ -22,22 +26,29 @@ const Orders = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!token) navigate("/");
-    dispatch(fetchOrders());
-  }, [dispatch, token, navigate]);
-
-  const [selected, setSelected] = useState(null);
-
-  async function Cancel(id) {
+  async function handleOrderCancelation() {
     try {
+      await axios.delete(`${API_BASE_URL}/order/cancel/${orderId}`, {headers: { Authorization: 'Bearer ' + token}});
       toast("Order canceled", { type: "info" });
+      dispatch(fetchOrders(token));
+      setVerifyModal(false);
     } catch (error) {
       toast(error.response.data.message, { type: "error" });
+      setVerifyModal(false);
     }
   }
 
-  return user?.is_verified ? (
+  function handleCancelBtn(id) {
+    setVerifyModal(true);
+    setOrderId(id);
+  }
+
+  useEffect(() => {
+    if (!token) navigate("/");
+    dispatch(fetchOrders(token));
+  }, [dispatch, token, navigate]);
+
+  return (
     <div id="purchase">
       <ProfileNav activePage={"My orders"} user_id={user_id} />
       <section id="data">
@@ -50,39 +61,31 @@ const Orders = () => {
               const loc = JSON.parse(o.location);
               return (
                 <div className="order" key={o.id}>
-                  <div className="order-head">
-                    <button
-                      className="bar"
-                      onClick={() => {
-                        selected === o.id
-                          ? setSelected(null)
-                          : setSelected(o.id);
-                      }}
-                    >
-                      <i className="fa-solid fa-bars"></i>
-                    </button>
-                    {selected === o.id ? (
-                      <ul className="bars active">
-                        {!o.canceled && o.status === "waiting" ? (
-                          <li>
-                            <button onClick={() => Cancel(o.id)}>
-                              <i className="fa-solid fa-ban"></i> Cancel
-                            </button>
-                          </li>
-                        ) : null}
-                      </ul>
-                    ) : (
-                      <ul className="bars">
-                        {!o.canceled && o.status === "waiting" ? (
-                          <li>
-                            <button>
-                              <i className="fa-solid fa-ban"></i> Cancel
-                            </button>
-                          </li>
-                        ) : null}
-                      </ul>
-                    )}
-                  </div>
+                  <button
+                    onClick={() => handleCancelBtn(o.id)}
+                    className="cancel-order-btn"
+                  >
+                    ❌
+                  </button>
+                  {verifyModal ? (
+                    <div className="cancel-modal">
+                      <div className="cancel-wrapper">
+                        <div className="cancel-start">
+                          <h2>Are you sure you want to cancel the order?</h2>
+                        </div>
+                        <div className="cancel-end">
+                          <button onClick={() => handleOrderCancelation()}>
+                            Yes, I want to cancel the order
+                          </button>
+                          <button onClick={() => setVerifyModal(false)}>
+                            No, I do not want to cancel the order
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="order-aside">
                     <ul>
                       <li>
@@ -119,7 +122,7 @@ const Orders = () => {
                         <div className="product" key={p.id}>
                           <div className="product-start">
                             <img
-                              src={`${URL_IMAGE}/uploads/${p.product.photo}`}
+                              src={`${URL_IMAGE}/${p.product.photo}`}
                               alt=""
                             />
                           </div>
@@ -141,17 +144,7 @@ const Orders = () => {
                         </div>
                       );
                     })}
-                    {o.canceled ? (
-                      <p className="type">Canceled</p>
-                    ) : o.status === "waiting" ? (
-                      <p className="type waiting">Waiting</p>
-                    ) : o.status === "process" ? (
-                      <p className="type process">Process</p>
-                    ) : o.status === "delivered" ? (
-                      <p className="type delivered">Delivered</p>
-                    ) : (
-                      <p className="type delivered">{o.status}</p>
-                    )}
+                    <p className={`type ${o.status}`}>{o.status}</p>
                   </div>
                   <div className="order-footer">
                     <h4>About delivery</h4>
@@ -191,7 +184,7 @@ const Orders = () => {
         )}
       </section>
     </div>
-  ) : null;
+  );
 };
 
 export default Orders;

@@ -1,12 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { URL_IMAGE } from '../../constants/api';
 import requestImg from "../../assets/zayavka2.png";
 
 import './Partners.scss';
+import { useEffect } from 'react';
+import { fetchPartners } from '../../features/PartnersSlice';
 
 const Partners = () => {
+  const dispatch = useDispatch();
+
     const partners = useSelector(state => state.partner.partners);
+
+    useEffect(() => {
+      dispatch(fetchPartners());
+    }, [dispatch]);
+
   return (
     <section id="partners-link">
         <img src={requestImg} alt="" />
@@ -25,12 +34,12 @@ const Partners = () => {
                         key={b.id}
                         className="link-btn"
                       >
-                        <img src={`${URL_IMAGE}/uploads/${b.photo}`} alt="" />
+                        <img src={`${URL_IMAGE}/${b.photo}`} alt="" />
                       </Link>
                     );
                   })
                 ) : (
-                  <h2 className="announcement">No Brands.</h2>
+                  <h2 className="announcement">No Partners.</h2>
                 )
               ) : ""}
             </ul>

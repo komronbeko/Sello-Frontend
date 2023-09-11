@@ -1,13 +1,12 @@
-import { toast } from "react-toastify";
-import http from "../service/api";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/api";
 
-export async function addToCart(product_id, user_id) {
-    try {
-      await http.post("/cart", {
-        product_id,
-        user_id,
-      });
-    } catch (error) {
-      toast(error.message, { type: "error" });
-    }
-  }
+export async function addToCart(product_id, token) {
+  await axios.post(
+    `${API_BASE_URL}/cart`,
+    {
+      product_id,
+    },
+    { headers: { Authorization: "Bearer " + token } }
+  );
+}

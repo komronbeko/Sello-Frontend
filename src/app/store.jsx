@@ -14,6 +14,7 @@ import ProductOneReducer from "../features/ProductOneSlice";
 import ProductInfoReducer from "../features/ProductInfoSlice";
 import OrdersReducer from "../features/OrdersSlice";
 import TotalReducer from "../features/TotalSlice";
+// import logger from "redux-logger";
 
 const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ const store = configureStore({
     productInfo: ProductInfoReducer,
     total: TotalReducer
   },
+  // middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 });
 
 export default store;

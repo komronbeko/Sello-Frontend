@@ -6,10 +6,11 @@ import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import Empty from "../../assets/empty_orders.png";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import Card from "../../components/Card/Card";
-import http from "../../service/api";
 import { fetchLikes } from "../../features/LikesSlice";
 
 import "./Favourites.scss";
+import axios from "axios";
+import { API_BASE_URL } from "../../constants/api";
 
 const Likes = () => {
   const navigate = useNavigate();
@@ -22,13 +23,14 @@ const Likes = () => {
 
   useEffect(() => {
     if (!token) navigate("/");
-    dispatch(fetchLikes());
+
+    dispatch(fetchLikes(token));
   }, [dispatch, navigate, token]);
 
   async function clearLikes() {
-    await http.delete(`/like/all/${user_id}`);
-    toast("Cart cleared.", { type: "info" });
-    dispatch(fetchLikes());
+    await axios.delete(`${API_BASE_URL}/like/all`, {headers: { Authorization: 'Bearer ' + token}});
+    toast("Favourites cleared.", { type: "info" });
+    dispatch(fetchLikes(token));
   }
 
   return (
@@ -43,37 +45,31 @@ const Likes = () => {
             </button>
           ) : null}
         </div>
-        {userLikes ? (
-          userLikes?.length ? (
-            <div className="data-body">
-              {userLikes.length
-                ? userLikes.map((el) => (
-                    <Card
-                      key={el.product.id}
-                      image={el.product.photo}
-                      discount={el.product.discount?.rate}
-                      id={el.product.id}
-                      price={el.product.price}
-                      title={el.product.name}
-                    />
-                  ))
-                : ""}
-            </div>
-          ) : (
-            <div className="no-products">
-              <div className="start">
-                <p className="no-products-text">
-                  Sorry, there are no favorite products here yet.
-                </p>
-                <Link to="/" className="link">
-                  Start shopping
-                </Link>
-              </div>
-              <img src={Empty} alt="" />
-            </div>
-          )
+        {userLikes?.length ? (
+          <div className="data-body">
+            {userLikes.map((el) => (
+              <Card
+                key={el.product.id}
+                image={el.product.photo}
+                discount={el.product.discount?.rate}
+                id={el.product.id}
+                price={el.product.price}
+                title={el.product.name}
+              />
+            ))}
+          </div>
         ) : (
-          ""
+          <div className="no-products">
+            <div className="start">
+              <p className="no-products-text">
+                Sorry, there are no favorite products here yet.
+              </p>
+              <Link to="/" className="link">
+                Start shopping
+              </Link>
+            </div>
+            <img src={Empty} alt="" />
+          </div>
         )}
       </section>
     </div>

@@ -4,21 +4,25 @@
     background-color: white;
     display: flex;
     justify-content: space-between;
+
     section#data {
         width: 68%;
         padding: 20px;
         border: 1px solid;
         border-radius: 10px;
         border: 0.5px solid rgba(128, 128, 128, 0.363);
+
         .data-head {
             width: 100%;
             display: flex;
             justify-content: space-between;
             gap: 15px;
+
             h3 {
                 font-size: 40px;
                 font-weight: normal;
             }
+
             button {
                 width: 13%;
                 font-size: 18px;
@@ -29,25 +33,30 @@
                 border-radius: 10px;
                 gap: 20px;
                 align-items: center;
-                transition: all ease-in-out 0.4s;
+                transition: all ease-in-out 1s;
                 padding: 5px;
                 justify-content: center;
+
                 &:active {
                     border: 0.7px solid rgb(255, 45, 90);
                 }
             }
         }
+
         .no-products {
             width: 100%;
             display: flex;
             justify-content: space-between;
+
             .start {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+
                 p {
-                    color:  gray;
+                    color: gray;
                 }
+
                 .link {
                     width: 50%;
                     text-align: center;
@@ -58,32 +67,110 @@
                     border-radius: 8px;
                     color: white;
                     transition: all ease-in-out 0.4s;
+
                     &:active {
                         background-color: rgb(0, 123, 255);
                     }
                 }
             }
         }
+
         #orders {
             width: 100%;
             display: flex;
             gap: 20px;
             flex-direction: column;
             padding: 10px;
+            
+            
+            
             .order {
                 width: 100%;
                 display: flex;
                 flex-direction: column;
+                position: relative;
                 gap: 5px;
                 border: 0.5px solid rgba(128, 128, 128, 0.386);
                 border-radius: 6px;
-                padding: 8px;
+                padding: 50px 10px 10px 10px;
+
+                .cancel-order-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    border: none;
+                    background-color: white;
+                    cursor: pointer;
+                    font-size: 18px;
+                }
+                
+                .cancel-modal {
+                    width: 100vw;
+                    height: 100vh;
+                    z-index: 30;
+                    position: fixed;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all ease-in-out 0.4s;
+                    top: 0px;
+                    left: 0px;
+            
+                    .cancel-wrapper{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 50px;
+                        background-color: var(--pink);
+                        border-radius: 6px;
+                        transition: all ease-in-out 1s;
+                       
+                        .cancel-end{
+                            display: flex;
+                            gap: 20px;
+                            button:first-child{
+                                padding: 10px;
+                                color: white;
+                                border: 1px solid white;
+                                border-radius: 6px;
+                                background-color: var(--pink);
+                                font-weight: bold;
+                                cursor: pointer;
+                            }
+                            button:first-child:hover{
+                                color: var(--pink);
+                                background-color: white;
+                            }
+                            button:last-child{
+                                padding: 10px;
+                                color: var(--pink);
+                                border: 1px solid white;
+                                border-radius: 6px;
+                                background-color: white;
+                                font-weight: bold;
+                                cursor: pointer;
+                            }
+                            button:last-child:hover{
+                                color: white;
+                                background-color: var(--pink);
+                            }
+                        }
+                        h2{
+                            color: white;
+                        }
+                    }
+                }
+
                 .order-head {
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: end;
                     position: relative;
+
                     button.bar {
                         width: 4%;
                         border: 0;
@@ -92,6 +179,7 @@
                         font-size: 20px;
                         border-radius: 50%;
                     }
+
                     .bars {
                         width: 150px;
                         border: 0.5px solid gray;
@@ -105,22 +193,26 @@
                         border-radius: 10px 10px 0 10px;
                         gap: 10px;
                         visibility: hidden;
+
                         li {
                             button {
                                 font-size: 15px;
                                 border: 0;
                                 background-color: white;
                                 color: gray;
+
                                 &:hover {
                                     color: var(--green);
                                 }
                             }
                         }
                     }
+
                     .bars.active {
                         visibility: visible;
                     }
                 }
+
                 .order-aside {
                     width: 100%;
                     display: flex;
@@ -130,16 +222,19 @@
                     display: flex;
                     border-radius: 6px;
                     border: 0.5px solid rgba(128, 128, 128, 0.386);
+
                     ul {
                         display: flex;
                         flex-direction: column;
                         font-size: 14px;
                         gap: 20px;
+
                         li {
                             display: flex;
                             align-items: center;
                             gap: 5px;
                             color: gray;
+
                             span {
                                 font-size: 18px;
                                 color: black;
@@ -147,12 +242,15 @@
                         }
                     }
                 }
+
                 .order-body {
                     width: 100%;
                     display: flex;
                     flex-wrap: wrap;
                     gap: 5px;
                     padding: 10px;
+
+
                     .product {
                         width: 48%;
                         display: flex;
@@ -161,6 +259,8 @@
                         border-radius: 10px;
                         height: 150px;
                         padding: 5px;
+
+
                         .product-start {
                             border-radius: 10px;
                             width: 30%;
@@ -171,11 +271,13 @@
                             justify-content: center;
                             padding: 10px 5px;
                             height: 100%;
+
                             img {
                                 width: 90%;
                                 border-radius: 10px;
                             }
                         }
+
                         .product-end {
                             width: 68%;
                             display: flex;
@@ -183,12 +285,15 @@
                             padding: 10px 0;
                             word-wrap: break-word;
                             justify-content: center;
+
                             .link {
                                 font-size: 18px;
+
                                 &:hover {
-                                    color:  var(--green);
+                                    color: var(--green);
                                 }
                             }
+
                             ul {
                                 width: 100%;
                                 display: flex;
@@ -196,15 +301,17 @@
                                 font-size: 13px;
                                 padding: 10px 0;
                                 gap: 5px;
+
                                 li {
                                     word-wrap: break-word;
                                 }
                             }
-                        
+
                         }
                     }
-                    
+
                 }
+
                 .type {
                     width: 100%;
                     margin-top: 6px;
@@ -214,35 +321,43 @@
                     border-radius: 8px;
                     color: white;
                 }
-                p.waiting {
-                    background-color: gray;
-                }
+
                 p.delivered {
+                    background-color: blue;
+                }
+
+                p.new {
                     background-color: rgb(0, 183, 0);
                 }
-                p.process {
+
+                p.canceled {
                     background-color: orange;
                 }
+
                 .order-footer {
                     width: 100%;
                     border: 0.5px solid rgba(128, 128, 128, 0.386);
                     border-radius: 6px;
                     padding: 20px;
                     gap: 10px;
+
                     h4 {
                         font-size: 20px;
                     }
+
                     .about {
                         margin-top: 10px;
                         width: 100%;
                         display: flex;
                         justify-content: space-between;
+
                         .table {
                             width: 30%;
                             display: flex;
                             flex-direction: column;
                             gap: 5px;
                             font-size: 14px;
+
                             .value {
                                 color: gray;
                             }
@@ -251,5 +366,5 @@
                 }
             }
         }
-    } 
+    }
 }

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -9,46 +8,25 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import http from "../../service/api";
 import { fetchUserOne } from "../../features/UserOneSlice";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 import "./ReplenishForm.scss";
+import axios from "axios";
+import { API_BASE_URL } from "../../constants/api";
 
-const CARD_OPTIONS = {
-  style: {
-    base: {
-      iconColor: "#aab7c4",
-      width: "100%",
-      padding: "20px",
-      fontSize: "20px",
-      borderRadius: "7px",
-      border: "1px solid #aab7c4",
-      "::placeholder": {
-        color: "#aab7c4",
-      },
-    },
-  },
-};
-
-const ReplenishForm = ({user_id}) => {
+const ReplenishForm = () => {
   const dispatch = useDispatch();
-  const [values, setValues] = useState({
-    card_number: "",
-    card_cvc: "",
-    card_expiry: "",
-    amount: "",
-  });
+
   const stripe = useStripe();
   const elements = useElements();
 
-  function onChange(e) {
-    setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
-  }
+  const token = getAccessTokenFromLocalStorage();
 
   async function replenish(e) {
     e.preventDefault();
-    if (!values.amount)
-      return toast("Please field all card field", { type: "error" });
+    const { amount } = e.target.elements;
+
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(
@@ -57,52 +35,50 @@ const ReplenishForm = ({user_id}) => {
         CardNumberElement
       ),
     });
+
     if (!error) {
       try {
         const { id } = paymentMethod;
-        await http.patch(`/user/${user_id}/replenish`, {
-          amount: +values.amount,
+
+        await axios.patch(`${API_BASE_URL}/user/replenish`, {
+          amount: +amount.value,
           id,
-        });
+        }, {headers: { Authorization: 'Bearer ' + token}});
+
         toast("Successful Payment", { type: "success" });
-        dispatch(fetchUserOne());
+        dispatch(fetchUserOne(token));
       } catch (error) {
         toast(error.message, { type: "error" });
       }
     } else {
       toast(error.message, { type: "error" });
     }
+
+    e.target.reset();
   }
-  
+
   return (
     <form id="replenish-form" onSubmit={replenish}>
       <div className="form-head">
         <div className="block">
           <label htmlFor="card_number">Card number</label>
-          <CardNumberElement options={CARD_OPTIONS} />
+          <CardNumberElement className="form-controller" />
         </div>
         <div className="block">
           <label htmlFor="card_cvc">CVC</label>
-          <CardCvcElement options={CARD_OPTIONS} />
+          <CardCvcElement className="form-controller" />
         </div>
       </div>
       <div className="form-body">
         <div className="block">
           <label htmlFor="card_expiry">Validity</label>
-          <CardExpiryElement options={CARD_OPTIONS} />
+          <CardExpiryElement className="form-controller" />
         </div>
         <div className="block">
           <label htmlFor="amount">
             Amount <span>in dollars</span>
           </label>
-          <input
-            onChange={onChange}
-            value={values.amount}
-            type="number"
-            name="amount"
-            id="amount"
-            placeholder="100"
-          />
+          <input type="number" name="amount" id="amount" placeholder="100" required/>
         </div>
       </div>
       <div className="btns">

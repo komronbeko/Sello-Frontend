@@ -1,69 +1,82 @@
 import { useEffect, useState } from "react";
+import "./Carts.scss";
+import UZImage from "../../assets/uz.svg";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import CartCard from "../../components/OrderCard/OrderCard";
-import http from "../../service/api";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { dollarToSom } from "../../utils/exchange";
-import { handleTotal } from "../../utils/total";
-import UZImage from "../../assets/uz.svg";
-
-import "./Carts.scss";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import axios from "axios";
+import { API_BASE_URL } from "../../constants/api";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {user_id} = useParams();
+  const { user_id } = useParams();
+  const token = getAccessTokenFromLocalStorage();
 
+  const carts = useSelector((state) => state.cart.carts);
 
   const [tootlip, setTootlip] = useState(0);
-  const [updateCart, setUpdateCart] = useState(false);
   const [count, setCount] = useState(0);
   const [price, setPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
-
-
-  const carts = useSelector((state) => state.cart.carts);
-
-  const filteredCarts = carts.filter((el) => el.status === "unpaid");
-
+  const [updateCart, setUpdateCart] = useState(false);
 
   function hover(number) {
     setTootlip(number);
   }
 
   useEffect(() => {
-    dispatch(fetchCarts());
-    const result = handleTotal(filteredCarts, setUpdateCart);
-    setCount(result.count);
-    setPrice(result.price);
-    setDiscount(result.discount);
-    setTotal(result.total);
-  }, [updateCart, filteredCarts, dispatch]);
+    if (!token) return navigate("/");
+    (function handleTotal() {
+      let count = 0;
+      let price = 0;
+      let discount = 0;
+      let total = 0;
+      setUpdateCart(false);
+      for (let i = 0; i < carts.length; i++) {
+        count += carts[i].count;
+        price += +carts[i].product.price * carts[i].count;
+        if (carts[i].product.discount?.rate) {
+          discount +=
+            (+carts[i].product.price *
+              carts[i].count *
+              carts[i].product.discount?.rate) /
+            100;
+        }
+      }
+      total = price - discount;
 
+      setCount(count);
+      setTotal(total);
+      setDiscount(discount);
+      setPrice(price);
+    })();
+  }, [updateCart, carts, token, navigate]);
 
   async function clearCart() {
-    if (filteredCarts.length) {
-      await http.delete(`/cart/all/${+user_id}`);
-      toast("Cart cleared.", { type: "info" });
-      dispatch(fetchCarts());
-      dispatch(fetchUserOne());
+    if (carts.length) {
+      await axios.delete(`${API_BASE_URL}/cart/all`, {
+        headers: { Authorization: "Bearer " + token },
+      });
+      toast("Carts cleared.", { type: "info" });
+      dispatch(fetchCarts(token));
+      dispatch(fetchUserOne(token));
       setUpdateCart(true);
     } else {
       toast("Cart is empty", { type: "error" });
     }
   }
 
-
   function Order() {
-    if (!filteredCarts.length)
-      return toast("Cart is empty.", { type: "error" });
+    if (!carts.length) return toast("Cart is empty.", { type: "error" });
     navigate(`/${user_id}/checkout`);
   }
-
 
   return (
     <section id="cart">
@@ -78,7 +91,7 @@ const Cart = () => {
           </div>
         </dir>
         <div className="cards">
-          {filteredCarts?.map((i) => {
+          {carts?.map((i) => {
             return (
               <CartCard
                 key={i.id}

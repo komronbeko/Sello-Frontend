@@ -1,6 +1,5 @@
 import { useRoutes } from "react-router-dom";
 import Login from "../pages/Login/Login";
-import Register from "../pages/Register/Register";
 import Main from "../pages/Main/Main";
 import Profile from "../pages/Profile/Profile";
 import Carts from "../pages/Carts/Carts";
@@ -17,12 +16,8 @@ const routes = [
         element: <Main/> 
     },
     {
-        path: '/login',
+        path: '/admin-login',
         element: <Login/>
-    },
-    {
-        path: '/register',
-        element: <Register/>
     },
     {
         path: '/profile/:user_id',

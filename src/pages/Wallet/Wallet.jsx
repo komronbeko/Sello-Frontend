@@ -8,9 +8,9 @@ import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { dollarToSom } from "../../utils/exchange";
 import { STRIPE_PK } from "../../constants/api";
 import { fetchUserOne } from "../../features/UserOneSlice";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 import "./Wallet.scss";
-import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 const stripePromise = loadStripe(STRIPE_PK);
 
@@ -26,11 +26,13 @@ const Wallet = () => {
   
 
   useEffect(()=>{
-    if(!token) navigate('/main');
-    dispatch(fetchUserOne());
+    if(!token) navigate('/');
+
+    dispatch(fetchUserOne(token));
+    
   }, [dispatch, token, navigate]);
 
-  return user?.is_verified ? (
+  return (
     <div id="wallet">
       <ProfileNav activePage={"Wallet"} user_id={user_id}/>
       <div id="data">
@@ -47,11 +49,11 @@ const Wallet = () => {
           </h4>
         </div>
         <Elements stripe={stripePromise}>
-          <ReplenishForm user_id={user_id} />
+          <ReplenishForm />
         </Elements>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default Wallet;

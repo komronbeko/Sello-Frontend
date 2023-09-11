@@ -5,6 +5,7 @@ import { setAuthAssetsToLocalStorage } from "../../utils/storage";
 
 const RegisterForm = ({ setAuthNavigator }) => {
   async function handleSubmit(e) {
+    toast("Please wait...", { type: "info" });
     e.preventDefault();
     const { email, password, username } = e.target.elements;
     try {
@@ -20,7 +21,6 @@ const RegisterForm = ({ setAuthNavigator }) => {
         user_id: data.data.user_id,
       });
     } catch (error) {
-      toast(error.message, { type: "error" });
       toast(error.response.data.message, { type: "error" });
     }
 

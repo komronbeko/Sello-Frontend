@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
-import { URL_IMAGE } from "../../constants/api";
+import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
 
 import "./OrderCard.scss";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import axios from "axios";
 
 const CartCard = ({
   title,
@@ -24,19 +25,21 @@ const CartCard = ({
 }) => {
   const dispatch = useDispatch();
 
+  const token = getAccessTokenFromLocalStorage();
+
   async function PlusCount(id) {
-    await http.patch(`/cart/count/plus/${id}`);
-    dispatch(fetchCarts());
+    await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", {headers: { Authorization: 'Bearer ' + token}});
+    dispatch(fetchCarts(token));
     setUpdate(true);
   }
   async function minusCount(id) {
-    await http.patch(`/cart/count/minus/${id}`);
-    dispatch(fetchCarts());
+    await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", {headers: { Authorization: 'Bearer ' + token}});
+    dispatch(fetchCarts(token));
     setUpdate(true);
   }
   async function deleteFromCart(id) {
-    await http.delete(`/cart/${id}`);
-    dispatch(fetchCarts());
+    await axios.delete(`${API_BASE_URL}/cart/${id}`,  {headers: { Authorization: 'Bearer ' + token}});
+    dispatch(fetchCarts(token));
     setUpdate(true);
   }
 
@@ -44,13 +47,13 @@ const CartCard = ({
     if(!user_id){
       return dispatch(setAuthModalTrue());
     }
-    await addToLike(id, user_id);
-    dispatch(fetchLikes());
+    await addToLike(id, token);
+    dispatch(fetchLikes(token));
   }
 
   return (
     <div id="card">
-      <img src={`${URL_IMAGE}/uploads/${photo}`} alt="" />
+      <img src={`${URL_IMAGE}/${photo}`} alt="" />
       <div className="end-card">
         <Link className="link" to={`/product/${id}`}>
           {title}

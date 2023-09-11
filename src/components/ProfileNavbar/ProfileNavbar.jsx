@@ -5,10 +5,6 @@ import "./ProfileNavbar.scss";
 const ProfileNav = ({ activePage, user_id }) => {
   const navigate = useNavigate();
 
-  
-  
-
-
   const links = [
     {
       icon: "fa-regular fa-user",

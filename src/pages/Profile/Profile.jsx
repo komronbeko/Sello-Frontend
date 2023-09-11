@@ -1,110 +1,75 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import "./Profile.scss";
-import User from "../../assets/default-user.png";
-import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserOne } from "../../features/UserOneSlice";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
+import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
+import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import User_Avatar from "../../assets/default-user.png";
+import { API_BASE_URL } from "../../constants/api";
+import http from "../../service/api";
+import { upperCase } from "../../utils/upper-case";
+
+import "./Profile.scss";
+import axios from "axios";
 
 const Profile = () => {
+  const [modalActive, setActiveModal] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {user_id} = useParams();
-
-  const [modalActive, setActiveModal] = useState(false);
-  const [gender, setGender] = useState(null);
-  const [values, setValues] = useState({
-    username: "",
-    l_name: "",
-    f_name: "",
-    email: "",
-    phone_number: "",
-    birthdate: "",
-    language: "",
-    gender: "",
-    photo: "",
-  });
-  const [update, setUpdate] = useState(false);
-  const [file, setFile] = useState(null);
-
-  const userOne = useSelector((state) => state.user.userOne);
+  const { user_id } = useParams();
   const token = getAccessTokenFromLocalStorage();
+  const userOne = useSelector((state) => state.user.userOne);
 
-
-  const handleInputChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  function upperCase(str) {
-    if (str) {
-      return str[0].toUpperCase() + str.slice(1);
-    }
-  }
-  
   useEffect(() => {
-    if(!token) navigate("/")
-    dispatch(fetchUserOne());
-    (async function () {
-      setUpdate(false);
-      setGender(userOne.gender);
-    })();
-  }, [update, userOne, dispatch, navigate, token]);
+    if (!token) navigate("/");
 
-  
+    dispatch(fetchUserOne(token));
+  }, [dispatch, navigate, token]);
+
   async function senData(e) {
     e.preventDefault();
-    if (
-      !file &&
-      !values.username &&
-      !values.l_name &&
-      !values.email &&
-      !values.f_name &&
-      !values.phone_number &&
-      !values.birthdate &&
-      !values.language &&
-      !values.gender
-    )
-      return toast("Nothing to update", { type: "error" });
-    const form = new FormData();
-    form.append("file", file);
+    const {
+      username,
+      l_name,
+      email,
+      gender,
+      f_name,
+      phone_number,
+      language,
+      birthdate,
+    } = e.target.elements;
     try {
-      if (file) {
-        const { data: photo } = await axios.post("/file", form);
-        const { data } = await axios.put("/profile/update", {
-          ...values,
-          photo: photo.name,
-        });
-        toast.success(data.message, { type: "success" });
-        setActiveModal(false);
-        setUpdate(true);
-      } else {
-        if (gender) {
-          const { data } = await axios.put("/profile/update", {
-            ...values,
-            gender,
-          });
-          toast.success(data.message, { type: "success" });
-          setActiveModal(false);
-          setUpdate(true);
-        } else {
-          const { data } = await axios.put("/profile/update", values);
-          toast.success(data.message, { type: "success" });
-          setActiveModal(false);
-          setUpdate(true);
-        }
-      }
+      const { data } = await axios.patch(
+        `${API_BASE_URL}/user/`,
+        {
+          username: username.value,
+          l_name: l_name.value,
+          email: email.value,
+          gender: gender.value,
+          f_name: f_name.value,
+          phone_number: phone_number.value,
+          language: language.value,
+          birthdate: birthdate.value,
+        },
+        { headers: { Authorization: "Bearer " + token } }
+      );
+
+      toast(data.message, { type: "success" });
+      setActiveModal(false);
+      dispatch(fetchUserOne(token));
     } catch (error) {
-      toast(error.response.data.message, { type: "error" });
+      toast(error.message, { type: "error" });
     }
   }
+
   return (
     <section id="profile-all">
       <section id="profile">
-        <ProfileNav activePage={"Profile"} user_id={user_id}/>
+        <ProfileNav activePage={"Profile"} user_id={user_id} />
         <div id="data">
           <div className="data-head">
             <h3>Personal Information</h3>
@@ -115,8 +80,12 @@ const Profile = () => {
           </div>
           <div className="data-body">
             <img
-              src={userOne?.photo ? `http://localhost:5000/${userOne?.photo}` : User}
-              alt=""
+              src={
+                userOne?.photo
+                  ? `http://localhost:3000/uploads/${userOne?.photo}`
+                  : User_Avatar
+              }
+              alt="user-image"
             />
             <div id="info">
               <ul>
@@ -176,118 +145,54 @@ const Profile = () => {
             </div>
             <form className="modal-body" onSubmit={senData}>
               <div className="form-body">
-                <div className="table">
-                  <img
-                    src={
-                      userOne?.photo ? `http://localhost:5000/${userOne?.photo}` : User
-                    }
-                    alt=""
-                  />
-                  <label htmlFor="file_inp" id="file_lable">
-                    Edit photo
-                  </label>
-                  <input
-                    type="file"
-                    name="photo"
-                    onChange={(e) => {
-                      setFile(e.target.files[0]);
-                    }}
-                    id="file_inp"
-                    hidden
-                  />
-                </div>
                 <div className="table input-table">
                   <div className="inp-label">
                     <label htmlFor="username">Username</label>
                     <input
-                      onChange={handleInputChange}
-                      value={values.username}
                       type="text"
                       name="username"
                       defaultValue={userOne?.username}
                       id="username"
-                      placeholder={userOne?.username}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="last_name">Last-name</label>
                     <input
-                      onChange={handleInputChange}
-                      value={values.l_name}
                       type="text"
                       name="l_name"
                       id="last_name"
                       defaultValue={userOne?.l_name}
-                      placeholder={userOne?.l_name}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="email">Email</label>
                     <input
-                      onChange={handleInputChange}
-                      value={values.email}
                       defaultValue={userOne?.email}
                       type="email"
                       name="email"
                       id="email"
-                      placeholder={userOne?.email}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="gender">Gender</label>
                     <div className="inputs">
                       <div className="radio-label">
-                        {userOne?.gender === "male" ? (
-                          <input
-                            onChange={() => {
-                              setGender("male");
-                              setValues({ ...values, gender: "male" });
-                            }}
-                            value={values.gender}
-                            type="radio"
-                            name="gender"
-                            id=""
-                            checked
-                          />
-                        ) : (
-                          <input
-                            onChange={() => {
-                              setGender("male");
-                              setValues({ ...values, gender: "male" });
-                            }}
-                            value={values.gender}
-                            type="radio"
-                            name="gender"
-                            id=""
-                          />
-                        )}
+                        <input
+                          value="male"
+                          type="radio"
+                          name="gender"
+                          id=""
+                          required
+                        />
                         <label htmlFor="">Male</label>
                       </div>
                       <div className="radio-label">
-                        {userOne?.gender === "female" ? (
-                          <input
-                            onChange={() => {
-                              setGender("female");
-                              setValues({ ...values, gender: "female" });
-                            }}
-                            value={values.gender}
-                            type="radio"
-                            name="gender"
-                            id=""
-                            checked
-                          />
-                        ) : (
-                          <input
-                            onChange={() => {
-                              setGender("female");
-                              setValues({ ...values, gender: "female" });
-                            }}
-                            value={values.gender}
-                            type="radio"
-                            name="gender"
-                            id=""
-                          />
-                        )}
+                        <input
+                          value="female"
+                          type="radio"
+                          name="gender"
+                          id=""
+                        />
                         <label htmlFor="">Female</label>
                       </div>
                     </div>
@@ -297,77 +202,37 @@ const Profile = () => {
                   <div className="inp-label">
                     <label htmlFor="firs_name">First-name</label>
                     <input
-                      onChange={handleInputChange}
-                      value={values.f_name}
                       type="text"
                       name="f_name"
                       id="firs_name"
-                      placeholder={userOne?.f_name}
+                      defaultValue={userOne.f_name}
+                      required
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="number">Phone number</label>
                     <input
-                      onChange={handleInputChange}
-                      value={values.phone_number}
                       type="number"
                       name="phone_number"
                       id="number"
-                      placeholder={userOne?.phone_number}
+                      defaultValue={userOne?.phone_number}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="birth">Birth</label>
                     <input
-                      onChange={handleInputChange}
-                      value={values.birthdate}
+                      defaultValue={userOne.birthdate}
                       type="date"
                       name="birthdate"
                       id="birth"
-                      placeholder={userOne?.birthdate}
                     />
                   </div>
                   <div className="inp-label">
                     <label htmlFor="language">Language</label>
-                    {userOne?.language === "English" ? (
-                      <select
-                        onChange={handleInputChange}
-                        value={values.language}
-                        type="number"
-                        name="language"
-                        id="language"
-                      >
-                        <option value="English">English</option>
-                        <option value="Russian">Russian</option>
-                        <option value="Uzbek">Uzbek</option>
-                      </select>
-                    ) : null}
-                    {userOne?.language === "Russian" ? (
-                      <select
-                        onChange={handleInputChange}
-                        value={values.language}
-                        type="number"
-                        name="language"
-                        id="language"
-                      >
-                        <option value="Russian">Russian</option>
-                        <option value="English">English</option>
-                        <option value="Uzbek">Uzbek</option>
-                      </select>
-                    ) : null}
-                    {userOne?.language === "Uzbek" ? (
-                      <select
-                        onChange={handleInputChange}
-                        value={values.language}
-                        type="number"
-                        name="language"
-                        id="language"
-                      >
-                        <option value="Uzbek">Uzbek</option>
-                        <option value="English">English</option>
-                        <option value="Russian">Russian</option>
-                      </select>
-                    ) : null}
+                    <select name="language" id="language">
+                      <option value="english">English</option>
+                      <option value="russian">Russian</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -378,7 +243,7 @@ const Profile = () => {
                     setActiveModal(false);
                   }}
                 >
-                  Cancle
+                  Cancel
                 </button>
                 <button>Save</button>
               </div>

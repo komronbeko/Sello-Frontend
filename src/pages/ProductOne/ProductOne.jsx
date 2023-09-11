@@ -10,7 +10,10 @@ import http from "../../service/api";
 import { fetchProductInfos } from "../../features/ProductInfoSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
+import {
+  getAccessTokenFromLocalStorage,
+  getAuthAssetsFromLocalStorage,
+} from "../../utils/storage";
 import { URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
@@ -25,6 +28,8 @@ const ProductOne = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const authAssets = getAuthAssetsFromLocalStorage();
+
+  const token = getAccessTokenFromLocalStorage();
 
   const [tootlip, setTootlip] = useState(0);
   const [rec, setRec] = useState([]);
@@ -41,60 +46,48 @@ const ProductOne = () => {
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
 
-
   function hover(number) {
     setTootlip(number);
   }
 
-
   useEffect(() => {
     dispatch(fetchProductOne(id));
-    dispatch(fetchCarts());
-    (async function () {
-      window.scrollTo({
-        top: 1,
-        behavior: "smooth",
-      });
+    dispatch(fetchProductInfos(id));
 
-      dispatch(fetchProductInfos(id));
     //   const { data: recomendation } = await http.get(
     //     `/products?category=${productOne.category?.name}`
     //   );
     //   const rec = recomendation.filter((p) => p.id !== productOne.id).slice(0, 12);
     //   setRec(rec);
-    })();
-  }, [id, dispatch]);
+  }, [id, dispatch, token]);
 
- 
   async function handleAddingToCart(id) {
-    if(!authAssets?.user_id){
+    if (!authAssets?.user_id) {
       return dispatch(setAuthModalTrue());
     }
-    await addToCart(id, authAssets?.user_id);
-    dispatch(fetchCarts());
+    await addToCart(id, token);
+    dispatch(fetchCarts(token));
   }
-
 
   async function handleLiking(id) {
-    if(!authAssets?.user_id){
+    if (!authAssets?.user_id) {
       return dispatch(setAuthModalTrue());
     }
-    await addToLike(id, authAssets?.user_id);
-    dispatch(fetchLikes());
+    await addToLike(id, token);
+    dispatch(fetchLikes(token));
   }
 
-
   async function purchase(id) {
-    if(!authAssets?.user_id){
+    if (!authAssets?.user_id) {
       return dispatch(setAuthModalTrue());
     }
-     try {
+    try {
       await http.post("/cart", {
         product_id: id,
         user_id: +authAssets?.user_id,
       });
-      dispatch(fetchCarts());
-      navigate(`/profile/${authAssets?.user_id}/carts`)
+      dispatch(fetchCarts(token));
+      navigate(`/profile/${authAssets?.user_id}/carts`);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -108,8 +101,8 @@ const ProductOne = () => {
             <div className="start">
               <h2>{productOne?.title}</h2>
               <p>
-                <i className="fa-solid fa-star"></i> {productOne?.review?.length}{" "}
-                Rating
+                <i className="fa-solid fa-star"></i>{" "}
+                {productOne?.review?.length} Rating
               </p>
             </div>
             <button onClick={() => handleLiking(productOne?.id)}>
@@ -121,10 +114,10 @@ const ProductOne = () => {
               <div
                 className="bg"
                 style={{
-                  backgroundImage: `url('${URL_IMAGE}/uploads/${productOne?.photo}')`,
+                  backgroundImage: `url('${URL_IMAGE}/${productOne?.photo}')`,
                 }}
               ></div>
-              <img src={`${URL_IMAGE}/uploads/${productOne?.photo}`} alt="" />
+              <img src={`${URL_IMAGE}/${productOne?.photo}`} alt="" />
             </div>
             <div className="end">
               <div className="end_header">
@@ -134,7 +127,8 @@ const ProductOne = () => {
                     {productOne?.discount?.rate
                       ? dollarToSom(
                           productOne?.price -
-                            (productOne?.price * productOne?.discount?.rate) / 100
+                            (productOne?.price * productOne?.discount?.rate) /
+                              100
                         )
                       : dollarToSom(productOne?.price)}{" "}
                     som
@@ -380,7 +374,7 @@ const ProductOne = () => {
                 onClick={() => setModal(false)}
                 className="cancle"
               >
-                Cancle
+                Cancel
               </button>
               <button className="send">Send</button>
             </div>

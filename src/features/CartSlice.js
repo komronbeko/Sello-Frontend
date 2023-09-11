@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAuthAssetsFromLocalStorage } from "../utils/storage";
-import http from "../service/api";
+// import http from "../service/api";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/api";
 
-export const fetchCarts = createAsyncThunk("cart/fetchCarts", () => {
-  const authAssets = getAuthAssetsFromLocalStorage();
-  return http
-    .get(`/cart/${authAssets?.user_id}`)
-    .then((res) => res.data.data);
+export const fetchCarts = createAsyncThunk("cart/fetchCarts", (token) => {
+  return axios
+  .get(`${API_BASE_URL}/cart/ofuser`, {headers: { Authorization: 'Bearer ' + token}})
+  .then((res) => {
+    const filtercarts = res?.data?.data.filter(el => el.status === "unpaid");
+    return filtercarts;
+  });
 });
 
 const initialState = {
