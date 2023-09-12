@@ -78,7 +78,7 @@ const ProductOne = () => {
   }
 
   async function purchase(id) {
-    if (!token?.user_id) {
+    if (!token) {
       return dispatch(setAuthModalTrue());
     }
     try {
