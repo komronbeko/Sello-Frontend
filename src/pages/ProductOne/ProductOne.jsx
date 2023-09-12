@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import { fetchProductOne } from "../../features/ProductOneSlice";
-import http from "../../service/api";
 import { fetchProductInfos } from "../../features/ProductInfoSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
@@ -14,12 +13,13 @@ import {
   getAccessTokenFromLocalStorage,
   getAuthAssetsFromLocalStorage,
 } from "../../utils/storage";
-import { URL_IMAGE } from "../../constants/api";
+import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
 import UZImage from "../../assets/uz.svg";
+import axios from "axios";
 
 import "./ProductOne.scss";
 
@@ -59,10 +59,10 @@ const ProductOne = () => {
     //   );
     //   const rec = recomendation.filter((p) => p.id !== productOne.id).slice(0, 12);
     //   setRec(rec);
-  }, [id, dispatch, token]);
+  }, [id, dispatch]);
 
   async function handleAddingToCart(id) {
-    if (!authAssets?.user_id) {
+    if (!token) {
       return dispatch(setAuthModalTrue());
     }
     await addToCart(id, token);
@@ -70,7 +70,7 @@ const ProductOne = () => {
   }
 
   async function handleLiking(id) {
-    if (!authAssets?.user_id) {
+    if (!token?.user_id) {
       return dispatch(setAuthModalTrue());
     }
     await addToLike(id, token);
@@ -78,14 +78,17 @@ const ProductOne = () => {
   }
 
   async function purchase(id) {
-    if (!authAssets?.user_id) {
+    if (!token?.user_id) {
       return dispatch(setAuthModalTrue());
     }
     try {
-      await http.post("/cart", {
-        product_id: id,
-        user_id: +authAssets?.user_id,
-      });
+      await axios.post(
+        `${API_BASE_URL}/cart`,
+        {
+          product_id: id,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       dispatch(fetchCarts(token));
       navigate(`/profile/${authAssets?.user_id}/carts`);
     } catch (error) {
