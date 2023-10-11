@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ClearIcon from '@mui/icons-material/Clear';
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { Badge } from "@mui/material";
 import Logo from "../../../assets/logo.svg";
@@ -18,17 +19,19 @@ import { fetchCarts } from "../../../features/CartSlice";
 import { fetchLikes } from "../../../features/LikesSlice";
 
 import "./Header.scss";
+import Catalog from "../../Catalog/Catalog";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const catalog = useSelector((state) => state.catalog);
+  const [catalogModal, setCatalogModal] = useState(false);
+  const catalog = useSelector((state) => state.catalog.catalogs);
   const userLikes = useSelector((state) => state.like.likes);
   const carts = useSelector((state) => state.cart.carts);
-
-
+  
+  
   const token = getAccessTokenFromLocalStorage();
-
+  
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleAuthModal(directory) {
     if (!token) return dispatch(setAuthModalTrue());
@@ -39,8 +42,8 @@ const Header = () => {
   }
 
   useEffect(() => {
+    dispatch(fetchCatalogs());
     if (token) {
-      dispatch(fetchCatalogs(token));
       dispatch(fetchCarts(token));
       dispatch(fetchLikes(token));
     }
@@ -53,8 +56,10 @@ const Header = () => {
           <img src={Logo} alt="header-logo" />
         </div>
         <div>
-          <div>
-            <FormatListBulletedIcon color="success" />
+          <div onClick={() => setCatalogModal(prev => !prev)}>
+            {
+              catalogModal ? <ClearIcon color="success" /> : <FormatListBulletedIcon color="success" />
+            }
             <p>Catalog</p>
           </div>
           <div>
@@ -90,11 +95,12 @@ const Header = () => {
         </div>
       </div>
       <p className="header__line" />
+      {catalogModal ? <Catalog setCatalogModal={setCatalogModal}/> : ""}
       <div className="header__navbar">
         <ul>
           <li>🔥Discounts</li>
-          {catalog.catalogs
-            ? catalog.catalogs.map((el) => <li key={el.id}>{el.name}</li>)
+          {catalog.length
+            ? catalog.map((el) => <li key={el.id} onClick={() => navigate(`/catalog/${el.name}`)}>{el.name}</li>)
             : ""}
           <li>Brands</li>
         </ul>

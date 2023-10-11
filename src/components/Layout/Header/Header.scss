@@ -15,6 +15,7 @@
         gap: 60px;
 
         div:first-child {
+            // display: flex;
             margin-right: 20px;
 
             img{
@@ -39,7 +40,7 @@
                 button {
                     background: none;
                     border: none;
-                    color: green;
+                    color: var(--green);
                     cursor: pointer;
                     font-size: 16px;
                     font-weight: bold;
@@ -117,10 +118,10 @@
                 cursor: pointer;
             }
             li:hover{
-                color: green;
+                color: var(--green);
             }
             li:first-child{
-                color: green;
+                color: var(--green);
                 font-weight: 600;
             }
             li:first-child:hover{

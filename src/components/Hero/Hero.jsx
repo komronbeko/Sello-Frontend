@@ -17,8 +17,8 @@ const Hero = () => {
   const mappedBanners = banners.banners
     ? banners.banners.map((el) => {
         return (
-          <Link key={el.id} className="link" to={`/catalog/${el.catalog_id}`}>
-            <img src={`${URL_IMAGE}/${el.photo}`} alt="" />
+          <Link key={el.id} className="link" to={`/catalog/${el.catalog.name}`}>
+            <img src={`${URL_IMAGE}/${el.photo}`} alt={el.name}/>
           </Link>
         );
       })

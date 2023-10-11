@@ -9,6 +9,9 @@ import Orders from "../pages/Orders/Orders";
 import ProductOne from "../pages/ProductOne/ProductOne";
 import Checkout from "../pages/Checkout/Checkout";
 import Thank from "../pages/Thank/Thank";
+import FilterByCatalog from "../pages/FilterProducts/FilterByCatalog";
+import FilterByCategory from "../pages/FilterProducts/FilterByCategory";
+import FilterByNestedCategory from "../pages/FilterProducts/FilterByNestedCategory";
 
 const routes = [
     {
@@ -51,6 +54,23 @@ const routes = [
         path: '/:user_id/thank',
         element: <Thank/>
     },
+    {
+        path: '/catalog',
+        element: <FilterByCatalog/>
+    },
+    {
+        path: '/catalog/:category',
+        element: <FilterByCategory/>
+    },
+    {
+        path: '/catalog/:category/:subcategory',
+        element: <FilterByNestedCategory/>
+    },
+    // {
+    //     path: '/filter/:category/:nestedcategory',
+    //     element: <FilterProducts/>
+    // },
+
 ];
 
 const Routes = () => {
