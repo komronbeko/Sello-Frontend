@@ -1,5 +1,5 @@
-// const API_ADDRESS = "16.171.65.106";
-const API_ADDRESS = "localhost:3000";
+const API_ADDRESS = "16.171.65.106";
+// const API_ADDRESS = "localhost:3000";
 
 export const API_BASE_URL = `http://${API_ADDRESS}/api`;
 export const URL_IMAGE = `http://${API_ADDRESS}/uploads`;
