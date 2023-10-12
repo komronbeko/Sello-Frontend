@@ -57,10 +57,11 @@
                 }
             }
 
-            .label-inp{
-                display: flex;
-                // align-items: center;
-                gap: 6px;
+            .sort-type{
+                li{
+                    display: flex;
+                    gap: 6px;
+                }
             }
         }
     }

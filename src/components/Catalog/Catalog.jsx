@@ -7,8 +7,10 @@ import "./Catalog.scss";
 
 const Catalog = ({setCatalogModal}) => {
     const catalogs = useSelector(state => state.catalog.catalogs);
+    const categories = useSelector(state => state.category.categories);
 
     const [useCatalog, setUseCatalog] = useState(null);
+
 
     const navigate = useNavigate();
 
@@ -20,8 +22,10 @@ const Catalog = ({setCatalogModal}) => {
         navigate(`/catalog/${name}`);
         setCatalogModal(false);
     }
-    function onclickCategory(name) {
-        navigate(`/filter/all/${name}/all/all/all`)
+    function onclickCategory(subcategory) {
+        const findCategory = categories.find(el => el.name == subcategory);
+        navigate(`/catalog/${findCategory?.catalog?.name}/${subcategory}`);
+        setCatalogModal(false);
     }
     return (
         <div id='dropdown-window'>
