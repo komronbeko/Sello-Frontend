@@ -2,11 +2,12 @@
 import { useDispatch } from "react-redux";
 import { sortProducts } from "../../features/ProductsSlice";
 
-const Sorting = ({catalog_id, category_id}) => {
+const Sorting = ({catalog_id, category_id, setSortingValue}) => {
     const dispatch = useDispatch();
 
     function handleSorting(e) {
         dispatch(sortProducts({value: e.target.value, catalog_id, category_id}));
+        setSortingValue(e.target.value);
     }
     return (
         <form onChange={(e) => handleSorting(e)}>

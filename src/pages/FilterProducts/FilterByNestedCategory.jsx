@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { sortProducts } from "../../features/ProductsSlice";
 import { fetchCategories } from "../../features/CategoriesSLice";
 import { upperCase } from "../../utils/upper-case";
@@ -19,6 +19,8 @@ const FilterByNestedCategory = () => {
   const categories = useSelector(state => state.category.categories);
   const products = useSelector(state => state.product.products);
 
+  const [sortingValue, setSortingValue] = useState("default");
+
 
   const dispatch = useDispatch();
   const { category, subcategory } = useParams();
@@ -32,6 +34,12 @@ const FilterByNestedCategory = () => {
     dispatch(sortProducts({ value: 'default', catalog_id: foundCatalog?.id, category_id: foundCategory?.id }));
   }, [dispatch, foundCatalog?.id, foundCategory?.id]);
 
+  const filterAssets = {
+    category_id: foundCategory?.id,
+    catalog_id: foundCatalog?.id,
+    sorting_value: sortingValue
+  }
+
 
   return (
     <div className="filter-products">
@@ -40,10 +48,10 @@ const FilterByNestedCategory = () => {
         <p>There are <span>{products.length}</span>  products in this section</p>
       </div>
       <div className="filter-body">
-        <FilterAside data={products} />
+        <FilterAside data={products} filterAssets={filterAssets}/>
         <div className="filter-catalog">
           <div className="filter-catalog__selections">
-            <Sorting catalog_id={foundCatalog?.id} category_id={foundCategory?.id} />
+            <Sorting setSortingValue={setSortingValue} catalog_id={foundCatalog?.id} category_id={foundCategory?.id} />
             <Categorizing category={category} />
             <SubCategorizing foundCatalog={foundCatalog} subcategory={subcategory} />
           </div>

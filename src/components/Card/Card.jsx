@@ -51,7 +51,7 @@ const Card = ({ image, title, price, discount, id, count }) => {
           {discount
             ? dollarToSom(price - (price * discount) / 100)
             : dollarToSom(price)}{" "}
-          som {discount ? <span>-{discount}%</span> : null}
+          som {discount ? <span>{discount}%</span> : null}
         </h4>
       </Link>
       <div

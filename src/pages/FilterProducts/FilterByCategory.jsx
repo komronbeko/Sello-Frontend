@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { sortProducts } from "../../features/ProductsSlice";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import { upperCase } from "../../utils/upper-case";
@@ -14,6 +14,9 @@ import "./FilterProducts.scss";
 
 
 const FilterByCategory = () => {
+  const [sortingValue, setSortingValue] = useState("default");
+
+
   const catalogs = useSelector(state => state.catalog.catalogs);
   const products = useSelector(state => state.product.products);
 
@@ -27,6 +30,11 @@ const FilterByCategory = () => {
     dispatch(sortProducts({ value: 'default', catalog_id: foundCatalog?.id }));
   }, [dispatch, foundCatalog?.id]);
 
+  const filterAssets = {
+    catalog_id: foundCatalog?.id,
+    sorting_value: sortingValue
+  }
+
   return (
     <div className="filter-products">
       <div className="filter-head">
@@ -34,10 +42,10 @@ const FilterByCategory = () => {
         <p>There are <span>{products.length}</span>  products in this section</p>
       </div>
       <div className="filter-body">
-        <FilterAside data={products} />
+        <FilterAside filterAssets={filterAssets} data={products} />
         <div className="filter-catalog">
           <div className="filter-catalog__selections">
-            <Sorting catalog_id={foundCatalog?.id}/>
+            <Sorting setSortingValue={setSortingValue} catalog_id={foundCatalog?.id}/>
             <Categorizing category={category}/>
             <SubCategorizing foundCatalog={foundCatalog}/>
           </div>
