@@ -13,9 +13,9 @@ export const sortProducts = createAsyncThunk(
     category_id,
     from,
     to,
-    discounts,
-    brands,
-    sub_categories,
+    discount,
+    brand,
+    category,
     product_infos,
   }) => {
     let query = `/product/filters/all-in-one?value=${value}`;
@@ -32,16 +32,16 @@ export const sortProducts = createAsyncThunk(
       query += `&from=${from}&to=${to}`;
     }
 
-    if (discounts && JSON.parse(discounts).length) {
-      query += `&discounts=${discounts}`;
+    if (discount && JSON.parse(discount).length) {
+      query += `&discounts=${discount}`;
     }
 
-    if (brands && JSON.parse(brands).length) {
-      query += `&brands=${brands}`;
+    if (brand && JSON.parse(brand).length) {
+      query += `&brands=${brand}`;
     }
 
-    if (sub_categories && JSON.parse(sub_categories).length) {
-      query += `&sub_categories=${sub_categories}`;
+    if (category && JSON.parse(category).length) {
+      query += `&sub_categories=${category}`;
     }
 
     if (product_infos && JSON.parse(product_infos).length) {

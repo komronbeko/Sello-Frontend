@@ -1,16 +1,18 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import "./Carts.scss";
-import UZImage from "../../assets/uz.svg";
-import { useNavigate, useParams } from "react-router-dom";
-import CartCard from "../../components/OrderCard/OrderCard";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import CartCard from "../../components/OrderCard/OrderCard";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { dollarToSom } from "../../utils/exchange";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
-import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
+import UZImage from "../../assets/uz.svg";
+
+import "./Carts.scss";
+import NoProducts from "../../components/NoProducts/NoProducts";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -84,14 +86,15 @@ const Cart = () => {
         <dir className="start-head">
           <h2>Cart</h2>
           <h4>Delivery is carried out by the Sello Logistics service.</h4>
-          <div className="btn-clear">
+          {carts.length ? <div className="btn-clear">
             <button onClick={() => clearCart()}>
               <i className="fa-solid fa-xmark"></i>Clear all
             </button>
-          </div>
+          </div> : null}
+
         </dir>
         <div className="cards">
-          {carts?.map((i) => {
+          {carts.length ? carts?.map((i) => {
             return (
               <CartCard
                 key={i.id}
@@ -106,7 +109,7 @@ const Cart = () => {
                 user_id={user_id}
               />
             );
-          })}
+          }) : <NoProducts />}
         </div>
       </div>
       <div className="cart-end">
@@ -163,9 +166,8 @@ const Cart = () => {
                 <span>sello !</span>
               </h5>
               <p
-                className={`${
-                  tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
-                }`}
+                className={`${tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
+                  }`}
               >
                 You can pick up at our branches
               </p>

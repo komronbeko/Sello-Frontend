@@ -9,6 +9,7 @@ const Sorting = ({catalog_id, category_id, setSortingValue}) => {
         dispatch(sortProducts({value: e.target.value, catalog_id, category_id}));
         setSortingValue(e.target.value);
     }
+    
     return (
         <form onChange={(e) => handleSorting(e)}>
             <select name="sorting" id="sorting">

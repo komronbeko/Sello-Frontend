@@ -5,7 +5,7 @@ export function dollarToSom(payload){
     return res.toLocaleString();
 }
 
-export function somToDolllar(payload){
+export function somToDollar(payload){
     const res = payload / dollar
-    return res.toLocaleString();
+    return Math.round(res);
 }

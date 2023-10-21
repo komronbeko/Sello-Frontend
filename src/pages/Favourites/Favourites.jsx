@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import Empty from "../../assets/empty_orders.png";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import Card from "../../components/Card/Card";
 import { fetchLikes } from "../../features/LikesSlice";
@@ -11,6 +10,7 @@ import { fetchLikes } from "../../features/LikesSlice";
 import "./Favourites.scss";
 import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
+import NoProducts from "../../components/NoProducts/NoProducts";
 
 const Likes = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Likes = () => {
   }, [dispatch, navigate, token]);
 
   async function clearLikes() {
-    await axios.delete(`${API_BASE_URL}/like/all`, {headers: { Authorization: 'Bearer ' + token}});
+    await axios.delete(`${API_BASE_URL}/like/all`, { headers: { Authorization: 'Bearer ' + token } });
     toast("Favourites cleared.", { type: "info" });
     dispatch(fetchLikes(token));
   }
@@ -59,17 +59,7 @@ const Likes = () => {
             ))}
           </div>
         ) : (
-          <div className="no-products">
-            <div className="start">
-              <p className="no-products-text">
-                Sorry, there are no favorite products here yet.
-              </p>
-              <Link to="/" className="link">
-                Start shopping
-              </Link>
-            </div>
-            <img src={Empty} alt="" />
-          </div>
+          <NoProducts />
         )}
       </section>
     </div>

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
@@ -8,7 +7,6 @@ import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import User_Avatar from "../../assets/default-user.png";
 import { API_BASE_URL } from "../../constants/api";
-import http from "../../service/api";
 import { upperCase } from "../../utils/upper-case";
 
 import "./Profile.scss";

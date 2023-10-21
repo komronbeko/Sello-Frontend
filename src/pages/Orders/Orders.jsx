@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,12 +6,11 @@ import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { fetchOrders } from "../../features/OrdersSlice";
 import { dollarToSom } from "../../utils/exchange";
-import Empty from "../../assets/empty_orders.png";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
-import http from "../../service/api";
 
 import "./Orders.scss";
 import axios from "axios";
+import NoProducts from "../../components/NoProducts/NoProducts";
 
 const Orders = () => {
   const [verifyModal, setVerifyModal] = useState(false);
@@ -28,7 +26,7 @@ const Orders = () => {
 
   async function handleOrderCancelation() {
     try {
-      await axios.delete(`${API_BASE_URL}/order/cancel/${orderId}`, {headers: { Authorization: 'Bearer ' + token}});
+      await axios.delete(`${API_BASE_URL}/order/cancel/${orderId}`, { headers: { Authorization: 'Bearer ' + token } });
       toast("Order canceled", { type: "info" });
       dispatch(fetchOrders(token));
       setVerifyModal(false);
@@ -83,9 +81,7 @@ const Orders = () => {
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    ""
-                  )}
+                  ) : null}
                   <div className="order-aside">
                     <ul>
                       <li>
@@ -96,9 +92,8 @@ const Orders = () => {
                         <span>{`${o.createdAt
                           .split("T")[0]
                           .split("-")
-                          .join(".")} ${
-                          o.createdAt.split("T")[1].split(".")[0]
-                        }`}</span>
+                          .join(".")} ${o.createdAt.split("T")[1].split(".")[0]
+                          }`}</span>
                       </li>
                     </ul>
                     <ul>
@@ -169,19 +164,7 @@ const Orders = () => {
               );
             })}
           </div>
-        ) : (
-          <div className="no-products">
-            <div className="start">
-              <p className="no-products-text">
-                Delivery is carried out by the Sello Logistics service.
-              </p>
-              <Link to="/" className="link">
-                Start shopping
-              </Link>
-            </div>
-            <img src={Empty} alt="" />
-          </div>
-        )}
+        ) : <NoProducts />}
       </section>
     </div>
   );
