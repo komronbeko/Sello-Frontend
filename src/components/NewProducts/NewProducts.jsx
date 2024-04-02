@@ -6,7 +6,7 @@ const NewProducts = () => {
 
   return (
     <div className="all-products">
-      <h1>NEW!</h1>
+      <p className="heading">New!</p>
       <div className="products-container">
         {userAllProducts.map((el) => {
           if (el.new) {

@@ -60,12 +60,6 @@
 
             p {
                 padding: 5px 0;
-                transition: ease-in-out 0.1s;
-                cursor: pointer;
-
-                &:hover {
-                    color: var(--green);
-                }
             }
         }
 
@@ -80,7 +74,12 @@
                 border: 0;
                 font-weight: bold;
                 font-size: 16px;
+                margin-bottom: 5px;
                 cursor: pointer;
+                &:hover {
+                    color: var(--green);
+                    transition: ease-in-out 0.1s;
+                }
             }
         }
     }

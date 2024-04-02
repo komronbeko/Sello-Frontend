@@ -13,10 +13,14 @@ import UZImage from "../../assets/uz.svg";
 
 import "./Carts.scss";
 import NoProducts from "../../components/NoProducts/NoProducts";
+import VerifyDeleting from "../../components/VerifyDeliting/VerifyDeleting";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [verifyClearing, setVerifyClearing] = useState(false);
+
   const { user_id } = useParams();
   const token = getAccessTokenFromLocalStorage();
 
@@ -27,20 +31,25 @@ const Cart = () => {
   const [price, setPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
-  const [updateCart, setUpdateCart] = useState(false);
+  // const [updateCart, setUpdateCart] = useState(false);
 
   function hover(number) {
     setTootlip(number);
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0); 
+  }, []);
+
+  useEffect(() => {
     if (!token) return navigate("/");
+    
     (function handleTotal() {
       let count = 0;
       let price = 0;
       let discount = 0;
       let total = 0;
-      setUpdateCart(false);
+      // setUpdateCart(false);
       for (let i = 0; i < carts.length; i++) {
         count += carts[i].count;
         price += +carts[i].product.price * carts[i].count;
@@ -59,7 +68,8 @@ const Cart = () => {
       setDiscount(discount);
       setPrice(price);
     })();
-  }, [updateCart, carts, token, navigate]);
+  }, [carts, token, navigate]);
+
 
   async function clearCart() {
     if (carts.length) {
@@ -69,9 +79,10 @@ const Cart = () => {
       toast("Carts cleared.", { type: "info" });
       dispatch(fetchCarts(token));
       dispatch(fetchUserOne(token));
-      setUpdateCart(true);
+      setVerifyClearing(false);
     } else {
       toast("Cart is empty", { type: "error" });
+      setVerifyClearing(false);
     }
   }
 
@@ -82,16 +93,16 @@ const Cart = () => {
 
   return (
     <section id="cart">
+      {verifyClearing ? <VerifyDeleting verifyDeleting={clearCart} setVerifyModal={setVerifyClearing} mainText="Are you sure you want to clear your carts?" verifyingText="Yes, I want to clear my carts" cancelingText=" No, I do not want to clear my carts" darkBg={true} /> : null}
       <div className="cart-start">
         <dir className="start-head">
           <h2>Cart</h2>
           <h4>Delivery is carried out by the Sello Logistics service.</h4>
           {carts.length ? <div className="btn-clear">
-            <button onClick={() => clearCart()}>
+            <button onClick={() => setVerifyClearing(true)}>
               <i className="fa-solid fa-xmark"></i>Clear all
             </button>
           </div> : null}
-
         </dir>
         <div className="cards">
           {carts.length ? carts?.map((i) => {
@@ -105,7 +116,7 @@ const Cart = () => {
                 price={i.product.price}
                 discount={i.product.discount?.rate}
                 cart_item_id={i.id}
-                setUpdate={setUpdateCart}
+                // setUpdate={setUpdateCart}
                 user_id={user_id}
               />
             );

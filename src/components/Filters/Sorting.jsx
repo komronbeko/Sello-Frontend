@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useDispatch } from "react-redux";
-import { sortProducts } from "../../features/ProductsSlice";
+// import { sortProducts } from "../../features/ProductsSlice";
+import { fetchSortProducts } from "../../features/SortProductsSlice.js";
+
 
 const Sorting = ({catalog_id, category_id, setSortingValue}) => {
     const dispatch = useDispatch();
 
     function handleSorting(e) {
-        dispatch(sortProducts({value: e.target.value, catalog_id, category_id}));
+        dispatch(fetchSortProducts({value: e.target.value, catalog_id, category_id}));
         setSortingValue(e.target.value);
     }
     

@@ -51,6 +51,8 @@ const ProductOne = () => {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     dispatch(fetchProductOne(id));
     dispatch(fetchProductInfos(id));
 

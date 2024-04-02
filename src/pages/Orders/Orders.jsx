@@ -11,6 +11,7 @@ import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import "./Orders.scss";
 import axios from "axios";
 import NoProducts from "../../components/NoProducts/NoProducts";
+import VerifyDeleting from "../../components/VerifyDeliting/VerifyDeleting";
 
 const Orders = () => {
   const [verifyModal, setVerifyModal] = useState(false);
@@ -42,6 +43,8 @@ const Orders = () => {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (!token) navigate("/");
     dispatch(fetchOrders(token));
   }, [dispatch, token, navigate]);
@@ -59,28 +62,16 @@ const Orders = () => {
               const loc = JSON.parse(o.location);
               return (
                 <div className="order" key={o.id}>
-                  <button
-                    onClick={() => handleCancelBtn(o.id)}
-                    className="cancel-order-btn"
-                  >
-                    ❌
-                  </button>
+                  {o.status != "canceled" ?
+                    <button
+                      onClick={() => handleCancelBtn(o.id)}
+                      className="cancel-order-btn"
+                    >
+                      ❌
+                    </button> : ""
+                  }
                   {verifyModal ? (
-                    <div className="cancel-modal">
-                      <div className="cancel-wrapper">
-                        <div className="cancel-start">
-                          <h2>Are you sure you want to cancel the order?</h2>
-                        </div>
-                        <div className="cancel-end">
-                          <button onClick={() => handleOrderCancelation()}>
-                            Yes, I want to cancel the order
-                          </button>
-                          <button onClick={() => setVerifyModal(false)}>
-                            No, I do not want to cancel the order
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                    <VerifyDeleting verifyDeleting={handleOrderCancelation} setVerifyModal={setVerifyModal} mainText="Are you sure you want to cancel the order?" verifyingText="Yes, I want to cancel the order" cancelingText=" No, I do not want to cancel the order" />
                   ) : null}
                   <div className="order-aside">
                     <ul>
@@ -147,7 +138,7 @@ const Orders = () => {
                       <div className="table">
                         <p className="key">Address : </p>
                         <p className="value">
-                          {`${loc.city}, ${loc.district}, ${loc.evenue}, ${loc.street}`}
+                          {`${loc.city}, ${loc.district}, ${loc.avenue}, ${loc.street}`}
                         </p>
                       </div>
                       <div className="table">

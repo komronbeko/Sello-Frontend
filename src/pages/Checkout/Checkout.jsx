@@ -40,6 +40,8 @@ const Checkout = () => {
   }
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (!token) return navigate("/");
 
     const { count, discount, price, total } = handleTotal(carts, setUpdateCart);

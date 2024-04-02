@@ -10,9 +10,9 @@ const FilterAside = ({ data, filterAssets }) => {
     return (
         <div className="filter-aside">
             <Price filterAssets={filterAssets} />
-            {distinctBrands.length && <UniversalFilter data={distinctBrands} title="Brand" filterAssets={filterAssets} />}
-            {distinctNestedCategories.length && <UniversalFilter data={distinctNestedCategories} title="Category" filterAssets={filterAssets} />}
-            {distinctDiscounts.length && <UniversalFilter data={distinctDiscounts} title="Discount" filterAssets={filterAssets} />}
+            {distinctBrands.length ? <UniversalFilter data={distinctBrands} title="Brand" filterAssets={filterAssets}/> : ""}
+            {distinctNestedCategories.length ? <UniversalFilter data={distinctNestedCategories} title="Category" filterAssets={filterAssets} /> : ""}
+            {distinctDiscounts.length ? <UniversalFilter data={distinctDiscounts} title="Discount" filterAssets={filterAssets} /> : ""}
         </div>
     );
 }

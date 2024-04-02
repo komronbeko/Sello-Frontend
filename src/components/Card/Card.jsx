@@ -7,15 +7,29 @@ import { dollarToSom } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
- 
+
+import FavoriteBrderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
+
 import "./Card.scss";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchUserOne } from "../../features/UserOneSlice";
 
 const Card = ({ image, title, price, discount, id, count }) => {
   const dispatch = useDispatch();
 
   const token = getAccessTokenFromLocalStorage();
+  const userOne = useSelector((state) => state.user.userOne);
+
+  useEffect(() => {
+    if(token){
+      dispatch(fetchUserOne(token));
+    }
+  }, [token, dispatch]);
+
 
 
   async function handleAddingToCart(id) {
@@ -25,20 +39,20 @@ const Card = ({ image, title, price, discount, id, count }) => {
     await addToCart(id, token);
     dispatch(fetchCarts(token));
   }
-
   async function handleLiking(id) {
     if (!token) {
       return dispatch(setAuthModalTrue());
     }
     await addToLike(id, token);
     dispatch(fetchLikes(token));
+    dispatch(fetchUserOne(token));
   }
 
   return (
     <div className="card">
       <button className="add-to-like" onClick={() => handleLiking(id)}>
-        <i className="fa-regular fa-heart"></i>
-      </button>
+        {userOne?.likes?.some(el => el.product_id == id) ? <FavoriteIcon style={{ color: '#00b3a8' }} /> : <FavoriteBrderIcon style={{ color: '#00b3a8' }} />}
+         </button>
       <Link className="clicklable_link" to={`/product/${id}`}>
         <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />
         <p>{title}</p>

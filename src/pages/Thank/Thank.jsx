@@ -12,6 +12,8 @@ const Thank = () => {
   const token = getAccessTokenFromLocalStorage();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (!token) return navigate("/");
   }, [token, navigate]);
 

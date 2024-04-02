@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import { getAuthAssetsFromLocalStorage } from "../utils/storage";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/api";
 
-// const authAssets = getAuthAssetsFromLocalStorage();
 
 export const fetchUserOne = createAsyncThunk(
   "userOne/fetchUserOne",

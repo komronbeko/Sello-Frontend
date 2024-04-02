@@ -2,7 +2,7 @@ section#profile-all {
     width: 100%;
     position: relative;
     padding: 220px 0px 60px;
-    background-color: white;
+    background-color: var(--primaryBg);
     section#profile {
         padding: 0 60px;
         width: 100%;
@@ -33,10 +33,10 @@ section#profile-all {
                 display: flex;
                 gap: 40px;
                 max-height: 100%;
-                img {
-                    width: 25%;
-                    border-radius: 10px;
-                }
+                // img {
+                //     width: 25%;
+                //     border-radius: 10px;
+                // }
                 h4 {
                     font-size: 20px;
                     width: 100%;
@@ -54,7 +54,8 @@ section#profile-all {
                     gap: 40px;
                     ul {
                         width: 100%;
-                        display: flex;
+                        display: grid;
+                        grid-template-columns: repeat(4, auto);
                         gap: 25px;
                         li {
                             display: flex;
@@ -75,8 +76,10 @@ section#profile-all {
                             }
                         }
                     }
+
                     .with-edit {
-                        justify-content: space-between;
+                        display: flex;
+                        justify-content: end;
                     }
                 }
             }
@@ -188,9 +191,6 @@ section#profile-all {
                                 border: 0.5px solid gray;
                                 font-size: 18px;
                                 color: rgb(38, 38, 38);
-                                &:focus {
-                                    box-shadow: 0 0 10px rgb(0, 145, 255);
-                                }
                             }
                             .inputs {
                                 width: 100%;

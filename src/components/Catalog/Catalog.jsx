@@ -29,7 +29,6 @@ const Catalog = ({setCatalogModal}) => {
     }
     return (
         <div id='dropdown-window'>
-            {/* <hr /> */}
             <ul className='catalogs'>
                 {catalogs?.map(c => {
                     return (

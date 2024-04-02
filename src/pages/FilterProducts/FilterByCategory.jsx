@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { sortProducts } from "../../features/ProductsSlice";
+// import { sortProducts } from "../../features/ProductsSlice";
+import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import { upperCase } from "../../utils/upper-case";
 import ProductsWrapper from "../../components/ProductsWrapper/ProductsWrapper";
@@ -18,7 +19,7 @@ const FilterByCategory = () => {
 
 
   const catalogs = useSelector(state => state.catalog.catalogs);
-  const products = useSelector(state => state.product.products);
+  const products = useSelector(state => state.sortProducts.products);
 
   const dispatch = useDispatch();
   const { category } = useParams();
@@ -27,7 +28,9 @@ const FilterByCategory = () => {
 
 
   useEffect(() => {
-    dispatch(sortProducts({ value: 'default', catalog_id: foundCatalog?.id }));
+    window.scrollTo(0, 0);
+
+    dispatch(fetchSortProducts({ value: 'default', catalog_id: foundCatalog?.id }));
   }, [dispatch, foundCatalog?.id]);
 
   const filterAssets = {

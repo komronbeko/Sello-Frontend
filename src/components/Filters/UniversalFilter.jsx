@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { sortProducts } from "../../features/ProductsSlice";
+// import { sortProducts } from "../../features/ProductsSlice";
+import { fetchSortProducts } from "../../features/SortProductsSlice.js";
+
 import { useDispatch } from "react-redux";
 
 const UniversalFilter = ({ data, title, filterAssets }) => {
@@ -28,7 +30,7 @@ const UniversalFilter = ({ data, title, filterAssets }) => {
             [key.toLowerCase()]: JSON.stringify(filterValues[key.toLowerCase()]),
         };
 
-        dispatch(sortProducts(queries));
+        dispatch(fetchSortProducts(queries));
     }, [key, dispatch, filterValues, filterAssets?.value, filterAssets?.catalog_id, filterAssets?.category_id]);
 
     return (

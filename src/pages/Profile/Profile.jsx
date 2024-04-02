@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
-import User_Avatar from "../../assets/default-user.png";
 import { API_BASE_URL } from "../../constants/api";
 import { upperCase } from "../../utils/upper-case";
 
@@ -14,6 +13,7 @@ import axios from "axios";
 
 const Profile = () => {
   const [modalActive, setActiveModal] = useState(false);
+  const [gender, setGender] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,10 +23,20 @@ const Profile = () => {
   const userOne = useSelector((state) => state.user.userOne);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
+    if(userOne?.gender){
+      setGender(userOne.gender);
+    }
+
     if (!token) navigate("/");
 
     dispatch(fetchUserOne(token));
-  }, [dispatch, navigate, token]);
+  }, [dispatch, navigate, token, userOne?.gender]);
+
+  function changeGender(e) {
+    setGender(e.target.value);
+  }
 
   async function senData(e) {
     e.preventDefault();
@@ -40,6 +50,7 @@ const Profile = () => {
       language,
       birthdate,
     } = e.target.elements;
+
     try {
       const { data } = await axios.patch(
         `${API_BASE_URL}/user/`,
@@ -77,25 +88,27 @@ const Profile = () => {
             </p>
           </div>
           <div className="data-body">
-            <img
-              src={
-                userOne?.photo
-                  ? `http://localhost:3000/uploads/${userOne?.photo}`
-                  : User_Avatar
-              }
-              alt="user-image"
-            />
             <div id="info">
               <ul>
                 <li>
-                  <span>FullName</span>
-                  {userOne?.f_name} {userOne?.l_name}
+                  <span>User name</span>
+                  {userOne?.username}
+                </li>
+                <li>
+                  <span>First name</span>
+                  {userOne?.f_name}
+                </li>
+                <li>
+                  <span>Last name</span>
+                  {userOne?.l_name}
                 </li>
                 <li>
                   <span>Phone number</span>+{userOne?.phone_number}
                 </li>
-              </ul>
-              <ul>
+                <li>
+                  <span>Date of birth</span>
+                  {userOne?.birthdate ? userOne.birthdate : 'Null'}
+                </li>
                 <li>
                   <span>Email</span>
                   {userOne?.email}
@@ -104,12 +117,12 @@ const Profile = () => {
                   <span>Language of communication with Sello</span>
                   {upperCase(userOne?.language)}
                 </li>
-              </ul>
-              <ul className="with-edit">
                 <li>
                   <span>Gender</span>
                   {upperCase(userOne?.gender)}
                 </li>
+              </ul>
+              <ul className="with-edit">
                 <li className="edit">
                   <button
                     onClick={() => {
@@ -180,7 +193,9 @@ const Profile = () => {
                           type="radio"
                           name="gender"
                           id=""
-                          required
+                          onChange={(e)=> changeGender(e)}
+                          // required
+                          checked={gender == 'male' ? true : false}
                         />
                         <label htmlFor="">Male</label>
                       </div>
@@ -190,6 +205,8 @@ const Profile = () => {
                           type="radio"
                           name="gender"
                           id=""
+                          onChange={(e)=> changeGender(e)}
+                          checked={gender == 'female' ? true : false}
                         />
                         <label htmlFor="">Female</label>
                       </div>

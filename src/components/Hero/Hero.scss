@@ -1,53 +1,31 @@
-.hero{
-    width: 100%;
+.hero {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 210px 60px 10px;
+    justify-content: center;
+    padding: 200px 120px 0;
 
-
-    &__banners-swipe {
+    .link img {
         width: 100%;
-        display: flex;
-        gap: 20px;
-
-        img {
-            width: 35%;
-            object-fit: cover;
-            height: 100%;
-            border-radius: 10px;
-        }
-
-        .alice-carousel {
-            position: relative;
-            width: 60%;
-            border-radius: 15px;
-
-            img {
-                border-radius: 15px;
-                width: 100%;
-                object-fit: cover;
-                height: 280px;
-            }
-        }
+        height: 400px;
+        border-radius: 15px;
     }
-    .alice-carousel__dots{
+
+    .alice-carousel__dots {
         position: absolute;
         background-color: #00b3a8;
         bottom: 55px;
-        right: 35%;
+        right: 43%;
         z-index: 10;
         padding: 5px 10px;
         border-radius: 4px;
     }
 
-    .alice-carousel__prev-btn-item, .alice-carousel__next-btn-item{
-       color: #00b3a8;
+    .alice-carousel__prev-btn-item,
+    .alice-carousel__next-btn-item {
+        color: #00b3a8;
     }
 
-    .alice-carousel__prev-btn-item:hover, .alice-carousel__next-btn-item:hover{
+    .alice-carousel__prev-btn-item:hover,
+    .alice-carousel__next-btn-item:hover {
         color: rgb(95, 116, 136);
     }
 }
-
-

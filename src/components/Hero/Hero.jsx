@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import { fetchBanners } from "../../features/BannersSlice";
 import { URL_IMAGE } from "../../constants/api";
-import StaticBanner from "../../assets/zayavka1.png";
+// import StaticBanner from "../../assets/zayavka1.png";
 
 import "./Hero.scss";
 import "react-alice-carousel/lib/alice-carousel.css";
@@ -30,7 +30,6 @@ const Hero = () => {
   
   return (
     <div className="hero">
-      <div className="hero__banners-swipe">
         <AliceCarousel
           mouseTracking
           items={mappedBanners}
@@ -38,8 +37,6 @@ const Hero = () => {
           autoPlayInterval={4000}
           infinite
         />
-        <img className="static-banner" src={StaticBanner} alt="static banner" />
-      </div>
     </div>
   );
 };

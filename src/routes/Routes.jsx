@@ -66,11 +66,10 @@ const routes = [
         path: '/catalog/:category/:subcategory',
         element: <FilterByNestedCategory/>
     },
-    // {
-    //     path: '/filter/:category/:nestedcategory',
-    //     element: <FilterProducts/>
-    // },
-
+    {
+        path: '/*',
+        element: <FilterByNestedCategory/>
+    }
 ];
 
 const Routes = () => {

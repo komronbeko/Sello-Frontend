@@ -26,6 +26,8 @@ const Wallet = () => {
   
 
   useEffect(()=>{
+    window.scrollTo(0, 0);
+
     if(!token) navigate('/');
 
     dispatch(fetchUserOne(token));

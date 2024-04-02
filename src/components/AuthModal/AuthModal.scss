@@ -96,7 +96,7 @@
                     input {
                         padding: 10px 10px;
                         font-size: 15px;
-                        border: 1px solid gray;
+                        border: 1px solid var(--primaryBorder);
                         border-radius: 10px;
                     }
 
@@ -140,7 +140,7 @@
                         border-radius: 10px;
 
                         &:active {
-                            border: 1px solid gray;
+                            border: 1px solid var(--primaryBorder);
                         }
                     }
                 }
@@ -160,7 +160,7 @@
                         padding: 10px 5px;
                         text-align: center;
                         font-size: 30px;
-                        border: 1px solid gray;
+                        border: 1px solid var(--primaryBorder);
                         border-radius: 10px;
                     }
 
@@ -202,7 +202,7 @@
                         border-radius: 10px;
 
                         &:active {
-                            border: 1px solid gray;
+                            border: 1px solid var(--primaryBorder);
                         }
                     }
                 }
@@ -216,7 +216,7 @@
                     input {
                         padding: 10px 20px;
                         font-size: 30px;
-                        border: 1px solid gray;
+                        border: 1px solid var(--primaryBorder);
                         border-radius: 10px;
                     }
 

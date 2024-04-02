@@ -46,7 +46,7 @@ const Partners = () => {
           </div>
         </div>
       </section>
-  )
-}
+  );
+};
 
-export default Partners
+export default Partners;

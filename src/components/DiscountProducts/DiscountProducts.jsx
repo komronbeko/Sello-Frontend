@@ -7,8 +7,8 @@ const DiscountProducts = () => {
   const userAllProducts = useSelector((state) => state.product.products);
 
   return (
-    <div className="all-products discounts">
-      <h1>Discounts</h1>
+    <div className="all-products discounts" id="discounts">
+      <p className="heading">Discounts</p>
       <div className="products-container">
         {userAllProducts.map((el) => {
           if (el.discount_id) {

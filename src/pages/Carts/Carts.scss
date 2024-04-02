@@ -1,7 +1,7 @@
 section#cart {
     width: 100%;
     padding: 220px 60px 60px;
-    background-color: white;
+    background-color: var(--primaryBg);
     display: flex;
     justify-content: space-between;
     .cart-start, .cart-end {
@@ -9,42 +9,68 @@ section#cart {
         border-radius: 10px;
         padding: 20px;
     }
-
+    
     button{
         cursor: pointer;
     }
-
-    .no-cards {
-        width: 100%;
+    
+    .cart-start {
+        width: 68%;
+        gap: 20px;
         display: flex;
-        justify-content: space-between;
-        .start {
-            display: flex;
-            flex-direction: column;
+        flex-direction: column;
+        .start-head {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
             gap: 20px;
-            .link {
-                width: 50%;
-                text-align: center;
-                padding: 7px;
-                background-color: var(--green);
-                border: 0;
-                font-size: 20px;
+            h2 {
+                grid-row: span 2;
+                font-weight: normal;
+                font-size: 40px;
+            }
+            h4 {
+                font-weight: normal;
+                padding: 10px;
+                background-color: #00b3a71f;
+                color: gray;
                 border-radius: 8px;
-                color: white;
+            }
+            .btn-clear {
+                grid-row: span 1;
+                display: flex;
+                justify-content: end;
+                button {
+                width: 25%;
+                font-size: 18px;
+                color: rgb(255, 45, 90);
+                background-color: inherit;
+                border: 0;
+                display: flex;
+                border-radius: 10px;
+                gap: 20px;
+                align-items: center;
                 transition: all ease-in-out 0.4s;
+                padding: 5px;
+                justify-content: center;
                 &:active {
-                    background-color: rgb(0, 123, 255);
+                    border: 0.7px solid rgb(255, 45, 90);
+                }
                 }
             }
-            p {
-                color:  gray;
+            .cards {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
             }
         }
     }
-
+ 
     .cart-end {
         width: 30%;
-        max-height: 600px;
+        height: max-content;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -102,7 +128,7 @@ section#cart {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            border: 1px solid #80808052;
+            border: 1px solid var(--primaryBorder);
             .info {
                 width: 100%;
                 display: flex;
@@ -139,7 +165,7 @@ section#cart {
                 .tootlip-1 {
                     width: 300px;
                     visibility: hidden;
-                    border: 1px solid rgba(128, 128, 128, 0.445);
+                    border: 1px solid var(--primaryBorder);
                     padding: 10px;
                     right: 35px;
                     top: -66px;
@@ -152,7 +178,7 @@ section#cart {
                 .tootlip-2 {
                     width: 300px;
                     visibility: hidden;
-                    border: 1px solid rgba(128, 128, 128, 0.445);
+                    border: 1px solid var(--primaryBorder);
                     padding: 10px;
                     right: 38px;
                     top: -30px;
@@ -221,57 +247,5 @@ section#cart {
             }
         }
     }
-    .cart-start {
-        width: 68%;
-        gap: 20px;
-        display: flex;
-        flex-direction: column;
-        .start-head {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr;
-            gap: 20px;
-            h2 {
-                grid-row: span 2;
-                font-weight: normal;
-                font-size: 40px;
-            }
-            h4 {
-                font-weight: normal;
-                padding: 10px;
-                background-color: #00b3a71f;
-                color: gray;
-                border-radius: 8px;
-            }
-            .btn-clear {
-                grid-row: span 1;
-                display: flex;
-                justify-content: end;
-                button {
-                width: 25%;
-                font-size: 18px;
-                color: rgb(255, 45, 90);
-                background-color: inherit;
-                border: 0;
-                display: flex;
-                border-radius: 10px;
-                gap: 20px;
-                align-items: center;
-                transition: all ease-in-out 0.4s;
-                padding: 5px;
-                justify-content: center;
-                &:active {
-                    border: 0.7px solid rgb(255, 45, 90);
-                }
-                }
-            }
-            .cards {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-        }
-    }
+    
 }

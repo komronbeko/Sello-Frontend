@@ -14,6 +14,8 @@ import ProductOneReducer from "../features/ProductOneSlice";
 import ProductInfoReducer from "../features/ProductInfoSlice";
 import OrdersReducer from "../features/OrdersSlice";
 import TotalReducer from "../features/TotalSlice";
+import SortProductsReducer from "../features/SortProductsSlice";
+import SearchReducer from "../features/SearchSlice";
 // import logger from "redux-logger";
 
 const store = configureStore({
@@ -32,7 +34,9 @@ const store = configureStore({
     authModal: AuthModalReducer,
     authAssets: AuthAssetsReducer,
     productInfo: ProductInfoReducer,
-    total: TotalReducer
+    total: TotalReducer,
+    sortProducts: SortProductsReducer,
+    searchProducts: SearchReducer
   },
   // middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 });

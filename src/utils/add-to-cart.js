@@ -7,6 +7,6 @@ export async function addToCart(product_id, token) {
     {
       product_id,
     },
-    { headers: { Authorization: "Bearer " + token } }
+    { headers: { Authorization: "Bearer " + token } } 
   );
 }

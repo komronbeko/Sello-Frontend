@@ -23,10 +23,10 @@ const AllProducts = () => {
 
   return (
     <div className="all-products">
-      <h1>All Products</h1>
+      <p className="heading" >All Products</p>
       <div className="products-container">
-      {userAllProducts.length
-        ? userAllProducts.map((el) => {
+        {userAllProducts.length
+          ? userAllProducts.map((el) => {
             return (
               <Card
                 key={el.id}
@@ -38,7 +38,7 @@ const AllProducts = () => {
               />
             );
           })
-        : ""}
+          : ""}
       </div>
     </div>
   );

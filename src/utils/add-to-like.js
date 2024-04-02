@@ -12,4 +12,4 @@ export async function addToLike(product_id, token) {
         return toast(error.response.data.message, { type: "error" });
       await axios.delete(`${API_BASE_URL}/like/${product_id}`, {headers: { Authorization: 'Bearer ' + token}});
     }
-  }
+}

@@ -1,0 +1,65 @@
+.cancel-modal {
+    width: 100vw;
+    height: 100vh;
+    z-index: 30;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all ease-in-out 0.4s;
+    top: 0px;
+    left: 0px;
+    
+    p{
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 30px;
+        color: white;
+    }
+    
+    .cancel-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        padding: 50px;
+        background-color: #05726b;
+        border-radius: 6px;
+        transition: all ease-in-out 1s;
+       
+        .cancel-end{
+            display: flex;
+            gap: 20px;
+            button:first-child{
+                padding: 10px;
+                color: white;
+                border: 2px solid red;
+                border-radius: 6px;
+                background-color: red;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            button:first-child:hover{
+                border: 2px solid red;
+                color: red;
+                background-color: white;
+            }
+            button:last-child{
+                padding: 10px;
+                color: white;
+                border: 2px solid blue;
+                border-radius: 6px;
+                background-color: blue;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            button:last-child:hover{
+                border: 2px solid blue;
+                color: blue;
+                background-color: white;
+            }
+        }
+    }
+}

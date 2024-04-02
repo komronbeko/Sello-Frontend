@@ -1,5 +1,6 @@
 .filter-products {
-    padding: 220px 60px 60px;
+    padding: 220px 120px 60px;
+   
 
     .filter-head{
         h2{
@@ -16,8 +17,9 @@
     }
 
     .filter-body{
+        width: 100%;
         display: grid;
-        grid-template-columns: 20% 77%;
+        grid-template-columns: 22% 75%;
         justify-content: space-between;
         margin-top: 40px;
     }
@@ -68,17 +70,19 @@
 
     .filter-catalog {
         &__selections {
-            display: flex;
-            gap: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 32%);
+            justify-content: space-between;
 
             select {
                 display: flex;
                 padding: 10px;
                 border-radius: 6px;
                 border: none;
-                width: 300px;
+                width: 100%;
                 font-size: 18px;
                 line-height: 24px;
+                letter-spacing: 2px;
 
                 option {
                     padding: 10px 0;
@@ -88,22 +92,24 @@
                     border: 1px solid rgba(128, 128, 128, 0.699);
                     padding: 9px;
                 }
-
-
-
+            }
+            select:focus-visible{
+                outline: none;
+                border: 0;
             }
         }
 
         .data-body {
+
             width: 100%;
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(5, 18.5%);
+            justify-content: space-between;
             gap: 30px;
-            flex-wrap: wrap;
             margin-top: 30px;
 
             .card {
-                width: 18.29%;
-                height: 420px;
+                width: 100%;
 
                 p {
                     text-align: start;

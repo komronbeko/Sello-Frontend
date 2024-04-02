@@ -8,6 +8,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     dispatch(setAuthFalse());
   }, [dispatch]);
 

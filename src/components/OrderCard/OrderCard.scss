@@ -71,6 +71,11 @@
                     &:nth-child(2) {
                         color: rgb(255, 0, 64);
                     }
+
+                    .like-add{
+                        display: flex;
+                        gap: 6px;
+                    }
                 }
             }
             .count-emiter {

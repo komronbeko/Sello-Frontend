@@ -5,8 +5,8 @@
 }
   
 body {
-  font-family: sans-serif;
-  background-color: #8080803a;
+  font-family: Inter;
+  background-color: #6b75733a;
 }
 
 ul {
@@ -19,18 +19,20 @@ a {
 }
 
 :root {
+  --primaryBg: #f1f3f3;
+  --secondaryBg: #6b7573;
   --green: #00b3a8;
   --pink: #e0297c;
   --gray: #3b3b3b;
-  --black: #100f0f
+  --black: #100f0f;
+  --primaryBorder: rgb(231, 220, 220);
 }
 
 .products-container{
-  display: flex;
-  flex-wrap: wrap;
-  /* grid-template-columns: repeat(6, auto); */
-  /* justify-content: space-between; */
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 19%); 
+  justify-content: space-between;
+  gap: 15px;
 }
 
 

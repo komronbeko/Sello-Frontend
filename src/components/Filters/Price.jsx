@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { sortProducts } from "../../features/ProductsSlice";
+// import { sortProducts } from "../../features/ProductsSlice";
 import { somToDollar } from "../../utils/exchange.js";
+import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 
 const Price = ({ filterAssets }) => {
     const { catalog_id, category_id, sorting_value } = filterAssets;
@@ -27,7 +28,7 @@ const Price = ({ filterAssets }) => {
 
     useEffect(() => {
         if (from !== null && to !== null) {
-            dispatch(sortProducts({
+            dispatch(fetchSortProducts({
                 catalog_id,
                 category_id,
                 value: sorting_value,

@@ -3,11 +3,10 @@ section#thank {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    // height: 400px;
     padding: 200px 60px 60px;
     justify-content: center;
     gap: 20px;
-    background-color: white;
+    background-color: var(--primaryBg);
     h1 {
         font-size: 30px;
     }

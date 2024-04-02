@@ -1,13 +1,13 @@
-section#categories {
+.categories {
     width: 100%;
-    padding: 50px 100px;
+    padding: 50px 120px;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 30px;
+    // padding-top: 100px;
 
-    h2 {
-        font-weight: normal;
-    
+    &__heading {
+        font-size: 22px;
     }
 
     ul.links {
@@ -16,18 +16,19 @@ section#categories {
         flex-wrap: wrap;
         gap: 20px;
 
-        .link-btn {
-            width: 14.5%;
+        li{
+            width: 241px;
             background-color: white;
             padding: 20px;
             text-align: center;
             border-radius: 10px;
-            box-shadow: 10px 10px 10px #80808062;
-            transition: all ease-in-out 0.4s;
-
+            box-shadow: 6px 6px 8px #80808062;
+            transition: all ease-in-out 0.3s;
+    
             &:hover {
-                box-shadow: 5px 5px 10px #80808062;
+                box-shadow: 3px 3px 6px #80808062;
             }
+
         }
     }
 }

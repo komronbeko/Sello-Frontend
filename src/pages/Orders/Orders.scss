@@ -1,7 +1,7 @@
 #purchase {
     width: 100%;
     padding: 220px 60px 60px;
-    background-color: white;
+    background-color: var(--primaryBg);
     display: flex;
     justify-content: space-between;
 
@@ -72,65 +72,7 @@
                     font-size: 18px;
                 }
                 
-                .cancel-modal {
-                    width: 100vw;
-                    height: 100vh;
-                    z-index: 30;
-                    position: fixed;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all ease-in-out 0.4s;
-                    top: 0px;
-                    left: 0px;
-            
-                    .cancel-wrapper{
-                        display: flex;
-                        flex-direction: column;
-                        gap: 20px;
-                        justify-content: center;
-                        align-items: center;
-                        padding: 50px;
-                        background-color: var(--pink);
-                        border-radius: 6px;
-                        transition: all ease-in-out 1s;
-                       
-                        .cancel-end{
-                            display: flex;
-                            gap: 20px;
-                            button:first-child{
-                                padding: 10px;
-                                color: white;
-                                border: 1px solid white;
-                                border-radius: 6px;
-                                background-color: var(--pink);
-                                font-weight: bold;
-                                cursor: pointer;
-                            }
-                            button:first-child:hover{
-                                color: var(--pink);
-                                background-color: white;
-                            }
-                            button:last-child{
-                                padding: 10px;
-                                color: var(--pink);
-                                border: 1px solid white;
-                                border-radius: 6px;
-                                background-color: white;
-                                font-weight: bold;
-                                cursor: pointer;
-                            }
-                            button:last-child:hover{
-                                color: white;
-                                background-color: var(--pink);
-                            }
-                        }
-                        h2{
-                            color: white;
-                        }
-                    }
-                }
+                
 
                 .order-head {
                     width: 100%;

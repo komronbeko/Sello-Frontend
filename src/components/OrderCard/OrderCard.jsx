@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
@@ -11,6 +11,8 @@ import { setAuthModalTrue } from "../../features/AuthModalSlice";
 import "./OrderCard.scss";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import axios from "axios";
+import { fetchUserOne } from "../../features/UserOneSlice";
+import { useEffect } from "react";
 
 const CartCard = ({
   title,
@@ -20,35 +22,40 @@ const CartCard = ({
   id,
   photo,
   cart_item_id,
-  setUpdate,
   user_id,
 }) => {
   const dispatch = useDispatch();
+  const userOne = useSelector((state) => state.user.userOne);
 
   const token = getAccessTokenFromLocalStorage();
 
+  useEffect(() => {
+    dispatch(fetchUserOne(token));
+  }, [dispatch, token]);
+
   async function PlusCount(id) {
-    await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", {headers: { Authorization: 'Bearer ' + token}});
+    await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", { headers: { Authorization: 'Bearer ' + token } });
     dispatch(fetchCarts(token));
-    setUpdate(true);
+    // setUpdate(true);
   }
   async function minusCount(id) {
-    await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", {headers: { Authorization: 'Bearer ' + token}});
+    await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", { headers: { Authorization: 'Bearer ' + token } });
     dispatch(fetchCarts(token));
-    setUpdate(true);
+    // setUpdate(true);
   }
   async function deleteFromCart(id) {
-    await axios.delete(`${API_BASE_URL}/cart/${id}`,  {headers: { Authorization: 'Bearer ' + token}});
+    await axios.delete(`${API_BASE_URL}/cart/${id}`, { headers: { Authorization: 'Bearer ' + token } });
     dispatch(fetchCarts(token));
-    setUpdate(true);
+    // setUpdate(true);
   }
 
   async function handleLiking(id) {
-    if(!user_id){
+    if (!user_id) {
       return dispatch(setAuthModalTrue());
     }
     await addToLike(id, token);
     dispatch(fetchLikes(token));
+    dispatch(fetchUserOne(token));
   }
 
   return (
@@ -76,7 +83,7 @@ const CartCard = ({
         <div className="end-card-footer">
           <div className="btns">
             <button onClick={() => handleLiking(id)}>
-              <i className="fa-regular fa-heart"></i>Add to favorite
+              {userOne?.likes?.some(el => el.product_id == id) ? <p className="like-add"><i className="fa-solid fa-heart"></i>Delete from favorite</p> : <p className="like-add"><i className="fa-regular fa-heart"></i>Add to favorite</p> }
             </button>
             <button onClick={() => deleteFromCart(cart_item_id)}>
               <i className="fa-solid fa-xmark"></i>Delete from cart

@@ -5,9 +5,15 @@ import { useNavigate } from "react-router"
 const Categorizing = ({ category }) => {
   const catalogs = useSelector(state => state.catalog.catalogs);
 
+  function directToCategory(value) {
+    if (value !== "category") {
+      navigate(`/catalog/${value}`);
+    }
+  }
+
   const navigate = useNavigate();
   return (
-    <form onChange={(e) => navigate(`/catalog/${e.target.value}`)}>
+    <form onChange={(e) => directToCategory(e.target.value)}>
       <select name="category" id="category">
         <option value="category">Category</option>
         {
