@@ -25,7 +25,7 @@ const Card = ({ image, title, price, discount, id, count }) => {
   const userOne = useSelector((state) => state.user.userOne);
 
   useEffect(() => {
-    if(token){
+    if (token) {
       dispatch(fetchUserOne(token));
     }
   }, [token, dispatch]);
@@ -52,7 +52,7 @@ const Card = ({ image, title, price, discount, id, count }) => {
     <div className="card">
       <button className="add-to-like" onClick={() => handleLiking(id)}>
         {userOne?.likes?.some(el => el.product_id == id) ? <FavoriteIcon style={{ color: '#00b3a8' }} /> : <FavoriteBrderIcon style={{ color: '#00b3a8' }} />}
-         </button>
+      </button>
       <Link className="clicklable_link" to={`/product/${id}`}>
         <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />
         <p>{title}</p>

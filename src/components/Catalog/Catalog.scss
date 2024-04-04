@@ -6,16 +6,16 @@
     background-color: white;
     transition: all ease-in-out 0.6s;
     z-index: 6;
-    padding: 0 60px;
+    padding: 0 120px;
 
     .catalogs {
-        width: 25%;
+        width: 20%;
         border-right: 1px solid #80808048;
         display: flex;
         flex-direction: column;
         color: black;
-        overflow-x: scroll;
-        padding-top: 30px;
+        padding: 30px 10px 0 0;
+        overflow: scroll;
 
         li {
             width: 100%;
@@ -31,15 +31,16 @@
             }
 
             i {
-                font-size: 15px;
+                font-size: 12px;
                 color: gray;
             }
 
             button {
-                font-size: 20px;
+                font-size: 16px;
                 border: 0;
                 background-color: initial;
                 color: var(--gray);
+                cursor: pointer;
             }
         }
     }
@@ -64,15 +65,16 @@
         }
 
         h3 {
-            font-size: 30px;
+            font-size: 24px;
             font-weight: normal;
+            line-height: 18px;
         }
 
         li {
             button {
                 background-color: white;
                 border: 0;
-                font-weight: bold;
+                font-weight: 600;
                 font-size: 16px;
                 margin-bottom: 5px;
                 cursor: pointer;
@@ -80,6 +82,9 @@
                     color: var(--green);
                     transition: ease-in-out 0.1s;
                 }
+            }
+            p{
+                font-size: 14px;
             }
         }
     }

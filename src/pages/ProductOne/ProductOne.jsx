@@ -1,17 +1,14 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import Card from "../../components/Card/Card";
 import { fetchProductOne } from "../../features/ProductOneSlice";
 import { fetchProductInfos } from "../../features/ProductInfoSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import {
   getAccessTokenFromLocalStorage,
-  getAuthAssetsFromLocalStorage,
 } from "../../utils/storage";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { dollarToSom } from "../../utils/exchange";
@@ -22,29 +19,35 @@ import UZImage from "../../assets/uz.svg";
 import axios from "axios";
 
 import "./ProductOne.scss";
+import { fetchUserOne } from "../../features/UserOneSlice";
+import { fetchProductReviews } from "../../features/ReviewsSlice";
+import { Rating } from "@mui/material";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import http from "../../service/api";
+import { fetchReviewOne } from "../../features/ReviewOneSlice";
 
 const ProductOne = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const authAssets = getAuthAssetsFromLocalStorage();
 
   const token = getAccessTokenFromLocalStorage();
 
+
   const [tootlip, setTootlip] = useState(0);
-  const [rec, setRec] = useState([]);
   const [modal, setModal] = useState(false);
-  const [starsActive, setStars] = useState({
-    star1: false,
-    star2: false,
-    star3: false,
-    star4: false,
-    star5: false,
-  });
-  const [starCount, setStarCount] = useState(0);
+
+  const [stars, setStars] = useState(0);
+  const [commentary, setCommentary] = useState("");
+
 
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
+  const userOne = useSelector((state) => state.user.userOne);
+  const reviews = useSelector((state) => state.productReview.reviews);
+  const exactReview = useSelector((state) => state.reviewOne.review);
+
+
 
   function hover(number) {
     setTootlip(number);
@@ -55,13 +58,13 @@ const ProductOne = () => {
 
     dispatch(fetchProductOne(id));
     dispatch(fetchProductInfos(id));
+    if (token) {
+      dispatch(fetchUserOne(token));
+      dispatch(fetchProductReviews({ token, product_id: id }));
+      dispatch(fetchReviewOne({ token, product_id: id }));
+    }
+  }, [id, token]);
 
-    //   const { data: recomendation } = await http.get(
-    //     `/products?category=${productOne.category?.name}`
-    //   );
-    //   const rec = recomendation.filter((p) => p.id !== productOne.id).slice(0, 12);
-    //   setRec(rec);
-  }, [id, dispatch]);
 
   async function handleAddingToCart(id) {
     if (!token) {
@@ -72,11 +75,12 @@ const ProductOne = () => {
   }
 
   async function handleLiking(id) {
-    if (!token?.user_id) {
+    if (!token) {
       return dispatch(setAuthModalTrue());
     }
     await addToLike(id, token);
     dispatch(fetchLikes(token));
+    dispatch(fetchUserOne(token));
   }
 
   async function purchase(id) {
@@ -92,10 +96,26 @@ const ProductOne = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       dispatch(fetchCarts(token));
-      navigate(`/profile/${authAssets?.user_id}/carts`);
+      navigate(`/profile/${userOne?.id}/carts`);
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+  }
+
+  async function handlePostingReview(e) {
+    e.preventDefault();
+    if (stars < 1) {
+      return toast("Please, Rate!", { type: "warning" });
+    }
+    if (exactReview) {
+      await http.patch(`${API_BASE_URL}/product-review`, { stars, commentary: commentary, id: exactReview.id })
+      toast("Your review updated", { type: "info" });
+    } else {
+      await http.post(`${API_BASE_URL}/product-review`, { stars, commentary: commentary, product_id: +id })
+      toast("Thank you for your review!", { type: "info" });
+    }
+    dispatch(fetchReviewOne({ token, product_id: id }));
+    setModal(false);
   }
 
   return productOne ? (
@@ -111,7 +131,7 @@ const ProductOne = () => {
               </p>
             </div>
             <button onClick={() => handleLiking(productOne?.id)}>
-              <i className="fa-regular fa-heart"></i> ADD TO LIKED
+              {userOne?.likes?.some(el => el.product_id == id) ? <p><i className="fa-solid fa-heart"></i> REMOVE LIKED</p> : <p><i className="fa-regular fa-heart"></i> ADD TO LIKED</p>}
             </button>
           </div>
           <div className="product_info_body">
@@ -131,10 +151,10 @@ const ProductOne = () => {
                   <h2>
                     {productOne?.discount?.rate
                       ? dollarToSom(
-                          productOne?.price -
-                            (productOne?.price * productOne?.discount?.rate) /
-                              100
-                        )
+                        productOne?.price -
+                        (productOne?.price * productOne?.discount?.rate) /
+                        100
+                      )
                       : dollarToSom(productOne?.price)}{" "}
                     som
                   </h2>
@@ -170,9 +190,8 @@ const ProductOne = () => {
                     <p>The cost of delivery in the city is from 15,000 som.</p>
                   </div>
                   <p
-                    className={`${
-                      tootlip === 1 ? "tootlip-1 hovered" : "tootlip-1"
-                    }`}
+                    className={`${tootlip === 1 ? "tootlip-1 hovered" : "tootlip-1"
+                      }`}
                   >
                     Delivery is carried out to the point of your choice within 2
                     working days from the date of order.
@@ -192,9 +211,8 @@ const ProductOne = () => {
                       <span>sello !</span>
                     </h5>
                     <p
-                      className={`${
-                        tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
-                      }`}
+                      className={`${tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
+                        }`}
                     >
                       You can pick up at our branches
                     </p>
@@ -251,30 +269,29 @@ const ProductOne = () => {
         <div className="product_reviews">
           <h3>Reviews</h3>
           <div className="reviews">
-            <h3>Customer reviews of this product</h3>
-            <button onClick={() => setModal(true)}>Leave feedback +</button>
-          </div>
-        </div>
-        <div className="recomendation">
-          <h3>Recomendation</h3>
-          <div className="cards">
-            {rec?.map((p) => {
-              return (
-                <Card
-                  key={p.id}
-                  image={p.photo}
-                  title={p.title}
-                  price={p.price}
-                  id={p.id}
-                  discount_rate={p.discount?.rate}
-                />
-              );
-            })}
+            <div className="reviews-head">
+              <h3>Customer reviews of this product</h3>
+              {exactReview?.id ? <button onClick={() => { setModal(true), setStars(exactReview.stars), setCommentary(exactReview.commentary) }}>Edit your feedback</button> : <button onClick={() => { setModal(true), setStars(5) }}>Leave feedback +</button>}
+            </div>
+            {exactReview?.id ? <div className="self-review">
+              <div><AccountCircleIcon fontSize="large" style={{ color: 'black' }} /> <span>You</span> </div>
+              <Rating name="read-only" value={exactReview.stars} readOnly />
+              <p>{exactReview.commentary}</p>
+            </div> : null}
+            {reviews.length ? <ul className="reviews-list">
+              {reviews.map((el) => (
+                <li key={el.id}>
+                  <div><AccountCircleIcon fontSize="large" style={{ color: 'gray' }} /> <span>{el.user.username}</span> </div>
+                  <Rating name="read-only" value={el.stars} readOnly />
+                  <p>{el.commentary}</p>
+                </li>
+              ))}
+            </ul> : null}
           </div>
         </div>
       </section>
       <div className={modal ? "modal-review active" : "modal-review"}>
-        <form>
+        <form onSubmit={(e) => handlePostingReview(e)}>
           <div className="modal-heading">
             <h3>Leave feedback</h3>
             <button type="button" onClick={() => setModal(false)}>
@@ -283,95 +300,27 @@ const ProductOne = () => {
           </div>
           <p className="info">You can only change certain information here</p>
           <p className="raiting">
-            <i className="fa-solid fa-star"></i>0 Raiting
+            <i className="fa-solid fa-star"></i>{reviews?.length + 1}
           </p>
-          <div className="modal_aside">
-            <p>Photo</p>
-            <div className="input">
-              <input type="file" name="" id="file" hidden />
-              <label htmlFor="file">
-                <i className="fa-solid fa-image"></i>
-              </label>
-            </div>
-          </div>
           <div className="modal_body">
             <p>Grade</p>
-            <div className="stars">
-              <i
-                className={`fa-${
-                  starsActive.star1 ? "solid" : "regular"
-                } fa-star`}
-                onClick={() =>
-                  (function () {
-                    setStars({ ...starsActive, star1: !starsActive.star1 });
-                    setStarCount(
-                      starsActive.star2 ? starCount - 1 : starCount + 1
-                    );
-                  })()
-                }
-              ></i>
-              <i
-                className={`fa-${
-                  starsActive.star2 ? "solid" : "regular"
-                } fa-star`}
-                onClick={() =>
-                  (function () {
-                    setStars({ ...starsActive, star2: !starsActive.star2 });
-                    setStarCount(
-                      starsActive.star2 ? starCount - 1 : starCount + 1
-                    );
-                  })()
-                }
-              ></i>
-              <i
-                className={`fa-${
-                  starsActive.star3 ? "solid" : "regular"
-                } fa-star`}
-                onClick={() =>
-                  (function () {
-                    setStars({ ...starsActive, star3: !starsActive.star3 });
-                    setStarCount(
-                      starsActive.star3 ? starCount - 1 : starCount + 1
-                    );
-                  })()
-                }
-              ></i>
-              <i
-                className={`fa-${
-                  starsActive.star4 ? "solid" : "regular"
-                } fa-star`}
-                onClick={() =>
-                  (function () {
-                    setStars({ ...starsActive, star4: !starsActive.star4 });
-                    setStarCount(
-                      starsActive.star4 ? starCount - 1 : starCount + 1
-                    );
-                  })()
-                }
-              ></i>
-              <i
-                className={`fa-${
-                  starsActive.star5 ? "solid" : "regular"
-                } fa-star`}
-                onClick={() =>
-                  (function () {
-                    setStars({ ...starsActive, star5: !starsActive.star5 });
-                    setStarCount(
-                      starsActive.star5 ? starCount - 1 : starCount + 1
-                    );
-                  })()
-                }
-              ></i>
-            </div>
+            <Rating
+              name="simple-controlled"
+              value={stars}
+              onChange={(event, newValue) => {
+                setStars(newValue);
+              }}
+            />
           </div>
           <div className="modal_footer">
             <p>Commentary</p>
             <textarea
-              name=""
-              id=""
+              name="commentary"
+              value={commentary}
               cols="55"
               rows="5"
               placeholder="Commentary"
+              onChange={(e) => setCommentary(e.target.value)}
             ></textarea>
             <div className="btns">
               <button

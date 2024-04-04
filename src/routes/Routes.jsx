@@ -12,6 +12,7 @@ import Thank from "../pages/Thank/Thank";
 import FilterByCatalog from "../pages/FilterProducts/FilterByCatalog";
 import FilterByCategory from "../pages/FilterProducts/FilterByCategory";
 import FilterByNestedCategory from "../pages/FilterProducts/FilterByNestedCategory";
+import NotFound from "../pages/NotFound/NotFound";
 
 const routes = [
     {
@@ -68,7 +69,7 @@ const routes = [
     },
     {
         path: '/*',
-        element: <FilterByNestedCategory/>
+        element: <NotFound />
     }
 ];
 

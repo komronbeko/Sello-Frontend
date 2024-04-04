@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useDispatch } from "react-redux";
-// import { sortProducts } from "../../features/ProductsSlice";
 import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 
 

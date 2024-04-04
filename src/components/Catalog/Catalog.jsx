@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 import "./Catalog.scss";
 
-const Catalog = ({setCatalogModal}) => {
+const Catalog = ({ setCatalogModal }) => {
     const catalogs = useSelector(state => state.catalog.catalogs);
     const categories = useSelector(state => state.category.categories);
 
@@ -34,7 +34,6 @@ const Catalog = ({setCatalogModal}) => {
                     return (
                         <li onClick={() => onclickCatalog(c.name)} onMouseEnter={() => getCategories(c)} key={c.id}><button>{c.name}</button><i className="fa-solid fa-chevron-right"></i></li>
                     )
-
                 })}
             </ul>
             <ul className='categories'>

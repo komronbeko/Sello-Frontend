@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { sortProducts } from "../../features/ProductsSlice";
 import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import { upperCase } from "../../utils/upper-case";

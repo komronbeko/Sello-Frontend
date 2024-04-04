@@ -36,17 +36,14 @@ const CartCard = ({
   async function PlusCount(id) {
     await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", { headers: { Authorization: 'Bearer ' + token } });
     dispatch(fetchCarts(token));
-    // setUpdate(true);
   }
   async function minusCount(id) {
     await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", { headers: { Authorization: 'Bearer ' + token } });
     dispatch(fetchCarts(token));
-    // setUpdate(true);
   }
   async function deleteFromCart(id) {
     await axios.delete(`${API_BASE_URL}/cart/${id}`, { headers: { Authorization: 'Bearer ' + token } });
     dispatch(fetchCarts(token));
-    // setUpdate(true);
   }
 
   async function handleLiking(id) {

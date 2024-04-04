@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-// import { sortProducts } from "../../features/ProductsSlice";
 import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 import { upperCase } from "../../utils/upper-case";
 import NoProducts from "../../components/NoProducts/NoProducts";
@@ -13,7 +12,6 @@ import SubCategorizing from "../../components/Filters/SubCategorizing";
 
 import "./FilterProducts.scss";
 import { fetchCategories } from "../../features/CategoriesSLice";
-// import { fetchCategories } from "../../features/CategoriesSlice";
 
 
 const FilterByNestedCategory = () => {

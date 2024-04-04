@@ -194,7 +194,6 @@ const Profile = () => {
                           name="gender"
                           id=""
                           onChange={(e)=> changeGender(e)}
-                          // required
                           checked={gender == 'male' ? true : false}
                         />
                         <label htmlFor="">Male</label>

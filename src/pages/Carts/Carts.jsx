@@ -31,7 +31,6 @@ const Cart = () => {
   const [price, setPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
-  // const [updateCart, setUpdateCart] = useState(false);
 
   function hover(number) {
     setTootlip(number);
@@ -49,7 +48,6 @@ const Cart = () => {
       let price = 0;
       let discount = 0;
       let total = 0;
-      // setUpdateCart(false);
       for (let i = 0; i < carts.length; i++) {
         count += carts[i].count;
         price += +carts[i].product.price * carts[i].count;
@@ -116,7 +114,6 @@ const Cart = () => {
                 price={i.product.price}
                 discount={i.product.discount?.rate}
                 cart_item_id={i.id}
-                // setUpdate={setUpdateCart}
                 user_id={user_id}
               />
             );

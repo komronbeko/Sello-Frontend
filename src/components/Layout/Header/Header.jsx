@@ -67,7 +67,6 @@ const Header = () => {
     debounceSearching(value);
   }
 
-  // Function to clear the search input and hide the Close Icon
   function clearSearchInput() {
     if (searchInputRef.current) {
       searchInputRef.current.value = "";
@@ -155,7 +154,7 @@ const Header = () => {
             to="discounts"
             spy={true}
             smooth={true}
-            offset={-70} // Adjust this offset as needed to account for any fixed headers
+            offset={-70}
             duration={500}>🔥Discounts</Link> </li>
           {catalog.map((el) => <li key={el.id} onClick={() => navigate(`/catalog/${el.name}`)}>{el.name}</li>)}
           <li><Link
@@ -163,7 +162,7 @@ const Header = () => {
             to="categories"
             spy={true}
             smooth={true}
-            offset={-70} // Adjust this offset as needed to account for any fixed headers
+            offset={-70} 
             duration={500}>Categories</Link> </li>
         </ul>
       </div>

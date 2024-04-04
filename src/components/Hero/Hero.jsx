@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import { fetchBanners } from "../../features/BannersSlice";
 import { URL_IMAGE } from "../../constants/api";
-// import StaticBanner from "../../assets/zayavka1.png";
 
 import "./Hero.scss";
 import "react-alice-carousel/lib/alice-carousel.css";

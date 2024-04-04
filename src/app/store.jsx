@@ -16,7 +16,8 @@ import OrdersReducer from "../features/OrdersSlice";
 import TotalReducer from "../features/TotalSlice";
 import SortProductsReducer from "../features/SortProductsSlice";
 import SearchReducer from "../features/SearchSlice";
-// import logger from "redux-logger";
+import ReviewsReducer from "../features/ReviewsSlice";
+import ReviewOneReducer from "../features/ReviewOneSlice";
 
 const store = configureStore({
   reducer: {
@@ -36,7 +37,9 @@ const store = configureStore({
     productInfo: ProductInfoReducer,
     total: TotalReducer,
     sortProducts: SortProductsReducer,
-    searchProducts: SearchReducer
+    searchProducts: SearchReducer,
+    productReview:   ReviewsReducer,
+    reviewOne:   ReviewOneReducer,
   },
   // middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 });

@@ -1,8 +1,8 @@
+/* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
 import http from "../../service/api";
 import { setAuthAssetsToLocalStorage } from "../../utils/storage";
 
-// eslint-disable-next-line react/prop-types
 const LoginForm = ({ setAuthNavigator }) => {
 
   async function handleSubmit(e) {

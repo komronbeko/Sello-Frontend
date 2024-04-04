@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react";
-// import { sortProducts } from "../../features/ProductsSlice";
 import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import ProductsWrapper from "../../components/ProductsWrapper/ProductsWrapper";
