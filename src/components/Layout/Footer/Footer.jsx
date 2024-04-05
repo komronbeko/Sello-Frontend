@@ -7,8 +7,13 @@ import Payment4 from "../../../assets/uzcard.svg";
 import App from "../../../assets/iphone.svg";
 import { Link } from "react-router-dom";
 import "./Footer.scss";
+import { useDispatch } from "react-redux";
+import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 
 const Footer = () => {
+  const dispatch = useDispatch();
+
+
   return (
     <footer id="footer">
       <div>
@@ -17,12 +22,12 @@ const Footer = () => {
           <h4>
             Subscribe and be the first to know about discounts and promotions!
           </h4>
-          <form>
+          <form onSubmit={(e) => { e.preventDefault(), dispatch(setAuthModalTrue()) }}>
             <input
               type="text"
               name="code"
-              id=""
               placeholder="Enter your email address"
+              required
             />
             <button>Send</button>
           </form>

@@ -7,16 +7,14 @@
 
     section#data {
         width: 68%;
-        padding: 20px;
-        border: 1px solid;
         border-radius: 10px;
-        border: 0.5px solid rgba(128, 128, 128, 0.363);
 
         .data-head {
             width: 100%;
             display: flex;
             justify-content: space-between;
             gap: 15px;
+            padding: 0 20px 20px;
 
             h3 {
                 font-size: 40px;
@@ -46,7 +44,7 @@
         #orders {
             width: 100%;
             display: flex;
-            gap: 20px;
+            gap: 40px;
             flex-direction: column;
             padding: 10px;
             
@@ -57,7 +55,7 @@
                 display: flex;
                 flex-direction: column;
                 position: relative;
-                gap: 5px;
+                gap: 20px;
                 border: 0.5px solid rgba(128, 128, 128, 0.386);
                 border-radius: 6px;
                 padding: 50px 10px 10px 10px;
@@ -157,12 +155,12 @@
                     width: 100%;
                     display: flex;
                     flex-wrap: wrap;
-                    gap: 5px;
-                    padding: 10px;
+                    gap: 10px;
+                    // padding: 10px;
 
 
                     .product {
-                        width: 48%;
+                        width: 49%;
                         display: flex;
                         gap: 10px;
                         border: 0.5px solid rgba(128, 128, 128, 0.303);
@@ -178,8 +176,8 @@
                             background-color: rgba(128, 128, 128, 0.189);
                             display: flex;
                             align-items: center;
-                            justify-content: center;
-                            padding: 10px 5px;
+                            justify-content: space-between;
+                            padding-left: 5px;
                             height: 100%;
 
                             img {
@@ -192,9 +190,9 @@
                             width: 68%;
                             display: flex;
                             flex-direction: column;
-                            padding: 10px 0;
+                            padding: 5px;
                             word-wrap: break-word;
-                            justify-content: center;
+                            justify-content: space-between;
 
                             .link {
                                 font-size: 18px;

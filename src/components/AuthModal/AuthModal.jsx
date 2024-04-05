@@ -10,7 +10,7 @@ import Logo from "../../assets/sello-logo.svg";
 import "./AuthModal.scss";
 
 const AuthModal = () => {
-  const [authNavigator, setAuthNavigator] = useState("auth-login");
+  const [authNavigator, setAuthNavigator] = useState("auth-register");
 
   const dispatch = useDispatch();
 

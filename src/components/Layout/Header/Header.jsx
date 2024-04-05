@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Badge } from "@mui/material";
+import { Badge, Skeleton } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
@@ -24,22 +24,23 @@ import { searchProducts } from "../../../features/SearchSlice";
 import { debounce } from "lodash";
 import { URL_IMAGE } from "../../../constants/api";
 import { Link } from "react-scroll";
+import { toast } from "react-toastify";
 
 
 const Header = () => {
   const [catalogModal, setCatalogModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const searchInputRef = useRef(null);
   const catalog = useSelector((state) => state.catalog.catalogs);
   const userLikes = useSelector((state) => state.like.likes);
   const carts = useSelector((state) => state.cart.carts);
-  const searchedProducts = useSelector((state) => state.searchProducts.data);
-
-
+  const { data: searchedProducts, error } = useSelector((state) => state.searchProducts);
 
   const token = getAccessTokenFromLocalStorage();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
 
   useEffect(() => {
     dispatch(fetchCatalogs());
@@ -47,7 +48,11 @@ const Header = () => {
       dispatch(fetchCarts(token));
       dispatch(fetchLikes(token));
     }
-  }, [dispatch, token]);
+
+    if (error) {
+      toast(error, { type: "error" });
+    }
+  }, [dispatch, token, error]);
 
   function handleAuthModal(directory) {
     if (!token) return dispatch(setAuthModalTrue());
@@ -61,10 +66,12 @@ const Header = () => {
     } else {
       clearSearchInput();
     }
+    setLoading(false);
   }, 1000);
 
   function handleSearching(value) {
     debounceSearching(value);
+    setLoading(true);
   }
 
   function clearSearchInput() {
@@ -103,20 +110,37 @@ const Header = () => {
                 <SearchIcon fontSize="large" style={{ color: '#ffffff', backgroundColor: '#0a867d', padding: '5px' }} />
               </button>
             </form>
-            {searchedProducts?.length ?
-              <div className="search-results">
-                <ul>
-                  {searchedProducts.map(el => (
-                    <li onClick={() => handleSearchRouting(el.id)} key={el.id}>
-                      <div className="left">
-                        <SearchIcon fontSize="medium" style={{ color: '#898787d2' }} />
-                        <p>{el.name}</p>
-                      </div>
-                      <img src={`${URL_IMAGE}/${el.photo}`} alt="product-img" />
-                    </li>
-                  ))}
-                </ul>
-              </div> : searchInputRef.current?.value ? <div className="no-search-results"><p>No results found</p></div> : null
+            {loading ?
+              <div className="search-skeletons">
+                <div className="skeleton-1">
+                  <div className="skeleton-left">
+                    <Skeleton variant="rounded" height={50} width={60} />
+                    <Skeleton variant="rounded" height={50} width="100%" />
+                  </div>
+                  <Skeleton variant="rounded" height={50} width={60} />
+                </div>
+                <div className="skeleton-1">
+                  <div className="skeleton-left">
+                    <Skeleton variant="rounded" height={50} width={60} />
+                    <Skeleton variant="rounded" height={50} width="100%" />
+                  </div>
+                  <Skeleton variant="rounded" height={50} width={60} />
+                </div>
+              </div>
+              : searchedProducts?.length ?
+                <div className="search-results">
+                  <ul>
+                    {searchedProducts.map(el => (
+                      <li onClick={() => handleSearchRouting(el.id)} key={el.id}>
+                        <div className="left">
+                          <SearchIcon fontSize="medium" style={{ color: '#898787d2' }} />
+                          <p>{el.name}</p>
+                        </div>
+                        <img src={`${URL_IMAGE}/${el.photo}`} alt="product-img" />
+                      </li>
+                    ))}
+                  </ul>
+                </div> : searchInputRef.current?.value ? <div className="no-search-results"><p>No results found</p></div> : null
             }
           </div>
         </div>
@@ -146,7 +170,7 @@ const Header = () => {
         </div>
       </div>
       <p className="header__line" />
-      {catalogModal ? <Catalog setCatalogModal={setCatalogModal} /> : ""}
+      {catalogModal ? <Catalog setCatalogModal={setCatalogModal} catalogs={catalog}/> : ""}
       <div className="header__navbar">
         <ul>
           <li><Link
@@ -162,7 +186,7 @@ const Header = () => {
             to="categories"
             spy={true}
             smooth={true}
-            offset={-70} 
+            offset={-70}
             duration={500}>Categories</Link> </li>
         </ul>
       </div>

@@ -78,7 +78,9 @@
                 }
             }
 
-            .search-results, .no-search-results{
+            .search-results,
+            .no-search-results,
+            .search-skeletons {
                 position: absolute;
                 border: 1px solid var(--primaryBorder);
                 border-radius: 4px;
@@ -103,35 +105,34 @@
                 ul::-webkit-scrollbar {
                     width: 4px;
                 }
-    
+
                 ul::-webkit-scrollbar-thumb {
                     background-color: #8c949396;
                     border-radius: 4px;
                 }
-    
+
                 ul::-webkit-scrollbar-track {
                     background-color: #d6dbda86;
                     border-radius: 4px;
                 }
-    
+
 
                 li {
                     display: flex;
                     justify-content: space-between;
                     border-bottom: 2px solid var(--primaryBorder);
                     padding: 10px 0;
-                    cursor: pointer;
 
                     .left {
                         display: flex;
                         align-items: center;
                         gap: 5px;
+                        cursor: pointer;
 
                         p {
                             font-weight: 500;
                             font-size: 16px;
                             color: #898787d2;
-                            cursor: pointer;
                         }
                     }
 
@@ -148,12 +149,33 @@
                 }
             }
 
-            .no-search-results{
-                p{
+            .no-search-results {
+                p {
                     font-weight: 500;
                     font-size: 14px;
                     padding: 10px 15px;
                     color: #898787d2;
+                }
+            }
+
+            .search-skeletons {
+                display: flex;
+                flex-direction: column;
+                padding: 0 10px;
+
+                .skeleton-1{
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 10px;
+                    border-bottom: 2px solid var(--primaryBorder);
+                    padding: 10px 0;
+
+                    .skeleton-left {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        width: 100%;
+                    }
                 }
             }
 

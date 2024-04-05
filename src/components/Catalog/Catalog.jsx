@@ -5,12 +5,10 @@ import { useNavigate } from "react-router";
 
 import "./Catalog.scss";
 
-const Catalog = ({ setCatalogModal }) => {
-    const catalogs = useSelector(state => state.catalog.catalogs);
+const Catalog = ({ setCatalogModal, catalogs }) => {
     const categories = useSelector(state => state.category.categories);
 
     const [useCatalog, setUseCatalog] = useState(null);
-
 
     const navigate = useNavigate();
 
@@ -27,6 +25,7 @@ const Catalog = ({ setCatalogModal }) => {
         navigate(`/catalog/${findCategory?.catalog?.name}/${subcategory}`);
         setCatalogModal(false);
     }
+
     return (
         <div id='dropdown-window'>
             <ul className='catalogs'>

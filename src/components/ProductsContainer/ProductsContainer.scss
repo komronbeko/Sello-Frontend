@@ -1,10 +1,11 @@
-.all-products{
+.products-wrapper{
     background-color: var(--primaryBg);
-    padding: 40px 120px 10px;
+    padding: 40px 120px 60px;
 
     .heading{
         font-size: 24px;
         font-weight: 600;
         margin-bottom: 20px;
+        text-align: center;
     }
 }
