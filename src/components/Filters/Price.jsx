@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { somToDollar } from "../../utils/exchange.js";
+import { poundToDollar } from "../../utils/exchange.js";
 import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 
 const Price = ({ filterAssets }) => {
@@ -31,8 +31,8 @@ const Price = ({ filterAssets }) => {
                 catalog_id,
                 category_id,
                 value: sorting_value,
-                from: somToDollar(from),
-                to: somToDollar(to)
+                from: poundToDollar(from),
+                to: poundToDollar(to)
             }));
         }
     }, [from, to, dispatch, catalog_id, category_id, sorting_value]);

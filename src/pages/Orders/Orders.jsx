@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { fetchOrders } from "../../features/OrdersSlice";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 
 import "./Orders.scss";
@@ -60,7 +60,7 @@ const Orders = () => {
         <div className="data-head">
           <h3>My orders</h3>
         </div>
-        {loading || error ?
+        {loading ?
           <div id="orders">
             <div className="order">
               <div className="order-aside">
@@ -184,7 +184,7 @@ const Orders = () => {
                                 </Link>
                                 <ul>
                                   <li>
-                                    Price : {dollarToSom(p.product.price)} som
+                                    Price : {dollarToPound(p.product.price)} pounds
                                   </li>
                                   <li>Description : {p.product.description}</li>
                                   <li>Count: {p.count}</li>
@@ -212,7 +212,7 @@ const Orders = () => {
                           </div>
                           <div className="table">
                             <p className="key">Total amount :</p>
-                            <p className="value">{dollarToSom(o.cost)} som</p>
+                            <p className="value">{dollarToPound(o.cost)} pounds</p>
                           </div>
                         </div>
                       </div>

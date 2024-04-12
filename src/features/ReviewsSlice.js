@@ -19,7 +19,7 @@ export const fetchProductReviews = createAsyncThunk(
       .get(`${API_BASE_URL}/${END_POINT}/by-product/${product_id}`, {
         headers: { Authorization: token },
       })
-      .then((res) => res.data.data);
+      .then((res) => res.data);
   }
 );
 
@@ -48,6 +48,7 @@ export const fetchUserOne = createAsyncThunk(
 const initialState = {
   loading: false,
   reviews: [],
+  review_rate: 0,
   error: "",
 };
 
@@ -72,7 +73,8 @@ const reviewsSlice = createSlice({
       })
       .addCase(fetchProductReviews.fulfilled, (state, action) => {
         state.loading = false;
-        state.reviews = action.payload;
+        state.reviews = action.payload.data;
+        state.review_rate = action.payload.review_rate;
         state.error = "";
       })
       .addCase(fetchUserReviews.fulfilled, (state, action) => {

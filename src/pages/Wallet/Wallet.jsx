@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import ReplenishForm from "../../components/ReplenishForm/ReplenishForm";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { STRIPE_PK } from "../../constants/api";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
@@ -20,10 +20,8 @@ const Wallet = () => {
   
   const token = getAccessTokenFromLocalStorage();
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
 
   useEffect(()=>{
     window.scrollTo(0, 0);
@@ -47,7 +45,7 @@ const Wallet = () => {
         <div className="data-body">
           <h4>
             Payment will be automatically taken from your Sello wallet{" "}
-            <span>Your Balance: {dollarToSom(user?.money_amount)} som</span>
+            <span>Your Balance: {dollarToPound(user?.money_amount)} pounds</span>
           </h4>
         </div>
         <Elements stripe={stripePromise}>

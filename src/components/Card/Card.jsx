@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchLikes } from "../../features/LikesSlice";
 import { fetchCarts } from "../../features/CartSlice";
 import { URL_IMAGE } from "../../constants/api";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
@@ -57,15 +57,15 @@ const Card = ({ image, title, price, discount, id, count }) => {
         <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />
         <p>{title}</p>
         {discount ? (
-          <h4 className="old-price">{dollarToSom(price)} som</h4>
+          <h4 className="old-price">{dollarToPound(price)} pounds</h4>
         ) : (
           ""
         )}
         <h4>
           {discount
-            ? dollarToSom(price - (price * discount) / 100)
-            : dollarToSom(price)}{" "}
-          som {discount ? <span>{discount}%</span> : null}
+            ? dollarToPound(price - (price * discount) / 100)
+            : dollarToPound(price)}{" "}
+          pounds {discount ? <span>{discount}%</span> : null}
         </h4>
       </Link>
       <div

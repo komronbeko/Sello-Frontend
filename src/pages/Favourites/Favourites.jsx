@@ -12,6 +12,8 @@ import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import VerifyDeleting from "../../components/VerifyDeliting/VerifyDeleting";
+import { Grid, Skeleton } from "@mui/material";
+
 
 const Likes = () => {
   const navigate = useNavigate();
@@ -19,22 +21,25 @@ const Likes = () => {
 
   const [verifyClearing, setVerifyClearing] = useState(false);
 
-
   const { user_id } = useParams();
 
   const token = getAccessTokenFromLocalStorage();
 
-  const userLikes = useSelector((state) => state.like.likes);
+  const { likes, loading, error } = useSelector((state) => state.like);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!token) navigate("/");
 
+    if (error) {
+      toast(error, { type: "error" });
+    }
+
     window.scrollTo(0, 0);
 
     dispatch(fetchLikes(token));
-  }, [dispatch, navigate, token]);
+  }, [token, error]);
 
   async function clearLikes() {
     try {
@@ -55,28 +60,39 @@ const Likes = () => {
       <section id="data">
         <div className="data-head">
           <h3>Favorites</h3>
-          {userLikes?.length ?
+          {likes?.length ?
             <button onClick={() => setVerifyClearing(true)}>
               <i className="fa-solid fa-xmark"></i> Clear all
             </button>
             : null}
         </div>
-        {userLikes?.length ? (
-          <div className="data-body">
-            {userLikes.map((el) => (
-              <Card
-                key={el.product.id}
-                image={el.product.photo}
-                discount={el.product.discount?.rate}
-                id={el.product.id}
-                price={el.product.price}
-                title={el.product.name}
-              />
-            ))}
-          </div>
-        ) : (
-          <NoProducts />
-        )}
+        {loading ?
+          <Grid container columnSpacing={2} rowSpacing={3} columns={4} justifyContent="center">
+            {
+              [1, 2, 3, 4, 5, 6, 7, 8].map(el => (
+                <Grid item key={el}>
+                  <Skeleton variant="rounded" width={215} height={180} />
+                  <Skeleton width="60%" sx={{ marginTop: "20px" }} />
+                  <Skeleton sx={{ margin: "10px 0" }} height={40} />
+                </Grid>
+              ))
+            }
+          </Grid> : likes?.length ? (
+            <div className="data-body">
+              {likes.map((el) => (
+                <Card
+                  key={el.product.id}
+                  image={el.product.photo}
+                  discount={el.product.discount?.rate}
+                  id={el.product.id}
+                  price={el.product.price}
+                  title={el.product.name}
+                />
+              ))}
+            </div>
+          ) : (
+            <NoProducts />
+          )}
       </section>
     </div>
   );

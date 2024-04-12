@@ -6,9 +6,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import CartCard from "../../components/OrderCard/OrderCard";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchUserOne } from "../../features/UserOneSlice";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { API_BASE_URL } from "../../constants/api";
+import { Skeleton } from "@mui/material"
 import UZImage from "../../assets/uz.svg";
 
 import "./Carts.scss";
@@ -24,7 +25,7 @@ const Cart = () => {
   const { user_id } = useParams();
   const token = getAccessTokenFromLocalStorage();
 
-  const carts = useSelector((state) => state.cart.carts);
+  const { carts, loading, error } = useSelector((state) => state.cart);
 
   const [tootlip, setTootlip] = useState(0);
   const [count, setCount] = useState(0);
@@ -37,12 +38,16 @@ const Cart = () => {
   }
 
   useEffect(() => {
-    window.scrollTo(0, 0); 
-  }, []);
+    window.scrollTo(0, 0);
+
+    if (error) {
+      toast(error, { type: "error" });
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!token) return navigate("/");
-    
+
     (function handleTotal() {
       let count = 0;
       let price = 0;
@@ -91,36 +96,61 @@ const Cart = () => {
 
   return (
     <section id="cart">
-      {verifyClearing ? <VerifyDeleting verifyDeleting={clearCart} setVerifyModal={setVerifyClearing} mainText="Are you sure you want to clear your carts?" verifyingText="Yes, I want to clear my carts" cancelingText=" No, I do not want to clear my carts" darkBg={true} /> : null}
-      <div className="cart-start">
+      {verifyClearing ?
+        <VerifyDeleting verifyDeleting={clearCart} setVerifyModal={setVerifyClearing}
+          mainText="Are you sure you want to clear your carts?"
+          verifyingText="Yes, I want to clear my carts"
+          cancelingText=" No, I do not want to clear my carts"
+          darkBg={true} />
+        : null}
+      <div className="cart-left">
         <dir className="start-head">
           <h2>Cart</h2>
           <h4>Delivery is carried out by the Sello Logistics service.</h4>
-          {carts.length ? <div className="btn-clear">
+          {carts?.length ? <div className="btn-clear">
             <button onClick={() => setVerifyClearing(true)}>
               <i className="fa-solid fa-xmark"></i>Clear all
             </button>
           </div> : null}
         </dir>
-        <div className="cards">
-          {carts.length ? carts?.map((i) => {
-            return (
-              <CartCard
-                key={i.id}
-                title={i.product.name}
-                photo={i.product.photo}
-                id={i.product.id}
-                count={i.count}
-                price={i.product.price}
-                discount={i.product.discount?.rate}
-                cart_item_id={i.id}
-                user_id={user_id}
-              />
-            );
-          }) : <NoProducts />}
-        </div>
+        {loading ?
+          <div className="cards-skeleton">
+            {[0, 1, 2].map(el => (
+              <div key={el} className="skeleton-item">
+                <div className="item-img">
+                  <Skeleton height={120}/>
+                </div>
+                <div className="item-content">
+                  <Skeleton height={25} />
+                  <Skeleton height={25} />
+                  <Skeleton height={25} />
+                  <Skeleton height={25} />
+                  <Skeleton height={25} />
+                </div>
+              </div>
+            ))}
+          </div> :
+          carts?.length ?
+            <div className="cards">
+              {carts?.map((i) => {
+                return (
+                  <CartCard
+                    key={i.id}
+                    title={i.product.name}
+                    photo={i.product.photo}
+                    id={i.product.id}
+                    count={i.count}
+                    price={i.product.price}
+                    discount={i.product.discount?.rate}
+                    cart_item_id={i.id}
+                    user_id={user_id}
+                  />
+                );
+              })}
+            </div> : <NoProducts />
+        }
       </div>
-      <div className="cart-end">
+      <div className="cart-right">
         <div className="cart-end_head">
           <h3>Order price</h3>
           <ul>
@@ -128,17 +158,17 @@ const Cart = () => {
               Count of products: <span>{count}</span>
             </li>
             <li>
-              Price <span>{dollarToSom(price)} som</span>
+              Price <span>{dollarToPound(price)} pounds</span>
             </li>
             <li>
               Discount
-              <span>-{discount ? dollarToSom(discount) : null} som</span>
+              <span>-{discount ? dollarToPound(discount) : null} pounds</span>
             </li>
             <li>
               Delivery<span>0</span>
             </li>
             <li>
-              Total payable:<span>{dollarToSom(total)} som</span>
+              Total payable:<span>{dollarToPound(total)} pounds</span>
             </li>
           </ul>
           <button id="checkout-btn" onClick={Order}>
@@ -151,7 +181,7 @@ const Cart = () => {
               <h5>
                 <i className="fa-solid fa-truck"></i>DeliveryShipping:
               </h5>
-              <p>The cost of delivery in the city is from 15,000 som.</p>
+              <p>The cost of delivery in the city is from 5.00 pounds.</p>
             </div>
             <p
               className={`${tootlip === 1 ? "tootlip-1 hovered" : "tootlip-1"}`}

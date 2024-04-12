@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { handleTotal } from "../../utils/total";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import axios from "axios";
@@ -141,17 +141,17 @@ const Checkout = () => {
                 Count of products: <span>{count}</span>
               </li>
               <li>
-                Price <span>{dollarToSom(price)} som</span>
+                Price <span>{dollarToPound(price)} pounds</span>
               </li>
               <li>
                 Discount
-                <span>-{discount ? dollarToSom(discount) : null} som</span>
+                <span>-{discount ? dollarToPound(discount) : null} pounds</span>
               </li>
               <li>
                 Delivery<span>0</span>
               </li>
               <li>
-                Total payable:<span>{dollarToSom(total)} som</span>
+                Total payable:<span>{dollarToPound(total)} pounds</span>
               </li>
             </ul>
             <button onClick={newPurchase} type="submit" id="checkout-btn">

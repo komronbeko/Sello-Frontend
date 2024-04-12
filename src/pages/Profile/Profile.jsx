@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
+import { Skeleton } from "@mui/material"
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
@@ -13,6 +14,7 @@ import axios from "axios";
 
 const Profile = () => {
   const [modalActive, setActiveModal] = useState(false);
+  const [patchLoading, setPatchLoading] = useState(false);
   const [gender, setGender] = useState("");
 
   const dispatch = useDispatch();
@@ -20,19 +22,25 @@ const Profile = () => {
 
   const { user_id } = useParams();
   const token = getAccessTokenFromLocalStorage();
-  const userOne = useSelector((state) => state.user.userOne);
+  const { userOne, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if(userOne?.gender){
+    if (!token) navigate("/");
+
+    if (error) {
+      toast(error, { type: "error" });
+    }
+
+    if (userOne?.gender) {
       setGender(userOne.gender);
     }
 
-    if (!token) navigate("/");
 
     dispatch(fetchUserOne(token));
-  }, [dispatch, navigate, token, userOne?.gender]);
+  }, [token, userOne?.gender, error]);
+
 
   function changeGender(e) {
     setGender(e.target.value);
@@ -40,18 +48,21 @@ const Profile = () => {
 
   async function senData(e) {
     e.preventDefault();
-    const {
-      username,
-      l_name,
-      email,
-      gender,
-      f_name,
-      phone_number,
-      language,
-      birthdate,
-    } = e.target.elements;
+
+    setPatchLoading(true)
 
     try {
+      const {
+        username,
+        l_name,
+        email,
+        gender,
+        f_name,
+        phone_number,
+        language,
+        birthdate,
+      } = e.target.elements;
+
       const { data } = await axios.patch(
         `${API_BASE_URL}/user/`,
         {
@@ -70,8 +81,10 @@ const Profile = () => {
       toast(data.message, { type: "success" });
       setActiveModal(false);
       dispatch(fetchUserOne(token));
+      setPatchLoading(false);
     } catch (error) {
       toast(error.message, { type: "error" });
+      setPatchLoading(false);
     }
   }
 
@@ -79,63 +92,89 @@ const Profile = () => {
     <section id="profile-all">
       <section id="profile">
         <ProfileNav activePage={"Profile"} user_id={user_id} />
-        <div id="data">
+        {loading || patchLoading ? <div id="data">
           <div className="data-head">
-            <h3>Personal Information</h3>
-            <p>
-              This is where your personal information is stored. Click Edit if
-              you want to change your information.
-            </p>
+            <Skeleton height={60} width="45%" />
+            <Skeleton height={30} width="85%" />
           </div>
           <div className="data-body">
             <div id="info">
               <ul>
-                <li>
-                  <span>User name</span>
-                  {userOne?.username}
-                </li>
-                <li>
-                  <span>First name</span>
-                  {userOne?.f_name}
-                </li>
-                <li>
-                  <span>Last name</span>
-                  {userOne?.l_name}
-                </li>
-                <li>
-                  <span>Phone number</span>+{userOne?.phone_number}
-                </li>
-                <li>
-                  <span>Date of birth</span>
-                  {userOne?.birthdate ? userOne.birthdate : 'Null'}
-                </li>
-                <li>
-                  <span>Email</span>
-                  {userOne?.email}
-                </li>
-                <li>
-                  <span>Language of communication with Sello</span>
-                  {upperCase(userOne?.language)}
-                </li>
-                <li>
-                  <span>Gender</span>
-                  {upperCase(userOne?.gender)}
-                </li>
+                {
+                  [1, 2, 3, 4, 5, 6, 7, 8].map(el => (
+                    <li key={el}>
+                      <Skeleton height={30} />
+                      <Skeleton height={30} />
+                    </li>
+                  ))
+                }
               </ul>
               <ul className="with-edit">
                 <li className="edit">
-                  <button
-                    onClick={() => {
-                      setActiveModal(true);
-                    }}
-                  >
-                    Edit
-                  </button>
+                <Skeleton height={40} width={200}/>
                 </li>
               </ul>
             </div>
           </div>
         </div>
+          : <div id="data">
+            <div className="data-head">
+              <h3>Personal Information</h3>
+              <p>
+                This is where your personal information is stored. Click Edit if
+                you want to change your information.
+              </p>
+            </div>
+            <div className="data-body">
+              <div id="info">
+                <ul>
+                  <li>
+                    <span>User name</span>
+                    {userOne?.username}
+                  </li>
+                  <li>
+                    <span>First name</span>
+                    {userOne?.f_name}
+                  </li>
+                  <li>
+                    <span>Last name</span>
+                    {userOne?.l_name}
+                  </li>
+                  <li>
+                    <span>Phone number</span>+{userOne?.phone_number}
+                  </li>
+                  <li>
+                    <span>Date of birth</span>
+                    {userOne?.birthdate ? userOne.birthdate : 'Null'}
+                  </li>
+                  <li>
+                    <span>Email</span>
+                    {userOne?.email}
+                  </li>
+                  <li>
+                    <span>Language of communication with Sello</span>
+                    {upperCase(userOne?.language)}
+                  </li>
+                  <li>
+                    <span>Gender</span>
+                    {upperCase(userOne?.gender)}
+                  </li>
+                </ul>
+                <ul className="with-edit">
+                  <li className="edit">
+                    <button
+                      onClick={() => {
+                        setActiveModal(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>}
+
       </section>
       {modalActive ? (
         <div id="profile-edit-modal">
@@ -193,7 +232,7 @@ const Profile = () => {
                           type="radio"
                           name="gender"
                           id=""
-                          onChange={(e)=> changeGender(e)}
+                          onChange={(e) => changeGender(e)}
                           checked={gender == 'male' ? true : false}
                         />
                         <label htmlFor="">Male</label>
@@ -204,7 +243,7 @@ const Profile = () => {
                           type="radio"
                           name="gender"
                           id=""
-                          onChange={(e)=> changeGender(e)}
+                          onChange={(e) => changeGender(e)}
                           checked={gender == 'female' ? true : false}
                         />
                         <label htmlFor="">Female</label>

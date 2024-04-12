@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
 
@@ -57,20 +57,20 @@ const CartCard = ({
 
   return (
     <div id="card">
-      <img src={`${URL_IMAGE}/${photo}`} alt="" />
-      <div className="end-card">
-        <Link className="link" to={`/product/${id}`}>
+      <img className="card-img" src={`${URL_IMAGE}/${photo}`} alt={`${title}-img`} />
+      <div className="left-card">
+        <Link className="card-link" to={`/product/${id}`}>
           {title}
         </Link>
         <p className="price">
           {discount
-            ? dollarToSom(price - (price * discount) / 100)
-            : dollarToSom(price)}{" "}
-          somm{" "}
+            ? dollarToPound(price - (price * discount) / 100)
+            : dollarToPound(price)}{" "}
+          pounds{" "}
           {discount ? (
             <span>
               Discount: {discount}%
-              <b className="discount-minus">{dollarToSom(price)} som</b>
+              <b className="discount-minus">{dollarToPound(price)} pounds</b>
             </span>
           ) : null}
         </p>

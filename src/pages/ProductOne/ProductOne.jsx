@@ -11,7 +11,7 @@ import {
   getAccessTokenFromLocalStorage,
 } from "../../utils/storage";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
-import { dollarToSom } from "../../utils/exchange";
+import { dollarToPound } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
@@ -23,6 +23,7 @@ import { fetchUserOne } from "../../features/UserOneSlice";
 import { fetchProductReviews } from "../../features/ReviewsSlice";
 import { Rating } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Skeleton, Grid } from "@mui/material";
 import http from "../../service/api";
 import { fetchReviewOne } from "../../features/ReviewOneSlice";
 
@@ -36,7 +37,6 @@ const ProductOne = () => {
 
   const [tootlip, setTootlip] = useState(0);
   const [modal, setModal] = useState(false);
-
   const [stars, setStars] = useState(0);
   const [commentary, setCommentary] = useState("");
 
@@ -44,7 +44,7 @@ const ProductOne = () => {
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
   const userOne = useSelector((state) => state.user.userOne);
-  const reviews = useSelector((state) => state.productReview.reviews);
+  const { reviews, loading, error, review_rate } = useSelector((state) => state.productReview);
   const exactReview = useSelector((state) => state.reviewOne.review);
 
 
@@ -63,7 +63,11 @@ const ProductOne = () => {
       dispatch(fetchProductReviews({ token, product_id: id }));
       dispatch(fetchReviewOne({ token, product_id: id }));
     }
-  }, [id, token]);
+
+    if (error) {
+      toast(error, { type: "error" });
+    }
+  }, [id, token, error]);
 
 
   async function handleAddingToCart(id) {
@@ -121,128 +125,149 @@ const ProductOne = () => {
   return productOne ? (
     <div>
       <section id="product">
-        <div className="product_info">
-          <div className="product_info_head">
-            <div className="start">
-              <h2>{productOne?.title}</h2>
-              <p>
-                <i className="fa-solid fa-star"></i>{" "}
-                {productOne?.review?.length} Rating
-              </p>
-            </div>
-            <button onClick={() => handleLiking(productOne?.id)}>
-              {userOne?.likes?.some(el => el.product_id == id) ? <p><i className="fa-solid fa-heart"></i> REMOVE LIKED</p> : <p><i className="fa-regular fa-heart"></i> ADD TO LIKED</p>}
-            </button>
+        {loading ?
+          <div className="product_info_skeleton">
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item>
+                <Skeleton height={60} width={140}/>
+                <Skeleton height={30} width={140} style={{marginTop: "-8px"}}/>
+              </Grid>
+              <Grid item>
+                <Skeleton height={50} width={200} variant="rounded"/>
+              </Grid>
+            </Grid>
+            <Grid container justifyContent="center" spacing={4} marginTop={-14}>
+              <Grid item xs={8}>
+                <Skeleton height={500} />
+              </Grid>
+              <Grid item xs={4}>
+                <Skeleton height={500} />
+              </Grid>
+            </Grid>
           </div>
-          <div className="product_info_body">
-            <div className="start">
-              <div
-                className="bg"
-                style={{
-                  backgroundImage: `url('${URL_IMAGE}/${productOne?.photo}')`,
-                }}
-              ></div>
-              <img src={`${URL_IMAGE}/${productOne?.photo}`} alt="" />
-            </div>
-            <div className="end">
-              <div className="end_header">
-                <h4>Buy product for</h4>
-                <div className="price">
-                  <h2>
-                    {productOne?.discount?.rate
-                      ? dollarToSom(
-                        productOne?.price -
-                        (productOne?.price * productOne?.discount?.rate) /
-                        100
-                      )
-                      : dollarToSom(productOne?.price)}{" "}
-                    som
-                  </h2>
-                  {productOne?.discount?.rate ? (
-                    <p className="discount_rate">
-                      With discount_rate {productOne?.discount?.rate}%{" "}
-                      <del>{dollarToSom(productOne?.price)} som</del>
-                    </p>
-                  ) : null}
-                </div>
-                <p>Brand: {productOne?.brand?.name}</p>
-                <div className="btns">
-                  <button
-                    className="add-to-cart"
-                    onClick={() => handleAddingToCart(productOne?.id)}
-                  >
-                    ADD TO CART
-                  </button>
-                  <button
-                    className="purchase"
-                    onClick={() => purchase(productOne?.id)}
-                  >
-                    PURCHASE
-                  </button>
-                </div>
+          :
+          <div className="product_info">
+            <div className="product_info_head">
+              <div className="start">
+                <h2>{productOne?.name}</h2>
+                <Rating precision={0.5} readOnly value={review_rate} />
               </div>
-              <div className="end_body">
-                <div className="info">
-                  <div className="body_info">
-                    <h5>
-                      <i className="fa-solid fa-truck"></i>DeliveryShipping:
-                    </h5>
-                    <p>The cost of delivery in the city is from 15,000 som.</p>
-                  </div>
-                  <p
-                    className={`${tootlip === 1 ? "tootlip-1 hovered" : "tootlip-1"
-                      }`}
-                  >
-                    Delivery is carried out to the point of your choice within 2
-                    working days from the date of order.
-                  </p>
-                  <button
-                    className="info_tootlip-1"
-                    onMouseEnter={() => hover(1)}
-                    onMouseLeave={() => hover(0)}
-                  >
-                    <i className="fa-solid fa-circle-info"></i>{" "}
-                  </button>
+              <button onClick={() => handleLiking(productOne?.id)}>
+                {userOne?.likes?.some(el => el.product_id == id) ? <p><i className="fa-solid fa-heart"></i> REMOVE LIKED</p> : <p><i className="fa-regular fa-heart"></i> ADD TO LIKED</p>}
+              </button>
+            </div>
+            <div className="product_info_body">
+              {/* <Skeleton width="90%" height="100%" style={{ marginTop: "-120px" }} /> */}
+              <div className="start">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url('${URL_IMAGE}/${productOne?.photo}')`,
+                  }}
+                >
                 </div>
-                <div className="info">
-                  <div className="body_info">
-                    <h5>
-                      <i className="fa-solid fa-cube"></i>Pickup from{" "}
-                      <span>sello !</span>
-                    </h5>
+                <img src={`${URL_IMAGE}/${productOne?.photo}`} alt="" />
+              </div>
+              <div className="end">
+                <div className="end_header">
+                  <h4>Buy product for</h4>
+                  <div className="price">
+                    <h2>
+                      {productOne?.discount?.rate
+                        ? dollarToPound(
+                          productOne?.price -
+                          (productOne?.price * productOne?.discount?.rate) /
+                          100
+                        )
+                        : dollarToPound(productOne?.price)}{" "}
+                      pounds
+                    </h2>
+                    {productOne?.discount?.rate ? (
+                      <p className="discount_rate">
+                        With discount_rate {productOne?.discount?.rate}%{" "}
+                        <del>{dollarToPound(productOne?.price)} pounds</del>
+                      </p>
+                    ) : null}
+                  </div>
+                  <p>Brand: {productOne?.brand?.name}</p>
+                  <div className="btns">
+                    <button
+                      className="add-to-cart"
+                      onClick={() => handleAddingToCart(productOne?.id)}
+                    >
+                      ADD TO CART
+                    </button>
+                    <button
+                      className="purchase"
+                      onClick={() => purchase(productOne?.id)}
+                    >
+                      PURCHASE
+                    </button>
+                  </div>
+                </div>
+                <div className="end_body">
+                  <div className="info">
+                    <div className="body_info">
+                      <h5>
+                        <i className="fa-solid fa-truck"></i>DeliveryShipping:
+                      </h5>
+                      <p>The cost of delivery in the city is from 5 pounds.</p>
+                    </div>
                     <p
-                      className={`${tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
+                      className={`${tootlip === 1 ? "tootlip-1 hovered" : "tootlip-1"
                         }`}
                     >
-                      You can pick up at our branches
+                      Delivery is carried out to the point of your choice within 2
+                      working days from the date of order.
+                    </p>
+                    <button
+                      className="info_tootlip-1"
+                      onMouseEnter={() => hover(1)}
+                      onMouseLeave={() => hover(0)}
+                    >
+                      <i className="fa-solid fa-circle-info"></i>{" "}
+                    </button>
+                  </div>
+                  <div className="info">
+                    <div className="body_info">
+                      <h5>
+                        <i className="fa-solid fa-cube"></i>Pickup from{" "}
+                        <span>sello !</span>
+                      </h5>
+                      <p
+                        className={`${tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
+                          }`}
+                      >
+                        You can pick up at our branches
+                      </p>
+                    </div>
+                    <button
+                      className="info_tootlip-2"
+                      onMouseEnter={() => hover(2)}
+                      onMouseLeave={() => hover(0)}
+                    >
+                      <i className="fa-solid fa-circle-info"></i>
+                    </button>
+                  </div>
+                </div>
+                <div className="end_footer">
+                  <h5>
+                    <img src={UZImage} alt="" />
+                    Delivery country: <span>Uzbekistan</span>
+                  </h5>
+                  <div className="end_footer_end">
+                    <p>
+                      1. Return of product: <span>No</span>
+                    </p>
+                    <p>
+                      2. Open the package: <span>Yes</span>
                     </p>
                   </div>
-                  <button
-                    className="info_tootlip-2"
-                    onMouseEnter={() => hover(2)}
-                    onMouseLeave={() => hover(0)}
-                  >
-                    <i className="fa-solid fa-circle-info"></i>
-                  </button>
-                </div>
-              </div>
-              <div className="end_footer">
-                <h5>
-                  <img src={UZImage} alt="" />
-                  Delivery country: <span>Uzbekistan</span>
-                </h5>
-                <div className="end_footer_end">
-                  <p>
-                    1. Return of product: <span>No</span>
-                  </p>
-                  <p>
-                    2. Open the package: <span>Yes</span>
-                  </p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        }
         <br />
         <hr />
         <div className="product_characteristics">
@@ -300,7 +325,7 @@ const ProductOne = () => {
           </div>
           <p className="info">You can only change certain information here</p>
           <p className="raiting">
-            <i className="fa-solid fa-star"></i>{reviews?.length + 1}
+            <i className="fa-solid fa-star"></i>{exactReview?.id ? reviews?.length + 1 : reviews.length}
           </p>
           <div className="modal_body">
             <p>Grade</p>

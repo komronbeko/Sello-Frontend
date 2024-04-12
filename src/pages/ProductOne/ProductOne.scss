@@ -16,15 +16,7 @@ section#product {
             h2 {
                 font-size: 30px;
                 font-weight: normal;
-            }
-
-            p {
-                i {
-                    font-size: 15px;
-                    color: yellow;
-                }
-
-                font-size: 13px;
+                margin-bottom: 10px;                
             }
         }
 
@@ -54,36 +46,32 @@ section#product {
             width: 85%;
             position: relative;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-left: -140px;
+            justify-content: space-between;
 
             .bg {
-                width: 70%;
-                min-height: 450px;
+                width: 90%;
+                height: 80%;
                 background-position: center;
                 background-size: cover;
-                backdrop-filter: blur(10px);
-                padding: 50px;
+                backdrop-filter: blur(8px);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                background-repeat: no-repeat;
                 position: relative;
                 filter: blur(10px);
                 box-shadow: 0 0 5px gray;
-                margin-top: -80px;
             }
 
             img {
-                width: 50%;
-                height: 380px;
                 position: absolute;
                 object-fit: cover;
-                top: 50px;
+                top: 10%;
+                left: 10%; 
+                width: 70%;
+                height: 60%;
                 background-position: center;
+                border-radius: 10px;
             }
         }
 

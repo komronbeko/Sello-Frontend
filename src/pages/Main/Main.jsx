@@ -9,12 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { useNavigate } from "react-router";
 import ProductsContainer from "../../components/ProductsContainer/ProductsContainer";
+import { toast } from "react-toastify";
 
 const Main = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { products, loading } = useSelector((state) => state.product);
+  const { products, loading, error } = useSelector((state) => state.product);
   const token = getAccessTokenFromLocalStorage();
 
 
@@ -25,6 +26,10 @@ const Main = () => {
     window.scrollTo(0, 0);
 
     if (!token) navigate("/");
+
+    if (error) {
+      toast(error, { type: "error" });
+    }
 
     dispatch(fetchProducts());
   }, [token]);
