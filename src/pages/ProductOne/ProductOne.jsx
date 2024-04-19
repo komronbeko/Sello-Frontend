@@ -119,6 +119,7 @@ const ProductOne = () => {
       toast("Thank you for your review!", { type: "info" });
     }
     dispatch(fetchReviewOne({ token, product_id: id }));
+    dispatch(fetchProductReviews({ token, product_id: id }));
     setModal(false);
   }
 

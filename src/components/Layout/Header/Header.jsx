@@ -90,6 +90,9 @@ const Header = () => {
   return (
     <div className="header">
       <div className="header__main">
+        <div className="header-bar">
+          <FormatListBulletedIcon fontSize="large" style={{ color: '#00b3a8' }} />
+        </div>
         <div onClick={() => navigate("/")} className="header-logo">
           <img src={Logo} alt="header-logo" />
         </div>
@@ -170,7 +173,7 @@ const Header = () => {
         </div>
       </div>
       <p className="header__line" />
-      {catalogModal ? <Catalog setCatalogModal={setCatalogModal} catalogs={catalog}/> : ""}
+      {catalogModal ? <Catalog setCatalogModal={setCatalogModal} catalogs={catalog} /> : ""}
       <div className="header__navbar">
         <ul>
           <li><Link

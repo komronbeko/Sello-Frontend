@@ -13,7 +13,6 @@ import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 const Footer = () => {
   const dispatch = useDispatch();
 
-
   return (
     <footer id="footer">
       <div>
