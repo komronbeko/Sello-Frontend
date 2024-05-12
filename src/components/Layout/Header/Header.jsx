@@ -9,7 +9,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import Logo from "../../../assets/logo.svg";
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz'; import Logo from "../../../assets/logo.svg";
+import UzbFlag from "../../../assets/Flag_of_Uzbekistan.svg.webp"
+import UKFlag from "../../../assets/eng-flag.jpg"
 import { fetchCatalogs } from "../../../features/CatalogsSlice";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 import {
@@ -89,10 +91,21 @@ const Header = () => {
 
   return (
     <div className="header">
+      <div className="header-nav-modal">
+        <div className="navbar-heading">
+          <p>Menu</p>
+          <p><img src={UzbFlag} alt="Uzb-flag" /> <SwapHorizIcon fontSize="large" style={{ color: '#00b3a8' }} /> <img src={UKFlag} alt="UK-flag" /></p>
+          <CloseIcon fontSize="large" style={{ fontWeight: 'bold', color: '#00b3a8', cursor: 'pointer' }} />
+        </div>
+        <button className="login-btn">
+          Login
+        </button>
+      </div>
       <div className="header__main">
         <div className="header-bar">
           <FormatListBulletedIcon fontSize="large" style={{ color: '#00b3a8' }} />
         </div>
+
         <div onClick={() => navigate("/")} className="header-logo">
           <img src={Logo} alt="header-logo" />
         </div>
@@ -176,21 +189,31 @@ const Header = () => {
       {catalogModal ? <Catalog setCatalogModal={setCatalogModal} catalogs={catalog} /> : ""}
       <div className="header__navbar">
         <ul>
-          <li><Link
-            activeClass="active"
-            to="discounts"
-            spy={true}
-            smooth={true}
-            offset={-70}
-            duration={500}>🔥Discounts</Link> </li>
-          {catalog.map((el) => <li key={el.id} onClick={() => navigate(`/catalog/${el.name}`)}>{el.name}</li>)}
-          <li><Link
-            activeClass="active"
-            to="categories"
-            spy={true}
-            smooth={true}
-            offset={-70}
-            duration={500}>Categories</Link> </li>
+          <li>
+            <Link
+              activeClass="active"
+              to="discounts"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={500}>
+              🔥Discounts
+            </Link>
+          </li>
+          {catalog.map((el) =>
+            <li key={el.id} onClick={() => navigate(`/catalog/${el.name}`)}>{el.name}
+            </li>)}
+          <li>
+            <Link
+              activeClass="active"
+              to="categories"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={500}>
+              Categories
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

@@ -1,74 +1,109 @@
 import Img from "../../../assets/footer_start.png";
-import LogoFooter from "../../../assets/logo2.svg";
-import Payment1 from "../../../assets/sellopay.svg";
-import Payment2 from "../../../assets/humo.svg";
-import Payment3 from "../../../assets/zoomrad.svg";
-import Payment4 from "../../../assets/uzcard.svg";
-import App from "../../../assets/iphone.svg";
+import Logo from "../../../assets/logo.svg";
+// import Payment1 from "../../../assets/sellopay.svg";
+// import Payment2 from "../../../assets/humo.svg";
+// import Payment3 from "../../../assets/zoomrad.svg";
+// import Payment4 from "../../../assets/uzcard.svg";
+import zenithLogo from "../../../assets/logo-black.png";
+import uelLogo from "../../../assets/uel-logo.png";
+// import App from "../../../assets/iphone.svg";
 import { Link } from "react-router-dom";
 import "./Footer.scss";
 import { useDispatch } from "react-redux";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
+import { getAccessTokenFromLocalStorage } from "../../../utils/storage";
+import axios from "axios";
+import { API_BASE_URL } from "../../../constants/api";
+import { toast } from "react-toastify";
+
 
 const Footer = () => {
   const dispatch = useDispatch();
 
+  const token = getAccessTokenFromLocalStorage();
+
+  async function handleFeedback(e) {
+    e.preventDefault();
+
+    if (!token) {
+      return dispatch(setAuthModalTrue());
+    }
+
+    const { feedback } = e.target.elements;
+
+    try {
+      await axios.post(`${API_BASE_URL}/feedback`,
+        { text: feedback.value },
+        { headers: { Authorization: `Bearer ${token}` } })
+
+      toast("Thank you for your feedback", { type: "success" });
+
+    } catch (error) {
+      toast(error.message, { type: "error" });
+    }
+
+    feedback.value = null;
+  }
+
   return (
     <footer id="footer">
-      <div>
+      <div id="footer-top">
         <img src={Img} alt="" />
-        <div id="nofitications">
+        <div id="feedback">
           <h4>
-            Subscribe and be the first to know about discounts and promotions!
+            {token ? "Leave your feedback about the app" : "Subscribe and be the first to know about discounts and promotions!"}
           </h4>
-          <form onSubmit={(e) => { e.preventDefault(), dispatch(setAuthModalTrue()) }}>
-            <input
+          <form onSubmit={(e) => handleFeedback(e)}>
+            {token ? <input
               type="text"
-              name="code"
+              name="feedback"
+              placeholder="Type your comments..."
+              required
+            /> : <input
+              type="text"
+              name="email"
               placeholder="Enter your email address"
               required
-            />
+            />}
             <button>Send</button>
           </form>
         </div>
       </div>
-      <div id="links">
-        <div className="link">
-          <img src={LogoFooter} alt="" />
-          <p>© 2022 OOO «Marketplace Trading»</p>
-          <h6>Payment systems</h6>
-          <div className="payments">
-            <img src={Payment1} alt="" />
-            <img src={Payment2} alt="" />
-            <img src={Payment3} alt="" />
-            <img src={Payment4} alt="" />
+      <div id="footer-main">
+        <div className="footer-row footer-row-1">
+          <img className="logo" src={Logo} alt="" />
+          <p>© 2024 «Online Market»</p>
+          <div className="partners">
+            <p>Our partners</p>
+            <img src={zenithLogo} alt="zenith-logo" />
+            <img src={uelLogo} alt="uel-logo" />
           </div>
         </div>
-        <div className="link">
-          <h6>Why choose us</h6>
+        <div className="footer-row footer-row-2">
+          <h4>Why choose us</h4>
           <ul>
             <li>
-              <Link className="li-link">Payment</Link>
+              <p className="li-link">Non-profit</p>
             </li>
             <li>
-              <Link className="li-link">Return and exchange of goods</Link>
+              <p className="li-link">Reasonable Price</p>
             </li>
             <li>
-              <Link className="li-link">Delivery</Link>
+              <p className="li-link">User Friendly Experience</p>
             </li>
             <li>
-              <Link className="li-link">Requisites</Link>
+              <p className="li-link">Community Engagement</p>
             </li>
             <li>
-              <Link className="li-link">Pickup points</Link>
+              <p className="li-link">Personalized Recommendations</p>
             </li>
             <li>
-              <Link className="li-link">Applications</Link>
+              <p className="li-link">Regular Updates</p>
             </li>
           </ul>
         </div>
-        <div className="link">
-          <h6>About company</h6>
+        <div className="footer-row footer-row-3">
+          <h4>About company</h4>
           <ul>
             <li>
               <Link className="li-link">About Us</Link>
@@ -77,10 +112,7 @@ const Footer = () => {
               <Link className="li-link">Contacts</Link>
             </li>
             <li>
-              <Link className="li-link">Personal data processing policy</Link>
-            </li>
-            <li>
-              <Link className="li-link">Public offer</Link>
+              <Link className="li-link">Privacy Policy</Link>
             </li>
             <li>
               <Link className="li-link">Terms of use</Link>
@@ -88,84 +120,38 @@ const Footer = () => {
             <li>
               <Link className="li-link">FAQ</Link>
             </li>
-            <li>
-              <Link className="li-link">
-                General conditions for holding promotions
-              </Link>
-            </li>
           </ul>
         </div>
-        <div className="link">
-          <h6>Contacts</h6>
+        <div className="footer-row footer-row-4">
+          <h4>Contacts</h4>
           <ul>
             <li>
-              <Link className="li-2-link">
-                Call us: <span>+998 (78) 113 09 00</span>
-              </Link>
+              <div className="contacts-link">
+                Call us: <span><a href="tel:+447769199362">+44 (0) 776 919 93 62</a></span>
+              </div>
             </li>
             <li>
-              <Link className="li-2-link">
-                Write to us: <span>support@sello.uz</span>
-              </Link>
+              <div className="contacts-link">
+                Write to us: <span><a href="mailto:komronbekolimovme@gmail.com">komronbekolimovme@gmail.com</a></span>
+              </div>
             </li>
             <li>
-              <Link className="li-2-link">
-                Telegram: <span>@sellouz</span>
-              </Link>
+              <div className="contacts-link" to="https://t.me/olimov0825">
+                Telegram: <span><a href="https://t.me/olimov0825">@kolimov0825</a> </span>
+              </div>
             </li>
             <li>
               <p>Social media:</p>
               <div className="social-medias">
-                <Link>
-                  <i className="fa-brands fa-facebook-f"></i>
-                </Link>
-                <Link>
+                <Link to="https://t.me/olimov0825">
                   <i className="fa-brands fa-telegram"></i>
                 </Link>
-                <Link>
+                <Link to="https://www.instagram.com/komronbek.olimov">
                   <i className="fa-brands fa-instagram"></i>
                 </Link>
               </div>
             </li>
           </ul>
-        </div>
-        <div className="link">
-          <h6>Download app</h6>
-          <ul id="apps">
-            <li>
-              <a
-                target="_blank"
-                href="https://apps.apple.com/uz/app/sello-uz/id1603818062"
-                className="li-3-link"
-                rel="noreferrer"
-              >
-                <i className="fa-brands fa-apple"></i>
-                <span>AppStore</span>
-              </a>
-            </li>
-            <li>
-              <a
-                target="_blank"
-                href="https://play.google.com/store/apps/details?id=com.tune.sello"
-                className="li-3-link"
-                rel="noreferrer"
-              >
-                <i className="fa-brands fa-google-play"></i>{" "}
-                <span>Google play</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://appgallery.huawei.com/app/C106203671?sharePrepath=ag&locale=en_US&source=appshare&subsource=C106203671&shareTo=org.telegram.messenger&shareFrom=appmarket&shareIds=f8e6ff09f4f94eed9e6b587a881a8d80_org.telegram.messenger&callType=SHARE"
-                target="_blank"
-                className="li-3-link"
-                rel="noreferrer"
-              >
-                <span>App Gallery</span>
-              </a>
-            </li>
-          </ul>
-          <img src={App} alt="" />
         </div>
       </div>
     </footer>

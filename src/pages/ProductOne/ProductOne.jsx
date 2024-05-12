@@ -48,7 +48,6 @@ const ProductOne = () => {
   const exactReview = useSelector((state) => state.reviewOne.review);
 
 
-
   function hover(number) {
     setTootlip(number);
   }
@@ -130,11 +129,11 @@ const ProductOne = () => {
           <div className="product_info_skeleton">
             <Grid container justifyContent="space-between" alignItems="center">
               <Grid item>
-                <Skeleton height={60} width={140}/>
-                <Skeleton height={30} width={140} style={{marginTop: "-8px"}}/>
+                <Skeleton height={60} width={140} />
+                <Skeleton height={30} width={140} style={{ marginTop: "-8px" }} />
               </Grid>
               <Grid item>
-                <Skeleton height={50} width={200} variant="rounded"/>
+                <Skeleton height={50} width={200} variant="rounded" />
               </Grid>
             </Grid>
             <Grid container justifyContent="center" spacing={4} marginTop={-14}>
@@ -297,7 +296,9 @@ const ProductOne = () => {
           <div className="reviews">
             <div className="reviews-head">
               <h3>Customer reviews of this product</h3>
-              {exactReview?.id ? <button onClick={() => { setModal(true), setStars(exactReview.stars), setCommentary(exactReview.commentary) }}>Edit your feedback</button> : <button onClick={() => { setModal(true), setStars(5) }}>Leave feedback +</button>}
+              {exactReview?.id ? 
+              <button onClick={() => { setModal(true), setStars(exactReview.stars), setCommentary(exactReview.commentary) }}>Edit your feedback</button> : 
+              <button onClick={() => { setModal(true), setStars(5) }}>Leave feedback +</button>}
             </div>
             {exactReview?.id ? <div className="self-review">
               <div><AccountCircleIcon fontSize="large" style={{ color: 'black' }} /> <span>You</span> </div>

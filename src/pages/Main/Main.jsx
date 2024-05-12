@@ -36,9 +36,9 @@ const Main = () => {
 
   return <div className="main">
     <Hero />
-    <ProductsContainer data={products} heading="All Products!" loading={loading}/>
-    <ProductsContainer data={newProducts} heading="New Products!" loading={loading}/>
-    <ProductsContainer data={discountedProducts} heading="Hot Discounts!" loading={loading}/>
+    <ProductsContainer data={products} heading="All Products!" loading={loading} isDiscount={false}/>
+    <ProductsContainer data={newProducts} heading="New Products!" loading={loading} isDiscount={false}/>
+    <ProductsContainer data={discountedProducts} heading="Hot Discounts!" isDiscount={true} loading={loading}/>
     <SpecialCategories />
     <Partners />
   </div>;

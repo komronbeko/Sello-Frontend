@@ -21,8 +21,10 @@ a {
 
 :root {
   --primaryBg: #f1f3f3;
-  --secondaryBg: #6b7573;
+  --secondaryBg: #828b89;
   --green: #00b3a8;
+  --greenSlightDark: #089d93;
+  --darkGreen: #0a6b65;
   --pink: #e0297c;
   --gray: #3b3b3b;
   --black: #100f0f;
@@ -45,10 +47,16 @@ a {
 
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
   }
+
+
+::-webkit-scrollbar-track{
+  background-color: var(--primaryBg);
+}
+
 ::-webkit-scrollbar-thumb {
-  background-color: var(--green);
+  background-color: var(--secondaryBg);
   border-radius: 5px;
 }
 

@@ -3,10 +3,10 @@ import Card from "../../components/Card/Card";
 import "./ProductsContainer.scss";
 import { Grid, Skeleton } from "@mui/material";
 
-const ProductsContainer = ({ data, loading, heading }) => {
+const ProductsContainer = ({ data, loading, heading, isDiscount }) => {
 
   return (
-    <div className="products-wrapper">
+    <div className={isDiscount ? "discounts products-wrapper" : "products-wrapper"}>
       <p className="heading" >{heading}</p>
       {loading || !data.length ?
         <Grid container columnSpacing={2} rowSpacing={3} columns={5} justifyContent="center">

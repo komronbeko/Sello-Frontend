@@ -26,10 +26,9 @@ section#partners-link {
                 gap: 20px;
 
                 .link-btn {
-                    width: 14.5%;
+                    width: 120px;
                     background-color: white;
                     padding: 20px;
-                    height: 100px;
                     text-align: center;
                     border-radius: 10px;
                     box-shadow: 10px 10px 10px #80808062;
@@ -48,5 +47,31 @@ section#partners-link {
                 }
             }
         }
+    }
+}
+
+
+@media (max-width: 1200px) {
+    section#partners-link {
+        padding: 50px 100px;
+        gap: 25px;
+
+        .partners{
+            .cards{
+                ul.links{
+                    .link-btn{
+                        width: 100px;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+
+@media (max-width: 960px) {
+    section#partners-link {
+        padding: 50px 80px;
     }
 }
