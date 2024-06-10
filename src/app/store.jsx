@@ -18,6 +18,7 @@ import SortProductsReducer from "../features/SortProductsSlice";
 import SearchReducer from "../features/SearchSlice";
 import ReviewsReducer from "../features/ReviewsSlice";
 import ReviewOneReducer from "../features/ReviewOneSlice";
+import FooterMenuStatesReducer from "../features/FooterMenuStatesSlice.";
 
 const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ const store = configureStore({
     searchProducts: SearchReducer,
     productReview:   ReviewsReducer,
     reviewOne:   ReviewOneReducer,
+    footerMenuState:  FooterMenuStatesReducer
   },
   // middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 });

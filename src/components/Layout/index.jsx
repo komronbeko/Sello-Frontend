@@ -10,18 +10,20 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import "./index.scss"
 
 const Layout = ({ children }) => {
-  const auth = useSelector(state => state.auth.state)
+  const auth = useSelector(state => state.auth.state);
+  const footerMenuState = useSelector(state => state.footerMenuState.state);
+
   return (
     <div className="layout">
       {auth ? <Header /> : ''}
       {children}
       {auth ? <Footer /> : ''}
       <ul className="footer-menu">
-        <li><Home color="action" /> <p>Main</p></li>
-        <li><FormatListBulletedIcon color="action" /> <p>Catalog</p></li>
-        <li><AddShoppingCartIcon color="action" /> <p>Cart</p></li>
-        <li><FavoriteIcon color="action" /> <p>Favourites</p></li>
-        <li><MoreVertIcon color="action" /> <p>Main</p></li>
+        <li><Home style={{ color: footerMenuState == "main" ? "#00b3a8" : "#404141" }} /> <p>Main</p></li>
+        <li><FormatListBulletedIcon style={{ color: footerMenuState == "catalog" ? "#00b3a8" : "#69716f" }} /> <p>Catalog</p></li>
+        <li><AddShoppingCartIcon style={{ color: footerMenuState == "cart" ? "#00b3a8" : "#69716f" }} /> <p>Cart</p></li>
+        <li><FavoriteIcon style={{ color: footerMenuState == "favourites" ? "#00b3a8" : "#69716f" }} /> <p>Favourites</p></li>
+        <li><MoreVertIcon style={{ color: footerMenuState == "menu" ? "#00b3a8" : "#69716f" }} /> <p>Menu</p></li>
       </ul>
     </div>
   );

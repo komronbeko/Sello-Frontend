@@ -3,7 +3,7 @@
     bottom: 0;
     display: none;
     justify-content: space-between;
-    z-index: 50;
+    z-index: 100;
     width: 100%;
     background-color: rgb(250, 253, 251);
     padding: 15px 40px;
@@ -13,6 +13,11 @@
         flex-direction: column;
         align-items: center;
         gap: 6px;
+        cursor: pointer;
+
+        svg:hover{
+            color: var(--green) !important;
+        }
 
         p{
             font-size: 12px;

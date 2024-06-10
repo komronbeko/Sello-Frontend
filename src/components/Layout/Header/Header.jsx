@@ -9,9 +9,12 @@ import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz'; import Logo from "../../../assets/logo.svg";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import PhoneIcon from '@mui/icons-material/Phone';
+import Logo from "../../../assets/logo.svg";
 import UzbFlag from "../../../assets/Flag_of_Uzbekistan.svg.webp"
-import UKFlag from "../../../assets/eng-flag.jpg"
+import UKFlag from "../../../assets/eng-flag.jpg";
 import { fetchCatalogs } from "../../../features/CatalogsSlice";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 import {
@@ -97,9 +100,43 @@ const Header = () => {
           <p><img src={UzbFlag} alt="Uzb-flag" /> <SwapHorizIcon fontSize="large" style={{ color: '#00b3a8' }} /> <img src={UKFlag} alt="UK-flag" /></p>
           <CloseIcon fontSize="large" style={{ fontWeight: 'bold', color: '#00b3a8', cursor: 'pointer' }} />
         </div>
-        <button className="login-btn">
+        <button className="navbar-login-btn">
           Login
         </button>
+        <div className="navbar-main">
+          <div className="navbar-main-top">
+            <p>Navigation Bar</p>
+          </div>
+          <ul className="navbar-main-links">
+            <li>
+              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>Profile</span></div>
+              <NavigateNextIcon style={{ color: '#00b3a8' }} />
+            </li>
+            <li>
+              <div><FormatListBulletedIcon style={{ color: 'gray' }} />  <span>My Orders</span>
+              </div>
+              <NavigateNextIcon style={{ color: '#00b3a8' }} /> </li>
+            <li>
+              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>Favourites</span>
+              </div>
+              <NavigateNextIcon style={{ color: '#00b3a8' }} />
+            </li>
+            <li>
+              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>Cart</span>
+              </div>
+              <NavigateNextIcon style={{ color: '#00b3a8' }} />
+            </li>
+            <li>
+              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>My Feedbacks</span>
+              </div>
+              <NavigateNextIcon style={{ color: '#00b3a8' }} />
+            </li>
+          </ul>
+        </div>
+        <div className="navbar-contact">
+          <b>To improve our servive</b>
+          <a href="tel:+447769199362"><PhoneIcon style={{ color: '#00b3a8' }}/> <span>24/7 help</span> </a>
+        </div>
       </div>
       <div className="header__main">
         <div className="header-bar">

@@ -28,7 +28,7 @@ a {
   --pink: #e0297c;
   --gray: #3b3b3b;
   --black: #100f0f;
-  --primaryBorder: rgb(231, 220, 220);
+  --primaryBorder: rgba(196, 191, 191, 0.829);
 }
 
 .products-container{
