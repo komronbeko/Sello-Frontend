@@ -19,6 +19,7 @@ import SearchReducer from "../features/SearchSlice";
 import ReviewsReducer from "../features/ReviewsSlice";
 import ReviewOneReducer from "../features/ReviewOneSlice";
 import FooterMenuStatesReducer from "../features/FooterMenuStatesSlice.";
+import BrandReducer from "../features/BrandsSlice";
 
 const store = configureStore({
   reducer: {
@@ -39,9 +40,10 @@ const store = configureStore({
     total: TotalReducer,
     sortProducts: SortProductsReducer,
     searchProducts: SearchReducer,
-    productReview:   ReviewsReducer,
-    reviewOne:   ReviewOneReducer,
-    footerMenuState:  FooterMenuStatesReducer
+    productReview: ReviewsReducer,
+    reviewOne: ReviewOneReducer,
+    footerMenuState: FooterMenuStatesReducer,
+    brand: BrandReducer,
   },
   // middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 });

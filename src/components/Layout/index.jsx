@@ -5,25 +5,53 @@ import Header from "./Header/Header";
 import { Home } from "@mui/icons-material";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import "./index.scss"
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import "./index.scss";
+import { useState } from "react";
 
 const Layout = ({ children }) => {
-  const auth = useSelector(state => state.auth.state);
-  const footerMenuState = useSelector(state => state.footerMenuState.state);
+  const [catalogModal, setCatalogModal] = useState(false);
+
+  const auth = useSelector((state) => state.auth.state);
+  const footerMenuState = useSelector((state) => state.footerMenuState.state);
 
   return (
     <div className="layout">
-      {auth ? <Header /> : ''}
+      {auth ? (
+        <Header catalogModal={catalogModal} setCatalogModal={setCatalogModal} />
+      ) : (
+        ""
+      )}
       {children}
-      {auth ? <Footer /> : ''}
+      {auth ? <Footer /> : ""}
       <ul className="footer-menu">
-        <li><Home style={{ color: footerMenuState == "main" ? "#00b3a8" : "#404141" }} /> <p>Main</p></li>
-        <li><FormatListBulletedIcon style={{ color: footerMenuState == "catalog" ? "#00b3a8" : "#69716f" }} /> <p>Catalog</p></li>
-        <li><AddShoppingCartIcon style={{ color: footerMenuState == "cart" ? "#00b3a8" : "#69716f" }} /> <p>Cart</p></li>
-        <li><FavoriteIcon style={{ color: footerMenuState == "favourites" ? "#00b3a8" : "#69716f" }} /> <p>Favourites</p></li>
-        <li><MoreVertIcon style={{ color: footerMenuState == "menu" ? "#00b3a8" : "#69716f" }} /> <p>Menu</p></li>
+        <li>
+          <Home
+            style={{ color: footerMenuState == "main" ? "#00b3a8" : "#404141" }}
+          />{" "}
+          <p>Main</p>
+        </li>
+        <li>
+          <FormatListBulletedIcon
+            style={{ color: catalogModal ? "#00b3a8" : "#69716f" }}
+            onClick={() => setCatalogModal(!catalogModal)}
+          />{" "}
+          <p>Catalog</p>
+        </li>
+        <li>
+          <AddShoppingCartIcon
+            style={{ color: footerMenuState == "cart" ? "#00b3a8" : "#69716f" }}
+          />{" "}
+          <p>Cart</p>
+        </li>
+        <li>
+          <FavoriteIcon
+            style={{
+              color: footerMenuState == "favourites" ? "#00b3a8" : "#69716f",
+            }}
+          />{" "}
+          <p>Favourites</p>
+        </li>
       </ul>
     </div>
   );

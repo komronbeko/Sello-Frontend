@@ -18,9 +18,8 @@ const Main = () => {
   const { products, loading, error } = useSelector((state) => state.product);
   const token = getAccessTokenFromLocalStorage();
 
-
-  const discountedProducts = products?.filter(el => el.discount_id);
-  const newProducts = products?.filter(el => el.new);
+  const discountedProducts = products?.filter((el) => el.discount_id);
+  const newProducts = products?.filter((el) => el.new);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,13 +33,30 @@ const Main = () => {
     dispatch(fetchProducts());
   }, [token]);
 
-  return <div className="main">
-    <Hero />
-    <ProductsContainer data={products} heading="All Products!" loading={loading} isDiscount={false}/>
-    <ProductsContainer data={newProducts} heading="New Products!" loading={loading} isDiscount={false}/>
-    <ProductsContainer data={discountedProducts} heading="Hot Discounts!" isDiscount={true} loading={loading}/>
-    <SpecialCategories />
-    <Partners />
-  </div>;
+  return (
+    <div className="main">
+      <Hero />
+      <ProductsContainer
+        data={products}
+        heading="All Products!"
+        loading={loading}
+        isDiscount={false}
+      />
+      <ProductsContainer
+        data={newProducts}
+        heading="New Products!"
+        loading={loading}
+        isDiscount={false}
+      />
+      <ProductsContainer
+        data={discountedProducts}
+        heading="Hot Discounts!"
+        isDiscount={true}
+        loading={loading}
+      />
+      <SpecialCategories />
+      <Partners />
+    </div>
+  );
 };
 export default Main;

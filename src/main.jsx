@@ -9,10 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-        <ToastContainer theme="colored" />
-      </Provider>
-    </BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+      <ToastContainer theme="colored" />
+    </Provider>
+  </BrowserRouter>
 );

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,15 +6,15 @@ import { Badge, Skeleton } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import ClearIcon from '@mui/icons-material/Clear';
-import CloseIcon from '@mui/icons-material/Close';
-import SearchIcon from '@mui/icons-material/Search';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import PhoneIcon from '@mui/icons-material/Phone';
+import ClearIcon from "@mui/icons-material/Clear";
+import CloseIcon from "@mui/icons-material/Close";
+import SearchIcon from "@mui/icons-material/Search";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import PhoneIcon from "@mui/icons-material/Phone";
 import Logo from "../../../assets/logo.svg";
-import UzbFlag from "../../../assets/Flag_of_Uzbekistan.svg.webp"
+import UzbFlag from "../../../assets/Flag_of_Uzbekistan.svg.webp";
 import UKFlag from "../../../assets/eng-flag.jpg";
 import { fetchCatalogs } from "../../../features/CatalogsSlice";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
@@ -30,22 +31,23 @@ import { debounce } from "lodash";
 import { URL_IMAGE } from "../../../constants/api";
 import { Link } from "react-scroll";
 import { toast } from "react-toastify";
+import sliceWords from "../../../utils/slice-words";
 
-
-const Header = () => {
-  const [catalogModal, setCatalogModal] = useState(false);
+const Header = ({ catalogModal, setCatalogModal }) => {
   const [loading, setLoading] = useState(false);
+  const [headerNavbar, setHeaderNavbar] = useState(false);
   const searchInputRef = useRef(null);
   const catalog = useSelector((state) => state.catalog.catalogs);
   const userLikes = useSelector((state) => state.like.likes);
   const carts = useSelector((state) => state.cart.carts);
-  const { data: searchedProducts, error } = useSelector((state) => state.searchProducts);
+  const { data: searchedProducts, error } = useSelector(
+    (state) => state.searchProducts
+  );
 
   const token = getAccessTokenFromLocalStorage();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     dispatch(fetchCatalogs());
@@ -94,76 +96,142 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="header-nav-modal">
-        <div className="navbar-heading">
-          <p>Menu</p>
-          <p><img src={UzbFlag} alt="Uzb-flag" /> <SwapHorizIcon fontSize="large" style={{ color: '#00b3a8' }} /> <img src={UKFlag} alt="UK-flag" /></p>
-          <CloseIcon fontSize="large" style={{ fontWeight: 'bold', color: '#00b3a8', cursor: 'pointer' }} />
-        </div>
-        <button className="navbar-login-btn">
-          Login
-        </button>
-        <div className="navbar-main">
-          <div className="navbar-main-top">
-            <p>Navigation Bar</p>
+      {headerNavbar ? (
+        <div className="header-nav-modal">
+          <div className="navbar-heading">
+            <p>Menu</p>
+            <p>
+              <img src={UzbFlag} alt="Uzb-flag" />{" "}
+              <SwapHorizIcon fontSize="large" style={{ color: "#00b3a8" }} />{" "}
+              <img src={UKFlag} alt="UK-flag" />
+            </p>
+            <CloseIcon
+              fontSize="large"
+              style={{
+                fontWeight: "bold",
+                color: "#00b3a8",
+                cursor: "pointer",
+              }}
+              onClick={() => setHeaderNavbar(false)}
+            />
           </div>
-          <ul className="navbar-main-links">
-            <li>
-              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>Profile</span></div>
-              <NavigateNextIcon style={{ color: '#00b3a8' }} />
-            </li>
-            <li>
-              <div><FormatListBulletedIcon style={{ color: 'gray' }} />  <span>My Orders</span>
-              </div>
-              <NavigateNextIcon style={{ color: '#00b3a8' }} /> </li>
-            <li>
-              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>Favourites</span>
-              </div>
-              <NavigateNextIcon style={{ color: '#00b3a8' }} />
-            </li>
-            <li>
-              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>Cart</span>
-              </div>
-              <NavigateNextIcon style={{ color: '#00b3a8' }} />
-            </li>
-            <li>
-              <div><PersonOutlineIcon style={{ color: 'gray' }} />  <span>My Feedbacks</span>
-              </div>
-              <NavigateNextIcon style={{ color: '#00b3a8' }} />
-            </li>
-          </ul>
+          <button className="navbar-login-btn">Login</button>
+          <div className="navbar-main">
+            <div className="navbar-main-top">
+              <p>Navigation Bar</p>
+            </div>
+            <ul className="navbar-main-links">
+              <li>
+                <div>
+                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
+                  <span>Profile</span>
+                </div>
+                <NavigateNextIcon style={{ color: "#00b3a8" }} />
+              </li>
+              <li>
+                <div>
+                  <FormatListBulletedIcon style={{ color: "gray" }} />{" "}
+                  <span>My Orders</span>
+                </div>
+                <NavigateNextIcon style={{ color: "#00b3a8" }} />{" "}
+              </li>
+              <li>
+                <div>
+                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
+                  <span>Favourites</span>
+                </div>
+                <NavigateNextIcon style={{ color: "#00b3a8" }} />
+              </li>
+              <li>
+                <div>
+                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
+                  <span>Cart</span>
+                </div>
+                <NavigateNextIcon style={{ color: "#00b3a8" }} />
+              </li>
+              <li>
+                <div>
+                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
+                  <span>My Feedbacks</span>
+                </div>
+                <NavigateNextIcon style={{ color: "#00b3a8" }} />
+              </li>
+            </ul>
+          </div>
+          <div className="navbar-contact">
+            <b>To improve our servive</b>
+            <a href="tel:+447769199362">
+              <PhoneIcon style={{ color: "#00b3a8" }} /> <span>24/7 help</span>{" "}
+            </a>
+          </div>
         </div>
-        <div className="navbar-contact">
-          <b>To improve our servive</b>
-          <a href="tel:+447769199362"><PhoneIcon style={{ color: '#00b3a8' }}/> <span>24/7 help</span> </a>
-        </div>
-      </div>
+      ) : null}
+
       <div className="header__main">
         <div className="header-bar">
-          <FormatListBulletedIcon fontSize="large" style={{ color: '#00b3a8' }} />
+          <FormatListBulletedIcon
+            fontSize="large"
+            style={{ color: "#00b3a8" }}
+            onClick={() => setHeaderNavbar(true)}
+          />
         </div>
 
         <div onClick={() => navigate("/")} className="header-logo">
           <img src={Logo} alt="header-logo" />
         </div>
         <div className="header-catalog-search">
-          <div onClick={() => setCatalogModal(prev => !prev)} className="header-catalog">
-            {
-              catalogModal ? <ClearIcon fontSize="small" style={{ color: '#00b3a8' }} onClick={clearSearchInput} /> : <FormatListBulletedIcon fontSize="small" style={{ color: '#00b3a8' }} />
-            }
+          <div
+            onClick={() => setCatalogModal((prev) => !prev)}
+            className="header-catalog"
+          >
+            {catalogModal ? (
+              <ClearIcon
+                fontSize="small"
+                style={{ color: "#00b3a8" }}
+                onClick={clearSearchInput}
+              />
+            ) : (
+              <FormatListBulletedIcon
+                fontSize="small"
+                style={{ color: "#00b3a8" }}
+              />
+            )}
             <p className="catalogbtn-text">Catalog</p>
           </div>
           <div className="header-search">
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="search-input">
-                <input ref={searchInputRef} onChange={(e) => handleSearching(e.target.value)} type="text" name="searchInput" placeholder="Search Products" />
-                {searchInputRef.current?.value ? <CloseIcon fontSize="small" style={{ fontWeight: 'bold', color: '#101081', cursor: 'pointer' }} onClick={clearSearchInput} /> : null}
+                <input
+                  ref={searchInputRef}
+                  onChange={(e) => handleSearching(e.target.value)}
+                  type="text"
+                  name="searchInput"
+                  placeholder="Search Products"
+                />
+                {searchInputRef.current?.value ? (
+                  <CloseIcon
+                    fontSize="small"
+                    style={{
+                      fontWeight: "bold",
+                      color: "#101081",
+                      cursor: "pointer",
+                    }}
+                    onClick={clearSearchInput}
+                  />
+                ) : null}
               </div>
               <button>
-                <SearchIcon fontSize="large" style={{ color: '#ffffff', backgroundColor: '#0a867d', padding: '5px' }} />
+                <SearchIcon
+                  fontSize="large"
+                  style={{
+                    color: "#ffffff",
+                    backgroundColor: "#0a867d",
+                    padding: "5px",
+                  }}
+                />
               </button>
             </form>
-            {loading ?
+            {loading ? (
               <div className="search-skeletons">
                 <div className="skeleton-1">
                   <div className="skeleton-left">
@@ -180,21 +248,28 @@ const Header = () => {
                   <Skeleton variant="rounded" height={50} width={60} />
                 </div>
               </div>
-              : searchedProducts?.length ?
-                <div className="search-results">
-                  <ul>
-                    {searchedProducts.map(el => (
-                      <li onClick={() => handleSearchRouting(el.id)} key={el.id}>
-                        <div className="left">
-                          <SearchIcon fontSize="medium" style={{ color: '#898787d2' }} />
-                          <p>{el.name}</p>
-                        </div>
-                        <img src={`${URL_IMAGE}/${el.photo}`} alt="product-img" />
-                      </li>
-                    ))}
-                  </ul>
-                </div> : searchInputRef.current?.value ? <div className="no-search-results"><p>No results found</p></div> : null
-            }
+            ) : searchedProducts?.length ? (
+              <div className="search-results">
+                <ul>
+                  {searchedProducts.map((el) => (
+                    <li onClick={() => handleSearchRouting(el.id)} key={el.id}>
+                      <div className="left">
+                        <SearchIcon
+                          fontSize="medium"
+                          style={{ color: "#898787d2" }}
+                        />
+                        <p>{el.name}</p>
+                      </div>
+                      <img src={`${URL_IMAGE}/${el.photo}`} alt="product-img" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : searchInputRef.current?.value ? (
+              <div className="no-search-results">
+                <p>No results found</p>
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="header-menu">
@@ -203,27 +278,28 @@ const Header = () => {
               badgeContent={userLikes ? userLikes.length : 1}
               color="secondary"
             >
-              <FavoriteIcon style={{ color: '#00b3a8' }} />
+              <FavoriteIcon style={{ color: "#00b3a8" }} />
             </Badge>
             <p>Favourites</p>
           </div>
           <div onClick={() => handleAuthModal("/carts")}>
-            <Badge
-              badgeContent={carts ? carts.length : 1}
-              color="warning"
-            >
-              <AddShoppingCartIcon style={{ color: '#00b3a8' }} />
+            <Badge badgeContent={carts ? carts.length : 1} color="warning">
+              <AddShoppingCartIcon style={{ color: "#00b3a8" }} />
             </Badge>
             <p>Cart</p>
           </div>
           <div onClick={() => handleAuthModal("/")}>
-            <PersonOutlineIcon style={{ color: '#00b3a8' }} />
+            <PersonOutlineIcon style={{ color: "#00b3a8" }} />
             <p>Profile</p>
           </div>
         </div>
       </div>
       <p className="header__line" />
-      {catalogModal ? <Catalog setCatalogModal={setCatalogModal} catalogs={catalog} /> : ""}
+      {catalogModal ? (
+        <Catalog setCatalogModal={setCatalogModal} catalogs={catalog} />
+      ) : (
+        ""
+      )}
       <div className="header__navbar">
         <ul>
           <li>
@@ -233,13 +309,16 @@ const Header = () => {
               spy={true}
               smooth={true}
               offset={-70}
-              duration={500}>
+              duration={500}
+            >
               🔥Discounts
             </Link>
           </li>
-          {catalog.map((el) =>
-            <li key={el.id} onClick={() => navigate(`/catalog/${el.name}`)}>{el.name}
-            </li>)}
+          {catalog.map((el) => (
+            <li key={el.id} onClick={() => navigate(`/catalog/${el.name}`)}>
+              {el.name.includes(",") ? sliceWords(el.name) : el.name}
+            </li>
+          ))}
           <li>
             <Link
               activeClass="active"
@@ -247,7 +326,8 @@ const Header = () => {
               spy={true}
               smooth={true}
               offset={-70}
-              duration={500}>
+              duration={500}
+            >
               Categories
             </Link>
           </li>

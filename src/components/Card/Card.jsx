@@ -11,7 +11,6 @@ import { setAuthModalTrue } from "../../features/AuthModalSlice";
 import FavoriteBrderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-
 import "./Card.scss";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,8 +28,6 @@ const Card = ({ image, title, price, discount, id, count }) => {
       dispatch(fetchUserOne(token));
     }
   }, [token, dispatch]);
-
-
 
   async function handleAddingToCart(id) {
     if (!token) {
@@ -51,7 +48,11 @@ const Card = ({ image, title, price, discount, id, count }) => {
   return (
     <div className="card">
       <button className="add-to-like" onClick={() => handleLiking(id)}>
-        {userOne?.likes?.some(el => el.product_id == id) ? <FavoriteIcon style={{ color: '#00b3a8' }} /> : <FavoriteBrderIcon style={{ color: '#00b3a8' }} />}
+        {userOne?.likes?.some((el) => el.product_id == id) ? (
+          <FavoriteIcon style={{ color: "#00b3a8" }} />
+        ) : (
+          <FavoriteBrderIcon style={{ color: "#00b3a8" }} />
+        )}
       </button>
       <Link className="clicklable_link" to={`/product/${id}`}>
         <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />

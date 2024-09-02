@@ -1,24 +1,25 @@
 .products-wrapper {
-    background-color: var(--primaryBg);
-    padding: 40px 120px 60px;
+  background-color: var(--primaryBg);
+  padding: 40px 120px 60px;
+  margin: 0 auto;
+  width: 100%;
 
-    .heading {
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        text-align: center;
-    }
+  .heading {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-    .products-wrapper {
-        padding: 30px 80px 50px;
-    }
+  .products-wrapper {
+    padding: 30px 80px 50px;
+  }
 }
 
-
 @media only screen and (max-width: 960px) {
-    .products-wrapper {
-        padding: 25px 60px 40px;
-    }
+  .products-wrapper {
+    padding: 25px 60px 40px;
+  }
 }
