@@ -55,18 +55,16 @@ const Card = ({ image, title, price, discount, id, count }) => {
         )}
       </button>
       <Link className="clicklable_link" to={`/product/${id}`}>
-        <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />
+        <div className="img-wrapper">
+          <img src={`${URL_IMAGE}/${image}`} alt="" className="start" />
+        </div>
         <p>{title}</p>
-        {discount ? (
-          <h4 className="old-price">{dollarToPound(price)} pounds</h4>
-        ) : (
-          ""
-        )}
+        {discount ? <h4 className="old-price">£{dollarToPound(price)}</h4> : ""}
         <h4>
           {discount
-            ? dollarToPound(price - (price * discount) / 100)
-            : dollarToPound(price)}{" "}
-          pounds {discount ? <span>{discount}%</span> : null}
+            ? `£ ${dollarToPound(price - (price * discount) / 100)}`
+            : `£ ${dollarToPound(price)}`}
+          {discount ? <span>{discount}%</span> : null}
         </h4>
       </Link>
       <div

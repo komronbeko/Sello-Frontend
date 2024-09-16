@@ -34,15 +34,21 @@ const CartCard = ({
   }, [dispatch, token]);
 
   async function PlusCount(id) {
-    await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", { headers: { Authorization: 'Bearer ' + token } });
+    await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", {
+      headers: { Authorization: "Bearer " + token },
+    });
     dispatch(fetchCarts(token));
   }
   async function minusCount(id) {
-    await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", { headers: { Authorization: 'Bearer ' + token } });
+    await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", {
+      headers: { Authorization: "Bearer " + token },
+    });
     dispatch(fetchCarts(token));
   }
   async function deleteFromCart(id) {
-    await axios.delete(`${API_BASE_URL}/cart/${id}`, { headers: { Authorization: 'Bearer ' + token } });
+    await axios.delete(`${API_BASE_URL}/cart/${id}`, {
+      headers: { Authorization: "Bearer " + token },
+    });
     dispatch(fetchCarts(token));
   }
 
@@ -57,20 +63,23 @@ const CartCard = ({
 
   return (
     <div id="card">
-      <img className="card-img" src={`${URL_IMAGE}/${photo}`} alt={`${title}-img`} />
+      <img
+        className="card-img"
+        src={`${URL_IMAGE}/${photo}`}
+        alt={`${title}-img`}
+      />
       <div className="left-card">
         <Link className="card-link" to={`/product/${id}`}>
           {title}
         </Link>
         <p className="price">
           {discount
-            ? dollarToPound(price - (price * discount) / 100)
-            : dollarToPound(price)}{" "}
-          pounds{" "}
+            ? `£ ${dollarToPound(price - (price * discount) / 100)}`
+            : `£ ${dollarToPound(price)}`}
           {discount ? (
             <span>
               Discount: {discount}%
-              <b className="discount-minus">{dollarToPound(price)} pounds</b>
+              <b className="discount-minus">{dollarToPound(price)} £</b>
             </span>
           ) : null}
         </p>
@@ -80,7 +89,15 @@ const CartCard = ({
         <div className="end-card-footer">
           <div className="btns">
             <button onClick={() => handleLiking(id)}>
-              {userOne?.likes?.some(el => el.product_id == id) ? <p className="like-add"><i className="fa-solid fa-heart"></i>Delete from favorite</p> : <p className="like-add"><i className="fa-regular fa-heart"></i>Add to favorite</p> }
+              {userOne?.likes?.some((el) => el.product_id == id) ? (
+                <p className="like-add">
+                  <i className="fa-solid fa-heart"></i>Delete from favorite
+                </p>
+              ) : (
+                <p className="like-add">
+                  <i className="fa-regular fa-heart"></i>Add to favorite
+                </p>
+              )}
             </button>
             <button onClick={() => deleteFromCart(cart_item_id)}>
               <i className="fa-solid fa-xmark"></i>Delete from cart

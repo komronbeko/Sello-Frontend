@@ -56,10 +56,14 @@ const Checkout = () => {
     if (!values.avenue || !values.city || !values.district || !values.street)
       return toast("Please field all the fields", { type: "error" });
     try {
-      const data = await axios.post(`${API_BASE_URL}/order`, {
-        cost: Math.round(total),
-        location: values,
-      }, {headers: { Authorization: 'Bearer ' + token}});
+      const data = await axios.post(
+        `${API_BASE_URL}/order`,
+        {
+          cost: Math.round(total),
+          location: values,
+        },
+        { headers: { Authorization: "Bearer " + token } }
+      );
       dispatch(fetchCarts(token));
       toast(data.data.message, { type: "success" });
       navigate(`/${user_id}/thank`);
@@ -141,17 +145,17 @@ const Checkout = () => {
                 Count of products: <span>{count}</span>
               </li>
               <li>
-                Price <span>{dollarToPound(price)} pounds</span>
+                Price <span>{dollarToPound(price)} £</span>
               </li>
               <li>
                 Discount
-                <span>-{discount ? dollarToPound(discount) : null} pounds</span>
+                <span>-{discount ? dollarToPound(discount) : null} £</span>
               </li>
               <li>
                 Delivery<span>0</span>
               </li>
               <li>
-                Total payable:<span>{dollarToPound(total)} pounds</span>
+                Total payable:<span>{dollarToPound(total)} £</span>
               </li>
             </ul>
             <button onClick={newPurchase} type="submit" id="checkout-btn">

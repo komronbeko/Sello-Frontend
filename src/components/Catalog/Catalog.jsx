@@ -8,16 +8,17 @@ import { fetchBrands } from "../../features/BrandsSlice";
 import { URL_IMAGE } from "../../constants/api";
 
 const Catalog = ({ setCatalogModal, catalogs }) => {
-  const categories = useSelector((state) => state.category.categories);
   const brands = useSelector((state) => state.brand.brands);
+
+  const [useCatalog, setUseCatalog] = useState(catalogs[0]);
+  const [categories, setCategories] = useState([]);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchBrands());
+    setCategories(0);
   }, []);
-
-  const [useCatalog, setUseCatalog] = useState(catalogs[0]);
 
   const navigate = useNavigate();
 
@@ -29,61 +30,60 @@ const Catalog = ({ setCatalogModal, catalogs }) => {
     navigate(`/catalog/${name}`);
     setCatalogModal(false);
   }
-  function onclickCategory(subcategory) {
-    const findCategory = categories.find((el) => el.name == subcategory);
-    navigate(`/catalog/${findCategory?.catalog?.name}/${subcategory}`);
+
+  function onclickCategory(category, catalog) {
+    navigate(`/catalog/${catalog}/${category}`);
     setCatalogModal(false);
   }
 
   return (
     <div id="dropdown-window">
-      <ul className="catalogs">
-        {catalogs?.map((c) => {
-          return (
-            <li
-              onClick={() => onclickCatalog(c.name)}
-              onMouseEnter={() => getCategories(c)}
-              key={c.id}
-              className={`sidebar-item ${
-                useCatalog?.name === c.name ? "active" : ""
-              }`}
-            >
-              <button>{c.name}</button>
-              <KeyboardArrowRightIcon />
-            </li>
-          );
-        })}
-        {catalogs?.map((c) => {
-          return (
-            <li
-              onClick={() => onclickCatalog(c.name)}
-              onMouseEnter={() => getCategories(c)}
-              key={c.id}
-              className={`sidebar-item ${
-                useCatalog?.name === c.name ? "active" : ""
-              }`}
-            >
-              <button>{c.name}</button>
-              <KeyboardArrowRightIcon />
-            </li>
-          );
-        })}
-        {catalogs?.map((c) => {
-          return (
-            <li
-              onClick={() => onclickCatalog(c.name)}
-              onMouseEnter={() => getCategories(c)}
-              key={c.id}
-              className={`sidebar-item ${
-                useCatalog?.name === c.name ? "active" : ""
-              }`}
-            >
-              <button>{c.name}</button>
-              <KeyboardArrowRightIcon />
-            </li>
-          );
-        })}
-      </ul>
+      <div className="heading">
+        <p>Catalogs & Categories</p>
+      </div>
+      {/* <div className="wrapper"> */}
+      <div className="catalogs">
+        {!categories.length ? (
+          <>
+            {catalogs?.map((c) => {
+              return (
+                <li
+                  onMouseEnter={() => getCategories(c)}
+                  key={c.id}
+                  className={`sidebar-item ${
+                    useCatalog?.name === c.name ? "active" : ""
+                  }`}
+                >
+                  <button onClick={() => onclickCatalog(c.name)}>
+                    <span>{c.name}</span>
+                  </button>
+                  <KeyboardArrowRightIcon className="arrow-0" />
+                  <KeyboardArrowRightIcon
+                    onClick={() => setCategories(c.categories)}
+                    className="arrow-1"
+                  />
+                </li>
+              );
+            })}
+          </>
+        ) : (
+          <ul className="categories-res">
+            {categories?.map((c) => {
+              return (
+                <li
+                  onClick={() => onclickCategory(c.name, useCatalog?.name)}
+                  key={c.id}
+                >
+                  <button>
+                    <span>{c.name}</span>
+                  </button>
+                  <KeyboardArrowRightIcon />
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
       <ul className="categories">
         <div className="categories-heading">
           <h4>{useCatalog?.name}</h4>
@@ -93,181 +93,25 @@ const Catalog = ({ setCatalogModal, catalogs }) => {
           </p>
         </div>
         <div className="categories-list">
-          {useCatalog ? (
-            useCatalog?.categories.length ? (
-              useCatalog?.categories.map((c) => {
-                return (
-                  <>
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name} omon Keldim</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name} hayronman</p>
-                            <p key={el.id}>{el.name} liberallashtirish</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name} helloWorld
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name} welcome to tashkent
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>
-                              {el.name} Dovron fayziev kelib ketdi
-                            </p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name} and Staff like that
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>{" "}
-                    <li key={c.id}>
-                      <button onClick={() => onclickCategory(c.name)}>
-                        {c.name}
-                      </button>
-                      <div className="catalogs-nested-categories">
-                        {c?.nestedCategories.map((el) => (
-                          <>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                            <p key={el.id}>{el.name}</p>
-                          </>
-                        ))}
-                      </div>
-                    </li>
-                  </>
-                );
-              })
-            ) : (
-              <h3>No categories</h3>
-            )
+          {useCatalog?.categories.length ? (
+            useCatalog.categories.map((c) => {
+              return (
+                <li key={c.id}>
+                  <button
+                    onClick={() => onclickCategory(c.name, useCatalog?.name)}
+                  >
+                    {c.name}
+                  </button>
+                  <div className="catalogs-nested-categories">
+                    {c?.nestedCategories.map((el) => (
+                      <p key={el.id}>{el.name}</p>
+                    ))}
+                  </div>
+                </li>
+              );
+            })
           ) : (
-            <h3>Choose catalog...</h3>
+            <h4 className="no-categories-text">No Categories</h4>
           )}
         </div>
       </ul>
@@ -283,6 +127,7 @@ const Catalog = ({ setCatalogModal, catalogs }) => {
           </li>
         ))}
       </ul>
+      {/* </div> */}
     </div>
   );
 };

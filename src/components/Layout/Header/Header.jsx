@@ -2,10 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Badge, Skeleton } from "@mui/material";
+import { Badge } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import MenuIcon from "@mui/icons-material/Menu";
 import ClearIcon from "@mui/icons-material/Clear";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,8 +15,6 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import PhoneIcon from "@mui/icons-material/Phone";
 import Logo from "../../../assets/logo.svg";
-import UzbFlag from "../../../assets/Flag_of_Uzbekistan.svg.webp";
-import UKFlag from "../../../assets/eng-flag.jpg";
 import { fetchCatalogs } from "../../../features/CatalogsSlice";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 import {
@@ -28,10 +27,10 @@ import "./Header.scss";
 import Catalog from "../../Catalog/Catalog";
 import { searchProducts } from "../../../features/SearchSlice";
 import { debounce } from "lodash";
-import { URL_IMAGE } from "../../../constants/api";
 import { Link } from "react-scroll";
 import { toast } from "react-toastify";
 import sliceWords from "../../../utils/slice-words";
+import { SearchResults } from "../../SearchResults/SearchResults";
 
 const Header = ({ catalogModal, setCatalogModal }) => {
   const [loading, setLoading] = useState(false);
@@ -74,7 +73,7 @@ const Header = ({ catalogModal, setCatalogModal }) => {
       clearSearchInput();
     }
     setLoading(false);
-  }, 1000);
+  }, 500);
 
   function handleSearching(value) {
     debounceSearching(value);
@@ -100,11 +99,17 @@ const Header = ({ catalogModal, setCatalogModal }) => {
         <div className="header-nav-modal">
           <div className="navbar-heading">
             <p>Menu</p>
-            <p>
-              <img src={UzbFlag} alt="Uzb-flag" />{" "}
+            <div>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Flag_of_Uzbekistan.png/1200px-Flag_of_Uzbekistan.png"
+                alt="Uzb-flag"
+              />{" "}
               <SwapHorizIcon fontSize="large" style={{ color: "#00b3a8" }} />{" "}
-              <img src={UKFlag} alt="UK-flag" />
-            </p>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/4/42/Flag_of_the_United_Kingdom.png"
+                alt="UK-flag"
+              />
+            </div>
             <CloseIcon
               fontSize="large"
               style={{
@@ -159,7 +164,7 @@ const Header = ({ catalogModal, setCatalogModal }) => {
             </ul>
           </div>
           <div className="navbar-contact">
-            <b>To improve our servive</b>
+            <b>To Improve Our Servive</b>
             <a href="tel:+447769199362">
               <PhoneIcon style={{ color: "#00b3a8" }} /> <span>24/7 help</span>{" "}
             </a>
@@ -169,7 +174,7 @@ const Header = ({ catalogModal, setCatalogModal }) => {
 
       <div className="header__main">
         <div className="header-bar">
-          <FormatListBulletedIcon
+          <MenuIcon
             fontSize="large"
             style={{ color: "#00b3a8" }}
             onClick={() => setHeaderNavbar(true)}
@@ -231,45 +236,12 @@ const Header = ({ catalogModal, setCatalogModal }) => {
                 />
               </button>
             </form>
-            {loading ? (
-              <div className="search-skeletons">
-                <div className="skeleton-1">
-                  <div className="skeleton-left">
-                    <Skeleton variant="rounded" height={50} width={60} />
-                    <Skeleton variant="rounded" height={50} width="100%" />
-                  </div>
-                  <Skeleton variant="rounded" height={50} width={60} />
-                </div>
-                <div className="skeleton-1">
-                  <div className="skeleton-left">
-                    <Skeleton variant="rounded" height={50} width={60} />
-                    <Skeleton variant="rounded" height={50} width="100%" />
-                  </div>
-                  <Skeleton variant="rounded" height={50} width={60} />
-                </div>
-              </div>
-            ) : searchedProducts?.length ? (
-              <div className="search-results">
-                <ul>
-                  {searchedProducts.map((el) => (
-                    <li onClick={() => handleSearchRouting(el.id)} key={el.id}>
-                      <div className="left">
-                        <SearchIcon
-                          fontSize="medium"
-                          style={{ color: "#898787d2" }}
-                        />
-                        <p>{el.name}</p>
-                      </div>
-                      <img src={`${URL_IMAGE}/${el.photo}`} alt="product-img" />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : searchInputRef.current?.value ? (
-              <div className="no-search-results">
-                <p>No results found</p>
-              </div>
-            ) : null}
+            <SearchResults
+              searchedProducts={searchedProducts}
+              loading={loading}
+              handleSearchRouting={handleSearchRouting}
+              searchInputRef={searchInputRef}
+            />
           </div>
         </div>
         <div className="header-menu">
@@ -332,6 +304,35 @@ const Header = ({ catalogModal, setCatalogModal }) => {
             </Link>
           </li>
         </ul>
+      </div>
+
+      <div className="responsive-search">
+        <div className="search-input">
+          <input
+            ref={searchInputRef}
+            onChange={(e) => handleSearching(e.target.value)}
+            type="text"
+            name="searchInput"
+            placeholder="Search Products"
+          />
+          {searchInputRef.current?.value ? (
+            <CloseIcon
+              fontSize="small"
+              style={{
+                fontWeight: "bold",
+                color: "#101081",
+                cursor: "pointer",
+              }}
+              onClick={clearSearchInput}
+            />
+          ) : null}
+        </div>
+        <SearchResults
+          searchedProducts={searchedProducts}
+          loading={loading}
+          handleSearchRouting={handleSearchRouting}
+          searchInputRef={searchInputRef}
+        />
       </div>
     </div>
   );

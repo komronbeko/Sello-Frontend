@@ -9,7 +9,7 @@ import { fetchUserOne } from "../../features/UserOneSlice";
 import { dollarToPound } from "../../utils/exchange";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { API_BASE_URL } from "../../constants/api";
-import { Skeleton } from "@mui/material"
+import { Skeleton } from "@mui/material";
 import UZImage from "../../assets/uz.svg";
 
 import "./Carts.scss";
@@ -73,7 +73,6 @@ const Cart = () => {
     })();
   }, [carts, token, navigate]);
 
-
   async function clearCart() {
     if (carts.length) {
       await axios.delete(`${API_BASE_URL}/cart/all`, {
@@ -96,29 +95,34 @@ const Cart = () => {
 
   return (
     <section id="cart">
-      {verifyClearing ?
-        <VerifyDeleting verifyDeleting={clearCart} setVerifyModal={setVerifyClearing}
+      {verifyClearing ? (
+        <VerifyDeleting
+          verifyDeleting={clearCart}
+          setVerifyModal={setVerifyClearing}
           mainText="Are you sure you want to clear your carts?"
           verifyingText="Yes, I want to clear my carts"
           cancelingText=" No, I do not want to clear my carts"
-          darkBg={true} />
-        : null}
+          darkBg={true}
+        />
+      ) : null}
       <div className="cart-left">
         <dir className="start-head">
           <h2>Cart</h2>
           <h4>Delivery is carried out by the Sello Logistics service.</h4>
-          {carts?.length ? <div className="btn-clear">
-            <button onClick={() => setVerifyClearing(true)}>
-              <i className="fa-solid fa-xmark"></i>Clear all
-            </button>
-          </div> : null}
+          {carts?.length ? (
+            <div className="btn-clear">
+              <button onClick={() => setVerifyClearing(true)}>
+                <i className="fa-solid fa-xmark"></i>Clear all
+              </button>
+            </div>
+          ) : null}
         </dir>
-        {loading ?
+        {loading ? (
           <div className="cards-skeleton">
-            {[0, 1, 2].map(el => (
+            {[0, 1, 2].map((el) => (
               <div key={el} className="skeleton-item">
                 <div className="item-img">
-                  <Skeleton height={120}/>
+                  <Skeleton height={120} />
                 </div>
                 <div className="item-content">
                   <Skeleton height={25} />
@@ -129,26 +133,28 @@ const Cart = () => {
                 </div>
               </div>
             ))}
-          </div> :
-          carts?.length ?
-            <div className="cards">
-              {carts?.map((i) => {
-                return (
-                  <CartCard
-                    key={i.id}
-                    title={i.product.name}
-                    photo={i.product.photo}
-                    id={i.product.id}
-                    count={i.count}
-                    price={i.product.price}
-                    discount={i.product.discount?.rate}
-                    cart_item_id={i.id}
-                    user_id={user_id}
-                  />
-                );
-              })}
-            </div> : <NoProducts />
-        }
+          </div>
+        ) : carts?.length ? (
+          <div className="cards">
+            {carts?.map((i) => {
+              return (
+                <CartCard
+                  key={i.id}
+                  title={i.product.name}
+                  photo={i.product.photo}
+                  id={i.product.id}
+                  count={i.count}
+                  price={i.product.price}
+                  discount={i.product.discount?.rate}
+                  cart_item_id={i.id}
+                  user_id={user_id}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <NoProducts />
+        )}
       </div>
       <div className="cart-right">
         <div className="cart-end_head">
@@ -158,17 +164,17 @@ const Cart = () => {
               Count of products: <span>{count}</span>
             </li>
             <li>
-              Price <span>{dollarToPound(price)} pounds</span>
+              Price <span>{dollarToPound(price)} £</span>
             </li>
             <li>
               Discount
-              <span>-{discount ? dollarToPound(discount) : null} pounds</span>
+              <span>-{discount ? dollarToPound(discount) : null} £</span>
             </li>
             <li>
               Delivery<span>0</span>
             </li>
             <li>
-              Total payable:<span>{dollarToPound(total)} pounds</span>
+              Total payable:<span>{dollarToPound(total)} £</span>
             </li>
           </ul>
           <button id="checkout-btn" onClick={Order}>
@@ -181,7 +187,7 @@ const Cart = () => {
               <h5>
                 <i className="fa-solid fa-truck"></i>DeliveryShipping:
               </h5>
-              <p>The cost of delivery in the city is from 5.00 pounds.</p>
+              <p>The cost of delivery in the city is from 5.00 £.</p>
             </div>
             <p
               className={`${tootlip === 1 ? "tootlip-1 hovered" : "tootlip-1"}`}
@@ -204,8 +210,9 @@ const Cart = () => {
                 <span>sello !</span>
               </h5>
               <p
-                className={`${tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
-                  }`}
+                className={`${
+                  tootlip === 2 ? "tootlip-2 hovered" : "tootlip-2"
+                }`}
               >
                 You can pick up at our branches
               </p>

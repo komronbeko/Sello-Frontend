@@ -36,7 +36,7 @@ const Hero = () => {
     <div className="hero">
       {loading || !banners.length ? (
         <div className="banner-skeleton">
-          <Skeleton variant="rounded" height={400} />
+          <Skeleton variant="rounded" />
         </div>
       ) : (
         <AliceCarousel

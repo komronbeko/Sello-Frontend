@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import "./SpecialCategories.scss";
 import { fetchCategories } from "../../features/CategoriesSLice";
-import { Grid, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { toast } from "react-toastify";
 
 const SpecialCategories = () => {
@@ -21,19 +21,11 @@ const SpecialCategories = () => {
   const displayPopularCategories = () => {
     if (loading || !categories.length) {
       return (
-        <Grid
-          container
-          columnSpacing={2}
-          rowSpacing={3}
-          columns={5}
-          justifyContent="flex-start"
-        >
+        <div className="spec-categories__skeleton">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((el) => (
-            <Grid item key={el}>
-              <Skeleton variant="rounded" width={241} height={90} />
-            </Grid>
+            <Skeleton key={el.id} variant="rounded" />
           ))}
-        </Grid>
+        </div>
       );
     }
 
@@ -42,14 +34,16 @@ const SpecialCategories = () => {
       .sort((a, b) => b.products.length - a.products.length);
 
     return (
-      <ul className="links">
+      <ul className="spec-categories__container">
         {sortedCategories.map((category) => (
           <Link
             key={category.id}
             className="link-btn"
             to={`/catalog/${category.catalog.name}/${category.name}`}
           >
-            <li>{category.name}</li>
+            <li>
+              <span>{category.name}</span>{" "}
+            </li>
           </Link>
         ))}
       </ul>
@@ -57,8 +51,8 @@ const SpecialCategories = () => {
   };
 
   return (
-    <section className="categories">
-      <p className="categories__heading">
+    <section className="spec-categories">
+      <p className="spec-categories__heading">
         We have selected for you the most popular categories on Sello
       </p>
       {displayPopularCategories()}

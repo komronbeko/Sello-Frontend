@@ -15,7 +15,7 @@
     position: absolute;
     background-color: #00b3a8;
     bottom: 55px;
-    right: 43%;
+    right: 44%;
     z-index: 10;
     padding: 5px 10px;
     border-radius: 4px;
@@ -34,6 +34,10 @@
 
   .banner-skeleton {
     margin-bottom: 50px;
+    span {
+      width: 1200px;
+      height: 400px;
+    }
   }
 }
 
@@ -45,18 +49,85 @@
       padding: 0px 5px;
     }
     .link img {
-      height: 350px;
+      height: 300px;
+    }
+
+    .banner-skeleton {
+      margin-bottom: 40px;
+      span {
+        height: 350px;
+        width: 1000px;
+      }
     }
   }
 }
 
 @media (max-width: 960px) {
   .hero {
-    padding: 180px 80px 0;
+    padding: 200px 80px 0;
 
     .link img {
-      height: 300px;
+      height: 250px;
       border-radius: 6px;
+    }
+
+    .banner-skeleton {
+      margin-bottom: 30px;
+      span {
+        width: 800px;
+        height: 300px;
+      }
+    }
+  }
+}
+
+@media (max-width: 740px) {
+  .hero {
+    padding: 200px 50px 0;
+
+    .link img {
+      height: 230px;
+    }
+
+    .alice-carousel__dots {
+      right: 39%;
+      padding: 0px 3px;
+      bottom: 45px;
+    }
+
+    .banner-skeleton {
+      margin-bottom: 30px;
+      span {
+        width: 600px;
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .hero {
+    padding: 195px 20px 10px;
+
+    .alice-carousel__dots {
+      right: 34%;
+      bottom: 5px;
+    }
+
+    .alice-carousel__prev-btn,
+    .alice-carousel__next-btn {
+      display: none;
+    }
+
+    .link img {
+      height: 200px;
+    }
+
+    .banner-skeleton {
+      margin-bottom: 30px;
+      span {
+        width: 430px;
+        height: 250px;
+      }
     }
   }
 }

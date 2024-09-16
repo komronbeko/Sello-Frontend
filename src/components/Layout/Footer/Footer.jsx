@@ -16,7 +16,6 @@ import axios from "axios";
 import { API_BASE_URL } from "../../../constants/api";
 import { toast } from "react-toastify";
 
-
 const Footer = () => {
   const dispatch = useDispatch();
 
@@ -32,12 +31,13 @@ const Footer = () => {
     const { feedback } = e.target.elements;
 
     try {
-      await axios.post(`${API_BASE_URL}/feedback`,
+      await axios.post(
+        `${API_BASE_URL}/feedback`,
         { text: feedback.value },
-        { headers: { Authorization: `Bearer ${token}` } })
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       toast("Thank you for your feedback", { type: "success" });
-
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -49,22 +49,28 @@ const Footer = () => {
     <footer id="footer">
       <div id="footer-top">
         <img src={Img} alt="" />
-        <div id="feedback">
+        <div className="feedback">
           <h4>
-            {token ? "Leave your feedback about the app" : "Subscribe and be the first to know about discounts and promotions!"}
+            {token
+              ? "Leave Your Feedback About the App"
+              : "Subscribe and Be the First to Know About Discounts and Promotions!"}
           </h4>
           <form onSubmit={(e) => handleFeedback(e)}>
-            {token ? <input
-              type="text"
-              name="feedback"
-              placeholder="Type your comments..."
-              required
-            /> : <input
-              type="text"
-              name="email"
-              placeholder="Enter your email address"
-              required
-            />}
+            {token ? (
+              <input
+                type="text"
+                name="feedback"
+                placeholder="Type your comments..."
+                required
+              />
+            ) : (
+              <input
+                type="text"
+                name="email"
+                placeholder="Enter your email address"
+                required
+              />
+            )}
             <button>Send</button>
           </form>
         </div>
@@ -127,17 +133,28 @@ const Footer = () => {
           <ul>
             <li>
               <div className="contacts-link">
-                Call us: <span><a href="tel:+447769199362">+44 (0) 776 919 93 62</a></span>
+                Call us:{" "}
+                <span>
+                  <a href="tel:+447769199362">+44 (0) 776 919 93 62</a>
+                </span>
               </div>
             </li>
             <li>
               <div className="contacts-link">
-                Write to us: <span><a href="mailto:komronbekolimovme@gmail.com">komronbekolimovme@gmail.com</a></span>
+                Write to us:{" "}
+                <span>
+                  <a href="mailto:komronbekolimovme@gmail.com">
+                    komronbekolimovme@gmail.com
+                  </a>
+                </span>
               </div>
             </li>
             <li>
               <div className="contacts-link" to="https://t.me/olimov0825">
-                Telegram: <span><a href="https://t.me/olimov0825">@kolimov0825</a> </span>
+                Telegram:{" "}
+                <span>
+                  <a href="https://t.me/olimov0825">@kolimov0825</a>{" "}
+                </span>
               </div>
             </li>
             <li>

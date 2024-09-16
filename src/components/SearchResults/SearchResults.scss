@@ -1,0 +1,124 @@
+.search {
+  position: relative;
+  .search-results,
+  .no-search-results,
+  .search-skeletons {
+    position: absolute;
+    border: 1px solid var(--primaryBorder);
+    border-radius: 4px;
+    width: 100%;
+    padding: 4px;
+    background-color: var(--primaryBg);
+    margin-top: 5px;
+    z-index: 60;
+    box-shadow: -3px 4px 4px 0px rgba(207, 202, 202, 0.477);
+  }
+
+  .search-results {
+    ul {
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+      max-height: 300px;
+      overflow-y: scroll;
+      overscroll-behavior: contain;
+    }
+
+    ul::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ul::-webkit-scrollbar-thumb {
+      background-color: #8c949396;
+      border-radius: 4px;
+    }
+
+    ul::-webkit-scrollbar-track {
+      background-color: #d6dbda86;
+      border-radius: 4px;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--primaryBorder);
+      padding: 10px 0;
+      text-transform: capitalize;
+
+      .left {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+
+        p {
+          font-weight: 500;
+          font-size: 16px;
+          color: #898787d2;
+        }
+      }
+
+      .left:hover p {
+        color: #0a867d;
+      }
+
+      img {
+        object-fit: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .no-search-results {
+    p {
+      font-weight: 500;
+      font-size: 14px;
+      padding: 10px 15px;
+      color: #898787d2;
+    }
+  }
+
+  .search-skeletons {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+
+    .skeleton-1 {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 2px solid var(--primaryBorder);
+      padding: 10px 0;
+
+      .skeleton-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 960px) {
+  .search {
+    .search-results {
+      li {
+        padding: 6px 0;
+        border-bottom: 1px solid var(--primaryBorder);
+      }
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .search {
+    .search-results {
+      li {
+        padding: 2px 0;
+      }
+    }
+  }
+}

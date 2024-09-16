@@ -15,26 +15,25 @@ import "./Wallet.scss";
 const stripePromise = loadStripe(STRIPE_PK);
 
 const Wallet = () => {
-  const {user_id} = useParams();
+  const { user_id } = useParams();
   const user = useSelector((state) => state.user.userOne);
-  
+
   const token = getAccessTokenFromLocalStorage();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
 
-    if(!token) navigate('/');
+    if (!token) navigate("/");
 
     dispatch(fetchUserOne(token));
-    
   }, [dispatch, token, navigate]);
 
   return (
     <div id="wallet">
-      <ProfileNav activePage={"Wallet"} user_id={user_id}/>
+      <ProfileNav activePage={"Wallet"} user_id={user_id} />
       <div id="data">
         <div className="data-head">
           <h3>Wallet</h3>
@@ -45,7 +44,7 @@ const Wallet = () => {
         <div className="data-body">
           <h4>
             Payment will be automatically taken from your Sello wallet{" "}
-            <span>Your Balance: {dollarToPound(user?.money_amount)} pounds</span>
+            <span>Your Balance: £{dollarToPound(user?.money_amount)}</span>
           </h4>
         </div>
         <Elements stripe={stripePromise}>
