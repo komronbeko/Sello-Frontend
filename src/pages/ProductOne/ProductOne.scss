@@ -399,6 +399,7 @@
 
     .reviews {
       width: 100%;
+      min-height: 250px;
       border: 0.3px solid rgba(128, 128, 128, 0.363);
       padding: 20px 40px 10px;
       border-radius: 10px;
@@ -409,6 +410,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 20px;
         padding-bottom: 15px;
         margin-bottom: 20px;
 
@@ -424,6 +426,7 @@
           border: 0;
           transition: all ease-in-out 0.4s;
           cursor: pointer;
+          text-align: left;
 
           &:hover {
             color: #038077;
@@ -544,7 +547,7 @@
   form {
     width: 40%;
     top: 15%;
-    left: 30%;
+    left: 28%;
     background-color: white;
     padding: 20px;
     border-radius: 7px;
@@ -663,11 +666,12 @@
         gap: 10px;
 
         button {
-          width: 15%;
+          width: 20%;
           border: 1px solid rgba(128, 128, 128, 0.418);
           padding: 10px;
           border-radius: 5px;
           background-color: white;
+          cursor: pointer;
         }
       }
     }
@@ -692,6 +696,14 @@
           height: 400px;
         }
       }
+    }
+  }
+
+  .modal-review {
+    form {
+      width: 60%;
+      left: 20%;
+      top: 20%;
     }
   }
 }
@@ -719,6 +731,14 @@
       .end {
         width: 100%;
       }
+    }
+  }
+
+  .modal-review {
+    form {
+      width: 70%;
+      left: 15%;
+      top: 20%;
     }
   }
 }
@@ -824,9 +844,15 @@
       .reviews {
         border-radius: 6px;
         padding: 10px;
+        min-height: 200px;
 
         .reviews-head {
           margin-bottom: 0px;
+
+          h3,
+          button {
+            font-size: 16px;
+          }
         }
 
         .reviews-list-common {
@@ -845,6 +871,14 @@
           }
         }
       }
+    }
+  }
+
+  .modal-review {
+    form {
+      width: 80%;
+      left: 10%;
+      padding: 15px;
     }
   }
 }
@@ -874,6 +908,32 @@
           border-radius: 6px;
         }
       }
+    }
+
+    .product_reviews {
+      .reviews {
+        .exact-review {
+          border-radius: 10px 10px 0 0;
+        }
+
+        .reviews-list-common {
+          padding-bottom: 150px;
+          li {
+            div {
+              gap: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .modal-review {
+    form {
+      width: 90%;
+      left: 5%;
+      padding: 10px;
+      border-radius: 5px;
     }
   }
 }

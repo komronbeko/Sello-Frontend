@@ -5,13 +5,13 @@ import { Skeleton } from "@mui/material";
 
 const ProductsContainer = ({ data, loading, heading, isDiscount }) => {
   return (
-    <div className={`products-wrapper ${isDiscount ? "discounts" : null}`}>
+    <div className={`products-cover ${isDiscount ? "discounts" : null}`}>
       <p className="heading">{heading}</p>
-      {loading || !data.length ? (
+      {loading ? (
         <div className="products-skeleton">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((el) => (
             <div key={el.id}>
-              <Skeleton variant="rounded" />
+              <Skeleton variant="rounded" height={200} />
               <Skeleton width="60%" sx={{ marginTop: "20px" }} />
               <Skeleton sx={{ margin: "10px 0" }} height={40} />
             </div>

@@ -4,9 +4,8 @@ import http from "../../service/api";
 import { setAuthAssetsToLocalStorage } from "../../utils/storage";
 
 const LoginForm = ({ setAuthNavigator }) => {
-
   async function handleSubmit(e) {
-    toast('Please wait...', {type: 'info'});
+    toast("Please wait...", { type: "info" });
     e.preventDefault();
     const { email, password } = e.target.elements;
     try {
@@ -30,7 +29,7 @@ const LoginForm = ({ setAuthNavigator }) => {
   return (
     <form onSubmit={(e) => handleSubmit(e)} id="send">
       <h3>Welcome!</h3>
-      <h3>Login</h3>
+      <b>Login to your Account</b>
       <div className="data">
         <input
           type="email"

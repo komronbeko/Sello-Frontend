@@ -9,7 +9,7 @@ import uelLogo from "../../../assets/uel-logo.png";
 // import App from "../../../assets/iphone.svg";
 import { Link } from "react-router-dom";
 import "./Footer.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthModalTrue } from "../../../features/AuthModalSlice";
 import { getAccessTokenFromLocalStorage } from "../../../utils/storage";
 import axios from "axios";
@@ -21,6 +21,8 @@ const Footer = () => {
 
   const token = getAccessTokenFromLocalStorage();
 
+  const { userOne } = useSelector((state) => state.user);
+
   async function handleFeedback(e) {
     e.preventDefault();
 
@@ -30,6 +32,25 @@ const Footer = () => {
 
     const { feedback } = e.target.elements;
 
+    const message = `      
+        <b><i>New Feedback about the App</i></b>\n\n<b>User-Name:</b> ${userOne.username}\n<b>Email:</b> ${userOne.email}\n<b>Feedback:</b> ${feedback.value}
+    `;
+
+    const sendTelegramMessage = async (chatId) => {
+      try {
+        await axios.post(
+          `https://api.telegram.org/bot${"7384777634:AAETKgzr_taUhU-ubeaKi-Hui8aOqVJTKxE"}/sendMessage`,
+          {
+            chat_id: chatId,
+            text: message,
+            parse_mode: "HTML",
+          }
+        );
+      } catch (error) {
+        toast("Something went wrong", { type: "error" });
+      }
+    };
+
     try {
       await axios.post(
         `${API_BASE_URL}/feedback`,
@@ -37,7 +58,10 @@ const Footer = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      sendTelegramMessage("-1002414927290");
+
       toast("Thank you for your feedback", { type: "success" });
+      e.target.reset();
     } catch (error) {
       toast(error.message, { type: "error" });
     }

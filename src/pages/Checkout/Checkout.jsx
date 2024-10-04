@@ -145,17 +145,19 @@ const Checkout = () => {
                 Count of products: <span>{count}</span>
               </li>
               <li>
-                Price <span>{dollarToPound(price)} £</span>
+                Price <span>£{dollarToPound(price)}</span>
               </li>
               <li>
                 Discount
-                <span>-{discount ? dollarToPound(discount) : null} £</span>
+                <span>
+                  {discount ? `- £${dollarToPound(discount)}` : "No Discount"}
+                </span>
               </li>
               <li>
                 Delivery<span>0</span>
               </li>
               <li>
-                Total payable:<span>{dollarToPound(total)} £</span>
+                Total payable:<span>£{dollarToPound(total)}</span>
               </li>
             </ul>
             <button onClick={newPurchase} type="submit" id="checkout-btn">

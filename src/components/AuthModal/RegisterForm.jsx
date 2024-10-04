@@ -30,7 +30,7 @@ const RegisterForm = ({ setAuthNavigator }) => {
   return (
     <form onSubmit={(e) => handleSubmit(e)} id="send">
       <h3>Hello!</h3>
-      <h3>Register</h3>
+      <b>Create an Account!</b>
       <div className="data">
         <input
           type="email"

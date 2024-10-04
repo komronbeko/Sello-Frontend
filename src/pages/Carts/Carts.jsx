@@ -105,16 +105,15 @@ const Cart = () => {
           darkBg={true}
         />
       ) : null}
+
       <div className="cart-left">
         <dir className="start-head">
           <h2>Cart</h2>
           <h4>Delivery is carried out by the Sello Logistics service.</h4>
           {carts?.length ? (
-            <div className="btn-clear">
-              <button onClick={() => setVerifyClearing(true)}>
-                <i className="fa-solid fa-xmark"></i>Clear all
-              </button>
-            </div>
+            <button onClick={() => setVerifyClearing(true)}>
+              <i className="fa-solid fa-xmark"></i> <span>Clear all</span>
+            </button>
           ) : null}
         </dir>
         {loading ? (

@@ -68,18 +68,18 @@ const CartCard = ({
         src={`${URL_IMAGE}/${photo}`}
         alt={`${title}-img`}
       />
-      <div className="left-card">
+      <div className="right-card">
         <Link className="card-link" to={`/product/${id}`}>
           {title}
         </Link>
         <p className="price">
           {discount
-            ? `£ ${dollarToPound(price - (price * discount) / 100)}`
-            : `£ ${dollarToPound(price)}`}
+            ? `£${dollarToPound(price - (price * discount) / 100)}`
+            : `£${dollarToPound(price)}`}
           {discount ? (
             <span>
               Discount: {discount}%
-              <b className="discount-minus">{dollarToPound(price)} £</b>
+              <b className="discount-minus">£{dollarToPound(price)}</b>
             </span>
           ) : null}
         </p>

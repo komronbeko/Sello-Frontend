@@ -194,7 +194,7 @@ const Orders = () => {
                               </Link>
                               <ul>
                                 <li>
-                                  Price : {dollarToPound(p.product.price)} £
+                                  Price : £{dollarToPound(p.product.price)}
                                 </li>
                                 <li>Description : {p.product.description}</li>
                                 <li>Count: {p.count}</li>
@@ -222,7 +222,7 @@ const Orders = () => {
                         </div>
                         <div className="table">
                           <p className="key">Total amount :</p>
-                          <p className="value">{dollarToPound(o.cost)} £</p>
+                          <p className="value">£{dollarToPound(o.cost)}</p>
                         </div>
                       </div>
                     </div>

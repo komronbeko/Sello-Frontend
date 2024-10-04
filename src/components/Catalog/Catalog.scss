@@ -61,6 +61,7 @@
 
       .arrow-1 {
         display: none;
+        cursor: pointer;
       }
 
       path {
@@ -193,10 +194,6 @@
     .heading {
       display: block;
     }
-
-    // .wrapper {
-    //   grid-template-columns: 1fr;
-    // }
 
     .catalogs {
       width: 100%;

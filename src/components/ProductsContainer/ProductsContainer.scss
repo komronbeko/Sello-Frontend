@@ -1,4 +1,4 @@
-.products-wrapper {
+.products-cover {
   background-color: var(--primaryBg);
   padding: 40px 120px 60px;
   margin: 0 auto;
@@ -17,17 +17,10 @@
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
   }
-
-  .products-skeleton {
-    span:nth-child(1) {
-      max-width: auto;
-      height: 200px !important;
-    }
-  }
 }
 
 @media only screen and (max-width: 1200px) {
-  .products-wrapper {
+  .products-cover {
     padding: 30px 100px 50px;
 
     .products-container,
@@ -38,7 +31,7 @@
 }
 
 @media only screen and (max-width: 960px) {
-  .products-wrapper {
+  .products-cover {
     padding: 25px 80px 40px;
 
     .products-container,
@@ -49,7 +42,7 @@
 }
 
 @media only screen and (max-width: 740px) {
-  .products-wrapper {
+  .products-cover {
     padding: 25px 50px 30px;
 
     .heading {
@@ -65,7 +58,7 @@
 }
 
 @media only screen and (max-width: 500px) {
-  .products-wrapper {
+  .products-cover {
     padding: 25px 20px 20px;
 
     .heading {

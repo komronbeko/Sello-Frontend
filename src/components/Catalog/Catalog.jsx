@@ -41,7 +41,6 @@ const Catalog = ({ setCatalogModal, catalogs }) => {
       <div className="heading">
         <p>Catalogs & Categories</p>
       </div>
-      {/* <div className="wrapper"> */}
       <div className="catalogs">
         {!categories.length ? (
           <>
@@ -127,7 +126,6 @@ const Catalog = ({ setCatalogModal, catalogs }) => {
           </li>
         ))}
       </ul>
-      {/* </div> */}
     </div>
   );
 };

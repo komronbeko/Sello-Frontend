@@ -2,7 +2,7 @@
   width: 100%;
   height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.507), rgba(0, 0, 0, 0.548));
-  z-index: 30;
+  z-index: 50;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -10,6 +10,14 @@
   justify-content: center;
 
   .block {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 60%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 3px;
+
     .close-auth-modal {
       position: absolute;
       top: 0px;
@@ -23,19 +31,7 @@
       cursor: pointer;
     }
 
-    position: relative;
-    width: 60%;
-    background-color: white;
-    border-radius: 10px;
-    padding: 3px;
-    display: flex;
-
-    div {
-      width: 50%;
-    }
-
     .start_auth {
-      width: 50%;
       background-color: var(--green);
       padding: 40px 20px;
       border-radius: 10px;
@@ -67,12 +63,11 @@
     }
 
     .end_auth {
-      width: 50%;
       align-items: center;
 
       form#send {
         width: 100%;
-        padding: 100px 20px;
+        padding: 60px 20px;
         display: flex;
         flex-direction: column;
         gap: 30px;
@@ -80,6 +75,13 @@
         h3 {
           font-size: 30px;
           font-weight: normal;
+          color: var(--text-secondary);
+        }
+
+        b {
+          font-size: 20px;
+          font-weight: 500;
+          color: var(--darkGreen);
         }
 
         .data {
@@ -247,4 +249,49 @@
 }
 .register-next-btn {
   margin-top: 50px !important;
+}
+
+@media only screen and (max-width: 1200px) {
+  .auth-modal {
+    .block {
+      width: 70%;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .auth-modal {
+    .block {
+      width: 80%;
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  .auth-modal {
+    .block {
+      width: 90%;
+      border-radius: 6px;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .auth-modal {
+    .block {
+      grid-template-columns: 1fr;
+      margin-top: -100px;
+      width: 95%;
+
+      .start_auth {
+        display: none;
+      }
+
+      .end_auth {
+        form#send {
+          padding: 15px 10px 30px;
+        }
+      }
+    }
+  }
 }

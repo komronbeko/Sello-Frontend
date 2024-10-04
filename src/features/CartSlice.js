@@ -4,11 +4,15 @@ import { API_BASE_URL } from "../constants/api";
 
 export const fetchCarts = createAsyncThunk("cart/fetchCarts", (token) => {
   return axios
-  .get(`${API_BASE_URL}/cart/ofuser`, {headers: { Authorization: 'Bearer ' + token}})
-  .then((res) => {
-    const filtercarts = res?.data?.data.filter(el => el.status === "unpaid");
-    return filtercarts;
-  });
+    .get(`${API_BASE_URL}/cart/ofuser`, {
+      headers: { Authorization: "Bearer " + token },
+    })
+    .then((res) => {
+      const filtercarts = res?.data?.data.filter(
+        (el) => el.status === "unpaid"
+      );
+      return filtercarts;
+    });
 });
 
 const initialState = {

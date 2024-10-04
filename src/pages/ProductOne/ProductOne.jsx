@@ -359,7 +359,7 @@ const ProductOne = () => {
                     setModal(true), setStars(5);
                   }}
                 >
-                  Leave feedback +
+                  + Add Review
                 </button>
               )}
             </div>

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchSortProducts } from "../../features/SortProductsSlice.js";
 import NoProducts from "../../components/NoProducts/NoProducts";
@@ -9,32 +9,28 @@ import Sorting from "../../components/Filters/Sorting";
 import "./FilterProducts.scss";
 
 const FilterByCatalog = () => {
-    window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
 
-    const products = useSelector(state => state.sortProducts.products);
+  const products = useSelector((state) => state.sortProducts.products);
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchSortProducts({ value: 'default' }));
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchSortProducts({ value: "default" }));
+  }, [dispatch]);
 
-    return (
-        <div className="filter-products">
-            <p>There are {products.length} products in this section</p>
-            <div className="filter-catalog">
-                <div className="filter-catalog__selections">
-                    <Sorting />
-                    <Categorizing />
-                </div>
-                {products.length ? (
-                    <ProductsWrapper data={products} />
-                ) : (
-                    <NoProducts />
-                )}
-            </div>
+  return (
+    <div className="filter-products">
+      <p>There are {products.length} products in this section</p>
+      <div className="filter-catalog">
+        <div className="filter-selects">
+          <Sorting />
+          <Categorizing />
         </div>
-    )
-}
+        {products.length ? <ProductsWrapper data={products} /> : <NoProducts />}
+      </div>
+    </div>
+  );
+};
 
-export default FilterByCatalog
+export default FilterByCatalog;
