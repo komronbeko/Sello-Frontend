@@ -1,48 +1,43 @@
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import http from "../../service/api";
 import {
   getAuthAssetsFromLocalStorage,
-  setAccessTokenToLocalStorage,
+  //   setAccessTokenToLocalStorage,
+  //   setAuthAssetsToLocalStorage,
 } from "../../utils/storage";
-import { setAuthModalFalse } from "../../features/AuthModalSlice";
+// import { setAuthModalFalse } from "../../features/AuthModalSlice";
 
-
-const VerifyForm = () => {
-  const dispatch = useDispatch();
+const VerifyOtp = ({ setAuthNavigator }) => {
+  //   const dispatch = useDispatch();
 
   const authAssets = getAuthAssetsFromLocalStorage();
 
   async function handleSubmit(e) {
-    toast('Just a second! We are checking your code', {type: 'info'});
-
+    toast("Just a second! We are checking your code", { type: "info" });
 
     e.preventDefault();
     const { code } = e.target.elements;
     try {
       const { data } = await http.post(
-        `/auth/verify-user/${authAssets?.user_id}`,
+        `/auth/verify-otp/${authAssets?.user_id}`,
         {
           verify_code: code.value,
-          code: authAssets?.verifyCode
+          code: authAssets?.verifyCode,
         }
       );
+      setAuthNavigator("pass-reset");
       toast(data.message, { type: "success" });
-
-      setAccessTokenToLocalStorage(data.token);
-
-      dispatch(setAuthModalFalse());
     } catch (error) {
       toast(error.message, { type: "error" });
     }
 
     e.target.reset();
   }
-  
+
   return (
     <form onSubmit={(e) => handleSubmit(e)} id="send">
-      <h3>Gratefull to welcoming you again!</h3>
       <div className="data">
         <label htmlFor="verify-code">Enter verifaction code</label>
         <input type="number" name="code" placeholder="••••••••" required />
@@ -52,4 +47,4 @@ const VerifyForm = () => {
   );
 };
 
-export default VerifyForm;
+export default VerifyOtp;

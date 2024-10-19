@@ -1,13 +1,16 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import RegisterForm from "./RegisterForm";
-import VerifyForm from "./VerifyForm";
+import VerifyEmail from "./VerifyEmail";
 import LoginForm from "./LoginForm";
 import { setAuthModalFalse } from "../../features/AuthModalSlice";
 import Phone from "../../assets/iphone.svg";
 import Logo from "../../assets/sello-logo.svg";
 
 import "./AuthModal.scss";
+import EmailOtp from "./EmailOtp";
+import VerifyOtp from "./VerifyOtp";
+import PassReset from "./PassReset";
 
 const AuthModal = () => {
   const [authNavigator, setAuthNavigator] = useState("auth-register");
@@ -17,7 +20,7 @@ const AuthModal = () => {
   function closeAuthModal() {
     dispatch(setAuthModalFalse());
   }
-  
+
   return (
     <div className="auth-modal">
       <div className="block">
@@ -32,17 +35,17 @@ const AuthModal = () => {
         </div>
         <div className="end_auth">
           {authNavigator === "auth-register" ? (
-            <RegisterForm
-              setAuthNavigator={setAuthNavigator}
-            />
+            <RegisterForm setAuthNavigator={setAuthNavigator} />
           ) : authNavigator === "auth-verify" ? (
-            <VerifyForm
-              setAuthNavigator={setAuthNavigator}
-            />
+            <VerifyEmail setAuthNavigator={setAuthNavigator} />
           ) : authNavigator === "auth-login" ? (
-            <LoginForm
-              setAuthNavigator={setAuthNavigator}
-            />
+            <LoginForm setAuthNavigator={setAuthNavigator} />
+          ) : authNavigator === "email-otp" ? (
+            <EmailOtp setAuthNavigator={setAuthNavigator} />
+          ) : authNavigator === "verify-otp" ? (
+            <VerifyOtp setAuthNavigator={setAuthNavigator} />
+          ) : authNavigator === "pass-reset" ? (
+            <PassReset setAuthNavigator={setAuthNavigator} />
           ) : (
             ""
           )}

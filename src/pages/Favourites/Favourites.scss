@@ -1,54 +1,96 @@
 #liked {
-    width: 100%;
-    padding: 220px 60px;
-    background-color: var(--primaryBg);
-    display: flex;
-    justify-content: space-between;
-    section#data {
-        width: 68%;
-        padding: 20px;
-        border: 1px solid;
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 200px 120px 60px;
+  background-color: var(--primaryBg);
+  #liked-data {
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    border: 0.5px solid rgba(128, 128, 128, 0.363);
+    .data-head {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      h3 {
+        font-size: 40px;
+        font-weight: normal;
+      }
+      button {
+        font-size: 18px;
+        color: rgb(255, 45, 90);
+        background-color: inherit;
+        border: 0;
+        display: flex;
         border-radius: 10px;
-        border: 0.5px solid rgba(128, 128, 128, 0.363);
-        .data-head {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            h3 {
-                font-size: 40px;
-                font-weight: normal;
-            }
-            button {
-                width: 13%;
-                font-size: 18px;
-                color: rgb(255, 45, 90);
-                background-color: inherit;
-                border: 0;
-                display: flex;
-                border-radius: 10px;
-                gap: 20px;
-                align-items: center;
-                transition: all ease-in-out 0.4s;
-                padding: 5px;
-                justify-content: center;
-                &:active {
-                    border: 0.7px solid rgb(255, 45, 90);
-                }
-            }
+        gap: 10px;
+        align-items: center;
+        transition: all ease-in-out 0.4s;
+        padding: 5px;
+        justify-content: center;
+        cursor: pointer;
+        &:active {
+          border: 0.7px solid rgb(255, 45, 90);
         }
-        .data-body {
-            width: 100%;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            .card {
-                width: 24%;
-                height: 420px;
-                p {
-                    text-align: start;
-                }
-            }
+      }
+    }
+    .data-body {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      .card {
+        p {
+          text-align: start;
         }
-    } 
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  #liked {
+    grid-template-columns: 1fr;
+    padding: 200px 80px 50px;
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  #liked {
+    padding: 200px 50px 50px;
+
+    #liked-data {
+      padding: 10px;
+      border-radius: 6px;
+
+      .data-head {
+        h3 {
+          font-size: 28px;
+        }
+
+        button {
+          font-size: 14px;
+        }
+      }
+
+      .data-body {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #liked {
+    padding: 200px 20px 50px;
+
+    #liked-data {
+      .data-body {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
 }

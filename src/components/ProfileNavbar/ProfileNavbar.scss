@@ -1,38 +1,55 @@
 #navigate {
-    width: 30%;
-    max-height: 400px;
-    padding: 10px;
-    border-radius: 10px;
-    border: 0.5px solid var(--primaryBorder);
+  max-height: 400px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 0.5px solid var(--primaryBorder);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 13px;
+  .link {
+    width: 100%;
+    background-color: var(--primaryBg);
+    color: gray;
+    border: 0;
+    padding: 14px;
+    font-size: 17px;
+    text-align: start;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 13px;
+    gap: 5px;
+    cursor: pointer;
+    &:hover {
+      color: var(--green);
+    }
+  }
+  .active {
+    background-color: var(--green);
+    color: white;
+    border-radius: 8px;
+    &:hover {
+      background-color: var(--green);
+      color: white;
+    }
+  }
+  .logout {
+    margin-top: 50px;
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  #navigate {
+    padding: 6px;
+    border-radius: 6px;
+    gap: 6px;
+
     .link {
-        width: 100%;
-        background-color: var(--primaryBg);
-        color: gray;
-        border: 0;
-        padding: 14px;
-        font-size: 17px;
-        text-align: start;
-        display: flex;
-        gap: 5px;
-        cursor: pointer;
-        &:hover {
-            color: var(--green);
-        }
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 6px;
     }
-    .active {
-        background-color: var(--green);
-        color: white;
-        border-radius: 8px;
-        &:hover {
-            background-color: var(--green);
-            color: white;
-        }
-    }
+
     .logout {
-        margin-top: 50px;
+      margin-top: 30px;
     }
+  }
 }

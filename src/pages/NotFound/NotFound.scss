@@ -1,7 +1,38 @@
 .not-found {
-    img{
-        margin-top: 30px;
-        width: 100%;
-    }
+  img {
+    margin-top: 50px;
+    width: 100%;
+  }
 }
 
+@media only screen and (max-width: 1200px) {
+  .not-found {
+    img {
+      margin-top: 80px;
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .not-found {
+    img {
+      margin-top: 110px;
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  .not-found {
+    img {
+      margin-top: 150px;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .not-found {
+    img {
+      margin-top: 170px;
+    }
+  }
+}

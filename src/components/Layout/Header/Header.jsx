@@ -64,6 +64,7 @@ const Header = ({ catalogModal, setCatalogModal }) => {
     if (!token) return dispatch(setAuthModalTrue());
     const authAssets = getAuthAssetsFromLocalStorage();
     navigate(`/profile/${authAssets?.user_id}${directory}`);
+    setHeaderNavbar(false);
   }
 
   const debounceSearching = debounce((searchQuery) => {
@@ -120,41 +121,50 @@ const Header = ({ catalogModal, setCatalogModal }) => {
               onClick={() => setHeaderNavbar(false)}
             />
           </div>
-          <button className="navbar-login-btn">Login</button>
+          {!token ? (
+            <button
+              onClick={() => dispatch(setAuthModalTrue())}
+              className="navbar-login-btn"
+            >
+              Login
+            </button>
+          ) : (
+            ""
+          )}
           <div className="navbar-main">
             <div className="navbar-main-top">
               <p>Navigation Bar</p>
             </div>
             <ul className="navbar-main-links">
-              <li>
+              <li onClick={() => handleAuthModal("/")}>
                 <div>
                   <PersonOutlineIcon style={{ color: "gray" }} />{" "}
                   <span>Profile</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />
               </li>
-              <li>
+              <li onClick={() => handleAuthModal("/orders")}>
                 <div>
                   <FormatListBulletedIcon style={{ color: "gray" }} />{" "}
                   <span>My Orders</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />{" "}
               </li>
-              <li>
+              <li onClick={() => handleAuthModal("/favourites")}>
                 <div>
                   <PersonOutlineIcon style={{ color: "gray" }} />{" "}
                   <span>Favourites</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />
               </li>
-              <li>
+              <li onClick={() => handleAuthModal("/carts")}>
                 <div>
                   <PersonOutlineIcon style={{ color: "gray" }} />{" "}
                   <span>Cart</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />
               </li>
-              <li>
+              <li onClick={() => handleAuthModal("/feedback")}>
                 <div>
                   <PersonOutlineIcon style={{ color: "gray" }} />{" "}
                   <span>My Feedbacks</span>

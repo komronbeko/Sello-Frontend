@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
-import { Skeleton } from "@mui/material"
+import { Skeleton } from "@mui/material";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { API_BASE_URL } from "../../constants/api";
-import { upperCase } from "../../utils/upper-case";
 
 import "./Profile.scss";
 import axios from "axios";
@@ -37,10 +36,8 @@ const Profile = () => {
       setGender(userOne.gender);
     }
 
-
     dispatch(fetchUserOne(token));
   }, [token, userOne?.gender, error]);
-
 
   function changeGender(e) {
     setGender(e.target.value);
@@ -49,7 +46,7 @@ const Profile = () => {
   async function senData(e) {
     e.preventDefault();
 
-    setPatchLoading(true)
+    setPatchLoading(true);
 
     try {
       const {
@@ -89,109 +86,21 @@ const Profile = () => {
   }
 
   return (
-    <section id="profile-all">
-      <section id="profile">
-        <ProfileNav activePage={"Profile"} user_id={user_id} />
-        {loading || patchLoading ? <div id="data">
-          <div className="data-head">
-            <Skeleton height={60} width="45%" />
-            <Skeleton height={30} width="85%" />
-          </div>
-          <div className="data-body">
-            <div id="info">
-              <ul>
-                {
-                  [1, 2, 3, 4, 5, 6, 7, 8].map(el => (
-                    <li key={el}>
-                      <Skeleton height={30} />
-                      <Skeleton height={30} />
-                    </li>
-                  ))
-                }
-              </ul>
-              <ul className="with-edit">
-                <li className="edit">
-                <Skeleton height={40} width={200}/>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-          : <div id="data">
-            <div className="data-head">
-              <h3>Personal Information</h3>
-              <p>
-                This is where your personal information is stored. Click Edit if
-                you want to change your information.
-              </p>
-            </div>
-            <div className="data-body">
-              <div id="info">
-                <ul>
-                  <li>
-                    <span>User name</span>
-                    {userOne?.username}
-                  </li>
-                  <li>
-                    <span>First name</span>
-                    {userOne?.f_name}
-                  </li>
-                  <li>
-                    <span>Last name</span>
-                    {userOne?.l_name}
-                  </li>
-                  <li>
-                    <span>Phone number</span>+{userOne?.phone_number}
-                  </li>
-                  <li>
-                    <span>Date of birth</span>
-                    {userOne?.birthdate ? userOne.birthdate : 'Null'}
-                  </li>
-                  <li>
-                    <span>Email</span>
-                    {userOne?.email}
-                  </li>
-                  <li>
-                    <span>Language of communication with Sello</span>
-                    {upperCase(userOne?.language)}
-                  </li>
-                  <li>
-                    <span>Gender</span>
-                    {upperCase(userOne?.gender)}
-                  </li>
-                </ul>
-                <ul className="with-edit">
-                  <li className="edit">
-                    <button
-                      onClick={() => {
-                        setActiveModal(true);
-                      }}
-                    >
-                      Edit
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>}
-
-      </section>
+    <section id="profile">
       {modalActive ? (
         <div id="profile-edit-modal">
           <div className="modal">
             <div className="modal-head">
-              <div className="text">
-                <h2>Edit data</h2>
-                <p>You can only change certain information here</p>
-              </div>
-              <button
+              <h2>Edit data</h2>
+              <p>You can only change certain information here</p>
+              <div
                 type="button"
                 onClick={() => {
                   setActiveModal(false);
                 }}
               >
                 <i className="fa-solid fa-xmark"></i>
-              </button>
+              </div>
             </div>
             <form className="modal-body" onSubmit={senData}>
               <div className="form-body">
@@ -233,7 +142,7 @@ const Profile = () => {
                           name="gender"
                           id=""
                           onChange={(e) => changeGender(e)}
-                          checked={gender == 'male' ? true : false}
+                          checked={gender == "male" ? true : false}
                         />
                         <label htmlFor="">Male</label>
                       </div>
@@ -244,7 +153,7 @@ const Profile = () => {
                           name="gender"
                           id=""
                           onChange={(e) => changeGender(e)}
-                          checked={gender == 'female' ? true : false}
+                          checked={gender == "female" ? true : false}
                         />
                         <label htmlFor="">Female</label>
                       </div>
@@ -304,6 +213,89 @@ const Profile = () => {
           </div>
         </div>
       ) : null}
+      <ProfileNav activePage={"Profile"} user_id={user_id} />
+      {loading || patchLoading ? (
+        <div id="data">
+          <div className="data-head">
+            <Skeleton height={60} width="45%" />
+            <Skeleton height={30} width="85%" />
+          </div>
+          <div className="data-body">
+            <div id="info">
+              <ul>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((el) => (
+                  <li key={el}>
+                    <Skeleton height={30} />
+                    <Skeleton height={30} />
+                  </li>
+                ))}
+              </ul>
+              <ul className="with-edit">
+                <li className="edit">
+                  <Skeleton height={40} width={200} />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div id="data">
+          <div className="data-head">
+            <h3>Personal Information</h3>
+            <p>
+              This is where your personal information is stored. Click Edit if
+              you want to change your information.
+            </p>
+          </div>
+          <div className="data-body">
+            <div className="info">
+              <ul>
+                <li>
+                  <span>User name</span>
+                  {userOne?.username}
+                </li>
+                <li>
+                  <span>First name</span>
+                  {userOne?.f_name ? userOne?.f_name : "Unknown"}
+                </li>
+                <li>
+                  <span>Last name</span>
+                  {userOne?.l_name ? userOne?.l_name : "Unknown"}
+                </li>
+                <li>
+                  <span>Phone number</span>
+                  {userOne?.phone_number ? userOne?.phone_number : "Unknown"}
+                </li>
+                <li>
+                  <span>Date of birth</span>
+                  {userOne?.birthdate ? userOne.birthdate : "Unknown"}
+                </li>
+                <li>
+                  <span>Email</span>
+                  {userOne?.email}
+                </li>
+                <li>
+                  <span>Language</span>
+                  {userOne?.language ? userOne?.language : "Unknown"}
+                </li>
+                <li>
+                  <span>Gender</span>
+                  {userOne?.gender ? userOne?.gender : "Unknown"}
+                </li>
+              </ul>
+              <div className="edit">
+                <button
+                  onClick={() => {
+                    setActiveModal(true);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

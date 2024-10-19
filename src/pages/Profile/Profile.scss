@@ -1,239 +1,346 @@
-section#profile-all {
-    width: 100%;
-    position: relative;
-    padding: 220px 0px 60px;
-    background-color: var(--primaryBg);
-    section#profile {
-        padding: 0 60px;
+#profile {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 200px 120px 50px;
+  background-color: var(--primaryBg);
+
+  #data {
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    border: 0.5px solid rgba(128, 128, 128, 0.363);
+    .data-head {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      h3 {
+        font-size: 40px;
+        font-weight: normal;
+      }
+      p {
+        color: #808080;
+      }
+    }
+    .data-body {
+      padding: 25px;
+
+      h4 {
+        font-size: 20px;
         width: 100%;
         display: flex;
         justify-content: space-between;
-        #data {
-            width: 68%;
-            padding: 20px;
-            border: 1px solid;
-            border-radius: 10px;
-            border: 0.5px solid rgba(128, 128, 128, 0.363);
-            .data-head {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-                h3 {
-                    font-size: 40px;
-                    font-weight: normal;
-                }
-                p {
-                    color: #808080;
-                }
-            }
-            .data-body {
-                width: 100%;
-                padding: 25px;
-               
-                h4 {
-                    font-size: 20px;
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    span {
-                        font-weight: normal;
-                    }
-                }
-                #info {
-                    width: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    gap: 40px;
-                    ul {
-                        width: 100%;
-                        display: grid;
-                        grid-template-columns: repeat(4, auto);
-                        gap: 25px;
-                        li {
-                            display: flex;
-                            flex-direction: column;
-                            gap: 5px;
-                            span {
-                                font-size: 13px;
-                                color: gray;
-                            }
-                        }
-                        .edit button{
-                            color: var(--green);
-                            font-size: 15px;
-                            background-color: inherit;
-                            border: 0;
-                            cursor: pointer;
-                            &:active {
-                                text-decoration: underline;
-                            }
-                        }
-                    }
-
-                    .with-edit {
-                        display: flex;
-                        justify-content: end;
-                    }
-                }
-            }
-            
+        span {
+          font-weight: normal;
         }
-    }
-    #profile-edit-modal {
-        width: 100vw;
-        position: fixed;
-        min-height: 100vh;
-        top: 0px;
+      }
+      .info {
+        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        z-index: 30;
-        background: rgba(0, 0, 0, 0.286);
-        .modal {
-            background-color: white;
-            width: 40%;
-            padding: 20px;
-            border-radius: 10px;
+        gap: 40px;
+        ul {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+          li {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            .modal-head {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                .text {
-                    width: 70%;
-                    h2 {
-                        font-weight: normal;
-                        font-size: 40px;
-                    }
-                    p {
-                        width: 100%;
-                        color: gray;
-                    }
-                }
-                button {
-                    width: 8%;
-                    border: 0;
-                    background-color: white;
-                    border-radius: 8px;
-                    font-size: 20px;
-                    &:active {
-                        border: 0.5px solid;
-                    }
-                }
+            gap: 5px;
+            span {
+              font-size: 13px;
+              color: gray;
             }
-            form.modal-body {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                padding: 25px;
-                border: 1px solid #808080;
-                border-radius: 10px;
-                gap: 30px;
-                .form-body {
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    .table {
-                        width: 46%;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        gap: 15px;
-                        justify-content: center;
-                        img {
-                            width: 50%;
-                            border-radius: 10px;
-                        }
-                        #file_lable {
-                            width: 60%;
-                            background-color: white;
-                            border: 0.8px solid var(--green);
-                            text-align: center;
-                            border-radius: 7px;
-                            padding: 5px;
-                            color: var(--green);
-                            transition: all ease-in-out 0.4s;
-                            &:hover {
-                                background-color: var(--green);
-                                color: white;
-                            }
-                            &:active {
-                                background-color: rgb(0, 85, 255);
-                                color: white;
-                            }
-                        }
-                    }
-                    .input-table {
-                        align-items: start;
-                        justify-content: start;
-                        .inp-label {
-                            width: 100%;
-                            display: flex;
-                            flex-direction: column;
-                            gap: 6px;
-                            label {
-                                color: gray;
-                                font-size: 12px;
-                            }
-                            input, select {
-                                padding: 9px;
-                                border-radius: 5px;
-                                border: 0.5px solid gray;
-                                font-size: 18px;
-                                color: rgb(38, 38, 38);
-                            }
-                            .inputs {
-                                width: 100%;
-                                display: flex;
-                                .radio-label {
-                                    width: 50%;
-                                    display: flex;
-                                    gap: 10px;      
-                                    label {
-                                        font-size: 15px;
-                                    }                              
-                                }
-                            }
-                        }
-                    }
-                }
-                .form-footer {
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 15px;
-                    button {
-                        padding: 10px;
-                        width: 20%;
-                        font-size: 18px;
-                        border-radius: 8px;
-                        transition: all ease-in-out 0.5s;
-                        &:nth-child(1) {
-                            background-color: white;
-                            color: gray;
-                            border: 0.8px solid gray;
-                            &:hover {
-                                background-color: gray;
-                                color: white;
-                            }
-                        }
-                        &:nth-child(2) {
-                            background-color: var(--green);
-                            color: white;
-                            border: 0;
-                            &:hover {
-                                background-color: #00948b;
-                            }
-                        }
-                    }
-                }
-            }
+          }
         }
+
+        .edit {
+          display: flex;
+          justify-content: end;
+
+          button {
+            color: var(--green);
+            font-size: 15px;
+            background-color: inherit;
+            border: 0;
+            cursor: pointer;
+            &:active {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
     }
+  }
+
+  #profile-edit-modal {
+    width: 100vw;
+    position: fixed;
+    min-height: 100vh;
+    top: 0px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 120px;
+    // justify-content: center;
+    align-items: center;
+    z-index: 30;
+    background: rgba(0, 0, 0, 0.286);
+    .modal {
+      background-color: white;
+      width: 40%;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .modal-head {
+        width: 100%;
+        position: relative;
+        h2 {
+          font-weight: normal;
+          font-size: 40px;
+        }
+        p {
+          width: 100%;
+          color: gray;
+        }
+        div {
+          position: absolute;
+          top: 0;
+          right: 0;
+          border: 0;
+          font-size: 20px;
+        }
+      }
+      form.modal-body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 25px;
+        border: 1px solid var(--primaryBorder);
+        border-radius: 10px;
+        gap: 30px;
+        .form-body {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          .table {
+            width: 46%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            img {
+              width: 50%;
+              border-radius: 10px;
+            }
+            #file_lable {
+              width: 60%;
+              background-color: white;
+              border: 0.8px solid var(--green);
+              text-align: center;
+              border-radius: 7px;
+              padding: 5px;
+              color: var(--green);
+              transition: all ease-in-out 0.4s;
+              &:hover {
+                background-color: var(--green);
+                color: white;
+              }
+              &:active {
+                background-color: rgb(0, 85, 255);
+                color: white;
+              }
+            }
+          }
+          .input-table {
+            align-items: start;
+            justify-content: start;
+            .inp-label {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              gap: 6px;
+              label {
+                color: gray;
+                font-size: 12px;
+              }
+              input,
+              select {
+                padding: 9px;
+                border-radius: 5px;
+                border: 0.5px solid gray;
+                font-size: 18px;
+                color: rgb(38, 38, 38);
+              }
+              .inputs {
+                width: 100%;
+                display: flex;
+                .radio-label {
+                  width: 50%;
+                  display: flex;
+                  gap: 10px;
+                  label {
+                    font-size: 15px;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .form-footer {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+          button {
+            padding: 10px;
+            width: 20%;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: all ease-in-out 0.5s;
+            &:nth-child(1) {
+              background-color: white;
+              color: gray;
+              border: 0.8px solid gray;
+              &:hover {
+                background-color: gray;
+                color: white;
+              }
+            }
+            &:nth-child(2) {
+              background-color: var(--green);
+              color: white;
+              border: 0;
+              &:hover {
+                background-color: #00948b;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  #profile {
+    padding: 200px 100px 60px;
+
+    #profile-edit-modal {
+      .modal {
+        width: 50%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  #profile {
+    padding: 200px 80px 50px;
+    grid-template-columns: 1fr;
+
+    #data {
+      .data-body {
+        .info {
+          ul {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+      }
+    }
+
+    #profile-edit-modal {
+      .modal {
+        width: 60%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  #profile {
+    padding: 200px 50px 50px;
+    #data {
+      border-radius: 6px;
+      padding: 10px;
+      .data-head {
+        h3 {
+          font-size: 28px;
+        }
+      }
+
+      .data-body {
+        padding: 10px;
+        .info {
+          ul {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+      }
+    }
+
+    #profile-edit-modal {
+      .modal {
+        width: 75%;
+        border-radius: 6px;
+
+        .modal-head {
+          .text {
+            h2 {
+              font-size: 28px;
+            }
+            p {
+              font-size: 14px;
+              margin-top: 10px;
+            }
+          }
+        }
+
+        form.modal-body {
+          border-radius: 6px;
+          padding: 10px;
+
+          .form-body {
+            .input-table {
+              .inp-label {
+                input,
+                select {
+                  font-size: 12px;
+                  padding: 6px;
+                  border-radius: 4px;
+                }
+              }
+            }
+          }
+
+          .form-footer {
+            button {
+              width: 30%;
+              border-radius: 6px;
+              font-size: 16px;
+              padding: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #profile {
+    padding: 200px 20px 50px;
+
+    #profile-edit-modal {
+      .modal {
+        width: 90%;
+      }
+    }
+  }
 }

@@ -35,17 +35,15 @@ const Wallet = () => {
     <div id="wallet">
       <ProfileNav activePage={"Wallet"} user_id={user_id} />
       <div id="data">
-        <div className="data-head">
+        <div className="data-head-1">
           <h3>Wallet</h3>
-          <p>
-            You can fund your wallet using your credit card (Visa, MasterCard)
-          </p>
+          <p>Balance: £{dollarToPound(user?.money_amount)}</p>
         </div>
-        <div className="data-body">
-          <h4>
-            Payment will be automatically taken from your Sello wallet{" "}
-            <span>Your Balance: £{dollarToPound(user?.money_amount)}</span>
-          </h4>
+        <div className="data-head-2">
+          <p>
+            You can fund your wallet using your credit card (Visa, MasterCard).
+            Payment will be automatically taken from your Sello wallet
+          </p>
         </div>
         <Elements stripe={stripePromise}>
           <ReplenishForm />

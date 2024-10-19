@@ -50,6 +50,12 @@ const LoginForm = ({ setAuthNavigator }) => {
         >
           Dont have an account yet?
         </p>
+        <p
+          onClick={() => setAuthNavigator("email-otp")}
+          className="auth-hyper-link"
+        >
+          Forgot password?
+        </p>
       </div>
     </form>
   );

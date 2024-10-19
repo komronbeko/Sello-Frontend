@@ -1,81 +1,77 @@
 #wallet {
-    width: 100%;
-    padding: 220px 60px 60px;
-    background-color: var(--primaryBg);
-    display: flex;
-    justify-content: space-between;
-    #data {
-        width: 68%;
-        padding: 20px;
-        border: 1px solid;
-        border-radius: 10px;
-        background-color: white;
-        border: 0.5px solid rgba(128, 128, 128, 0.363);
-        .data-head {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            h3 {
-                font-size: 40px;
-                font-weight: normal;
-            }
-            p {
-                color: #808080;
-            }
-        }
-        .data-body {
-            width: 100%;
-            padding: 25px;
-            display: flex;
-            gap: 40px;
-            max-height: 100%;
-            img {
-                border-radius: 50%;
-            }
-            h4 {
-                font-size: 20px;
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                font-weight: 400;
-                span {
-                    font-weight: normal;
-                }
-            }
-            #info {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                gap: 40px;
-                ul {
-                    width: 100%;
-                    display: flex;
-                    gap: 25px;
-                    li {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 5px;
-                        span {
-                            font-size: 13px;
-                            color: gray;
-                        }
-                    }
-                    .edit button{
-                        color: var(--green);
-                        font-size: 15px;
-                        background-color: inherit;
-                        border: 0;
-                        &:active {
-                            text-decoration: underline;
-                        }
-                    }
-                }
-                .with-edit {
-                    justify-content: space-between;
-                }
-            }
-        }
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 200px 120px 60px;
+  background-color: var(--primaryBg);
+  #data {
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: white;
+    border: 0.5px solid rgba(128, 128, 128, 0.363);
+
+    .data-head-1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      h3 {
+        font-size: 40px;
+        font-weight: normal;
+      }
+
+      p {
+        font-size: 18px;
+        color: var(--greenSlightDark);
+      }
     }
+
+    .data-head-2 {
+      p {
+        color: #808080;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  #wallet {
+    padding: 200px 100px 60px;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  #wallet {
+    padding: 200px 80px 50px;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  #wallet {
+    padding: 200px 50px 50px;
+    #data {
+      border-radius: 6px;
+      padding: 20px;
+      .data-head-1 {
+        h3 {
+          font-size: 28px;
+        }
+      }
+
+      .data-head-2 {
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #wallet {
+    padding: 200px 20px 50px;
+  }
 }
