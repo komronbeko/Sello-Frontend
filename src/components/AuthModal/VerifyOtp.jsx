@@ -1,16 +1,11 @@
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
-// import { useDispatch } from "react-redux";
 import http from "../../service/api";
 import {
   getAuthAssetsFromLocalStorage,
-  //   setAccessTokenToLocalStorage,
-  //   setAuthAssetsToLocalStorage,
 } from "../../utils/storage";
-// import { setAuthModalFalse } from "../../features/AuthModalSlice";
 
 const VerifyOtp = ({ setAuthNavigator }) => {
-  //   const dispatch = useDispatch();
 
   const authAssets = getAuthAssetsFromLocalStorage();
 

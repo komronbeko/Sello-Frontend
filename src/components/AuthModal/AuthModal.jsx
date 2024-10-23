@@ -37,7 +37,7 @@ const AuthModal = () => {
           {authNavigator === "auth-register" ? (
             <RegisterForm setAuthNavigator={setAuthNavigator} />
           ) : authNavigator === "auth-verify" ? (
-            <VerifyEmail setAuthNavigator={setAuthNavigator} />
+            <VerifyEmail />
           ) : authNavigator === "auth-login" ? (
             <LoginForm setAuthNavigator={setAuthNavigator} />
           ) : authNavigator === "email-otp" ? (

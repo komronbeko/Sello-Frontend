@@ -5,18 +5,18 @@ import { Link } from "react-router-dom";
 import "./SpecialCategories.scss";
 import { fetchCategories } from "../../features/CategoriesSLice";
 import { Skeleton } from "@mui/material";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const SpecialCategories = () => {
   const dispatch = useDispatch();
-  const { categories, loading, error } = useSelector((state) => state.category);
+  const { categories, loading } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(fetchCategories());
-    if (error) {
-      toast(error, { type: "error" });
-    }
-  }, [error]);
+    // if (error) {
+    //   toast(error, { type: "error" });
+    // }
+  }, []);
 
   const displayPopularCategories = () => {
     if (loading || !categories.length) {

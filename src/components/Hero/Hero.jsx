@@ -8,10 +8,10 @@ import { URL_IMAGE } from "../../constants/api";
 import "./Hero.scss";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { Skeleton } from "@mui/material";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const Hero = () => {
-  const { banners, loading, error } = useSelector((state) => state.banner);
+  const { banners, loading } = useSelector((state) => state.banner);
 
   const dispatch = useDispatch();
 
@@ -27,10 +27,10 @@ const Hero = () => {
 
   useEffect(() => {
     dispatch(fetchBanners());
-    if (error) {
-      toast(error, { type: "error" });
-    }
-  }, [error]);
+    // if (error) {
+    //   toast(error, { type: "error" });
+    // }
+  }, []);
 
   return (
     <div className="hero">

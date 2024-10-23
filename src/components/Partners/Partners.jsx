@@ -20,7 +20,7 @@ const Partners = () => {
         <div className="partners-skeleton partners-grid-common">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((el) => (
             <Grid item key={el}>
-              <Skeleton variant="rounded" width={180} height={80} />
+              <Skeleton variant="rounded" />
             </Grid>
           ))}
         </div>

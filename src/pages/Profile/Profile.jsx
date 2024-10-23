@@ -21,23 +21,19 @@ const Profile = () => {
 
   const { user_id } = useParams();
   const token = getAccessTokenFromLocalStorage();
-  const { userOne, loading, error } = useSelector((state) => state.user);
+  const { userOne, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!token) navigate("/");
 
-    if (error) {
-      toast(error, { type: "error" });
-    }
-
     if (userOne?.gender) {
       setGender(userOne.gender);
     }
 
     dispatch(fetchUserOne(token));
-  }, [token, userOne?.gender, error]);
+  }, [token, userOne?.gender]);
 
   function changeGender(e) {
     setGender(e.target.value);
@@ -94,7 +90,6 @@ const Profile = () => {
               <h2>Edit data</h2>
               <p>You can only change certain information here</p>
               <div
-                type="button"
                 onClick={() => {
                   setActiveModal(false);
                 }}
@@ -216,26 +211,17 @@ const Profile = () => {
       <ProfileNav activePage={"Profile"} user_id={user_id} />
       {loading || patchLoading ? (
         <div id="data">
-          <div className="data-head">
-            <Skeleton height={60} width="45%" />
-            <Skeleton height={30} width="85%" />
-          </div>
-          <div className="data-body">
-            <div id="info">
-              <ul>
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((el) => (
-                  <li key={el}>
-                    <Skeleton height={30} />
-                    <Skeleton height={30} />
-                  </li>
-                ))}
-              </ul>
-              <ul className="with-edit">
-                <li className="edit">
-                  <Skeleton height={40} width={200} />
-                </li>
-              </ul>
-            </div>
+          <Skeleton width="40%" height={60} />
+          <Skeleton width="90%" height={30} />
+          <div className="skeleton-body">
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
+            <Skeleton width="100%" height={30} />
           </div>
         </div>
       ) : (

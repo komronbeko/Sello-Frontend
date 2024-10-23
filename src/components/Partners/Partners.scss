@@ -12,6 +12,10 @@
     border-radius: 10px;
   }
 
+  .partners-skeleton span {
+    height: 80px;
+  }
+
   .partners-right {
     width: 60%;
     display: flex;
@@ -68,6 +72,10 @@
     flex-direction: column-reverse;
     gap: 40px;
 
+    .partners-skeleton span {
+      height: 60px;
+    }
+
     img {
       width: 100%;
     }
@@ -93,6 +101,7 @@
 
     .partners-grid-common {
       grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
   }
 }
