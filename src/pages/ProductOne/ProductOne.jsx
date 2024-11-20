@@ -50,8 +50,6 @@ const ProductOne = () => {
     setTootlip(number);
   }
 
-  console.log(productOne);
-
   useEffect(() => {
     window.scrollTo(0, 0);
 

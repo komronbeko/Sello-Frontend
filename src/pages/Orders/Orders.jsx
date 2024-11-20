@@ -173,8 +173,6 @@ const Orders = () => {
                   {
                     <div className="order-body">
                       {order.carts.map((cart) => {
-                        console.log(cart);
-
                         return (
                           <div className="product" key={cart.id}>
                             <div className="product-start">
