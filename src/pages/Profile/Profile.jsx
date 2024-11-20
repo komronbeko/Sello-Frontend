@@ -20,6 +20,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const { user_id } = useParams();
+
   const token = getAccessTokenFromLocalStorage();
   const { userOne, loading } = useSelector((state) => state.user);
 

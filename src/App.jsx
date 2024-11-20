@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import Layout from "./components/Layout";
+import Layout from "./Layout";
 import MyRoutes from "./routes/Routes";
 import AuthModal from "./components/AuthModal/AuthModal";
 

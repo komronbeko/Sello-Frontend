@@ -5,9 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import logistic from "../../assets/logistic.svg";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import http from "../../service/api";
 import { fetchCarts } from "../../features/CartSlice";
-import { dollarToPound } from "../../utils/exchange";
 import { handleTotal } from "../../utils/total";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import axios from "axios";
@@ -33,7 +31,6 @@ const Checkout = () => {
   const [total, setTotal] = useState(0);
 
   const carts = useSelector((state) => state.cart.carts);
-  const user = useSelector((state) => state.user.userOne);
 
   function onChange(e) {
     setValues((v) => ({ ...v, [e.target.name]: e.target.value }));
@@ -145,19 +142,17 @@ const Checkout = () => {
                 Count of products: <span>{count}</span>
               </li>
               <li>
-                Price <span>£{dollarToPound(price)}</span>
+                Price <span>£{price}</span>
               </li>
               <li>
                 Discount
-                <span>
-                  {discount ? `- £${dollarToPound(discount)}` : "No Discount"}
-                </span>
+                <span>{discount ? `- £${discount}` : "No Discount"}</span>
               </li>
               <li>
                 Delivery<span>0</span>
               </li>
               <li>
-                Total payable:<span>£{dollarToPound(total)}</span>
+                Total payable:<span>£{total}</span>
               </li>
             </ul>
             <button onClick={newPurchase} type="submit" id="checkout-btn">

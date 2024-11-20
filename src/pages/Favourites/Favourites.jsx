@@ -24,21 +24,17 @@ const Likes = () => {
 
   const token = getAccessTokenFromLocalStorage();
 
-  const { likes, loading, error } = useSelector((state) => state.like);
+  const { likes, loading } = useSelector((state) => state.like);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     if (!token) navigate("/");
 
-    if (error) {
-      toast(error, { type: "error" });
-    }
-
     window.scrollTo(0, 0);
 
     dispatch(fetchLikes(token));
-  }, [token, error]);
+  }, [token]);
 
   async function clearLikes() {
     try {
@@ -83,7 +79,7 @@ const Likes = () => {
             {likes.map((el) => (
               <Card
                 key={el.product.id}
-                image={el.product.photo}
+                image={el.product?.photos[0]?.path}
                 discount={el.product.discount?.rate}
                 id={el.product.id}
                 price={el.product.price}

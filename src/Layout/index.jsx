@@ -8,9 +8,9 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import "./index.scss";
 import { useState } from "react";
-import { setActivePage } from "../../features/FooterMenuStatesSlice.";
+import { setActivePage } from "../features/FooterMenuStatesSlice.";
 import { useNavigate } from "react-router";
-import { getAuthAssetsFromLocalStorage } from "../../utils/storage";
+import { getAuthAssetsFromLocalStorage } from "../utils/storage";
 import { Badge } from "@mui/material";
 
 const Layout = ({ children }) => {

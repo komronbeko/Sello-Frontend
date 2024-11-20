@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 
 const UniversalFilter = ({ data, title, filterAssets }) => {
   const [filterValues, setFilterValues] = useState({
-    brand: [],
     category: [],
     discount: [],
   });

@@ -3,6 +3,8 @@ import { Skeleton } from "@mui/material";
 // import React from "react";
 import { URL_IMAGE } from "../../constants/api";
 import SearchIcon from "@mui/icons-material/Search";
+import noImagePng from "../../assets/no-image-icon-6.png";
+
 import "./SearchResults.scss";
 
 export const SearchResults = ({
@@ -42,7 +44,12 @@ export const SearchResults = ({
                   />
                   <p>{el.name}</p>
                 </div>
-                <img src={`${URL_IMAGE}/${el.photo}`} alt="product-img" />
+                <img
+                  src={
+                    el.photo ? `${URL_IMAGE}/${el.photos[0]?.path}` : noImagePng
+                  }
+                  alt="product-img"
+                />
               </li>
             ))}
           </ul>

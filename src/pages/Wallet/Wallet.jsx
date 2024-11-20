@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import ReplenishForm from "../../components/ReplenishForm/ReplenishForm";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
-import { dollarToPound } from "../../utils/exchange";
 import { STRIPE_PK } from "../../constants/api";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
@@ -37,7 +36,7 @@ const Wallet = () => {
       <div id="data">
         <div className="data-head-1">
           <h3>Wallet</h3>
-          <p>Balance: £{dollarToPound(user?.money_amount)}</p>
+          <p>Balance: £{user?.money_amount}</p>
         </div>
         <div className="data-head-2">
           <p>

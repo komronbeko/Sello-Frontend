@@ -15,13 +15,13 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      height: 200px;
       background-color: rgba(128, 128, 128, 0.093);
-      border-radius: 8px;
+      border-radius: 6px;
+      padding: 0 5px;
       img {
         max-width: 100%;
-        border-radius: 8px;
-        height: auto;
+        border-radius: 4px;
+        height: 200px;
       }
     }
     p {
@@ -56,7 +56,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    button.add-to-cart {
+    button {
       width: 100%;
       background-color: rgb(33, 103, 103);
       border: 0;

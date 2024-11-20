@@ -3,16 +3,17 @@ import { Link } from "react-router-dom";
 import { URL_IMAGE } from "../../constants/api";
 import requestImg from "../../assets/zayavka2.png";
 
-import "./Partners.scss";
 import { useEffect } from "react";
 import { fetchPartners } from "../../features/PartnersSlice";
 import { Grid, Skeleton } from "@mui/material";
-import { toast } from "react-toastify";
+import noImagePng from "../../assets/no-image-icon-6.png";
+
+import "./Partners.scss";
 
 const Partners = () => {
   const dispatch = useDispatch();
 
-  const { partners, loading, error } = useSelector((state) => state.partner);
+  const { partners, loading } = useSelector((state) => state.partner);
 
   function displayPartners() {
     if (loading || !partners.length) {
@@ -31,7 +32,10 @@ const Partners = () => {
       <ul className="logos-container partners-grid-common">
         {partners?.map((el) => (
           <Link key={el.id} className="logo">
-            <img src={`${URL_IMAGE}/${el.photo}`} alt={el.name} />
+            <img
+              src={el.photo ? `${URL_IMAGE}/${el.photo}` : noImagePng}
+              alt={el.name}
+            />
           </Link>
         ))}
       </ul>
@@ -40,10 +44,10 @@ const Partners = () => {
 
   useEffect(() => {
     dispatch(fetchPartners());
-    if (error) {
-      toast(error, { type: "error" });
-    }
-  }, [error]);
+    // if (error) {
+    //   toast(error, { type: "error" });
+    // }
+  }, []);
 
   return (
     <section id="partners">

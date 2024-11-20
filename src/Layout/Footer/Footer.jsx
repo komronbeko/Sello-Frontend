@@ -1,19 +1,19 @@
-import Img from "../../../assets/footer_start.png";
-import Logo from "../../../assets/logo.svg";
+import Img from "../../assets/footer_start.png";
+import Logo from "../../assets/logo.svg";
 // import Payment1 from "../../../assets/sellopay.svg";
 // import Payment2 from "../../../assets/humo.svg";
 // import Payment3 from "../../../assets/zoomrad.svg";
 // import Payment4 from "../../../assets/uzcard.svg";
-import zenithLogo from "../../../assets/logo-black.png";
-import uelLogo from "../../../assets/uel-logo.png";
+import zenithLogo from "../../assets/logo-black.png";
+import uelLogo from "../../assets/uel-logo.png";
 // import App from "../../../assets/iphone.svg";
 import { Link } from "react-router-dom";
 import "./Footer.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthModalTrue } from "../../../features/AuthModalSlice";
-import { getAccessTokenFromLocalStorage } from "../../../utils/storage";
+import { setAuthModalTrue } from "../../features/AuthModalSlice";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import axios from "axios";
-import { API_BASE_URL } from "../../../constants/api";
+import { API_BASE_URL } from "../../constants/api";
 import { toast } from "react-toastify";
 
 const Footer = () => {

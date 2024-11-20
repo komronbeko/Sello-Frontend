@@ -1,0 +1,128 @@
+#myproducts {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 200px 120px 60px;
+  background-color: var(--primaryBg);
+  #myproducts-data {
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 10px;
+    border: 0.5px solid rgba(128, 128, 128, 0.363);
+    .data-head {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      h3 {
+        font-size: 40px;
+        font-weight: normal;
+      }
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      button:nth-child(2) {
+        background-color: var(--greenSlightDark);
+      }
+    }
+    .data-body {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      .card {
+        p {
+          text-align: start;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  #myproducts {
+    #myproducts-data {
+      .data-body {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .post_product_wrapper {
+      .modal {
+        width: 60%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  #myproducts {
+    grid-template-columns: 1fr;
+    padding: 200px 80px 50px;
+
+    .post_product_wrapper {
+      padding-top: 50px;
+      .modal {
+        width: 70%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  #myproducts {
+    padding: 200px 50px 50px;
+
+    #myproducts-data {
+      padding: 10px;
+      border-radius: 6px;
+
+      .data-head {
+        h3 {
+          font-size: 28px;
+        }
+
+        button {
+          font-size: 14px;
+        }
+      }
+
+      .actions {
+        button {
+          padding: 4px 8px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .post_product_wrapper {
+      .modal {
+        width: 80%;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #myproducts {
+    padding: 200px 20px 50px;
+
+    #myproducts-data {
+      .data-body {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .post_product_wrapper {
+      .modal {
+        width: 95%;
+      }
+    }
+  }
+}

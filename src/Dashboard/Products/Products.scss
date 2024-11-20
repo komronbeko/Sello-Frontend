@@ -1,0 +1,13 @@
+#products {
+  .data-body {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    .card {
+      p {
+        text-align: start;
+      }
+    }
+  }
+}

@@ -10,7 +10,6 @@ export const fetchSortProducts = createAsyncThunk(
     from,
     to,
     discount,
-    brand,
     category,
     product_infos,
   }) => {
@@ -30,10 +29,6 @@ export const fetchSortProducts = createAsyncThunk(
 
     if (discount && JSON.parse(discount).length) {
       query += `&discounts=${discount}`;
-    }
-
-    if (brand && JSON.parse(brand).length) {
-      query += `&brands=${brand}`;
     }
 
     if (category && JSON.parse(category).length) {
@@ -58,19 +53,19 @@ const sortProductSlice = createSlice({
   name: "sortProducts",
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(fetchSortProducts.pending, (state) => { 
+    builder.addCase(fetchSortProducts.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchSortProducts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = action.payload;
-        state.error = ""
+      state.loading = false;
+      state.products = action.payload;
+      state.error = "";
     });
     builder.addCase(fetchSortProducts.rejected, (state, action) => {
-        state.loading = false,
-        state.products = [],
-        state.error = action.error.message
-    })
+      (state.loading = false),
+        (state.products = []),
+        (state.error = action.error.message);
+    });
   },
 });
 

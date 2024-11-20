@@ -2,23 +2,22 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
 import { fetchOrders } from "../../features/OrdersSlice";
-import { dollarToPound } from "../../utils/exchange";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
-
-import "./Orders.scss";
-import axios from "axios";
+import noImagePng from "../../assets/no-image-icon-6.png";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import VerifyDeleting from "../../components/VerifyDeliting/VerifyDeleting";
 import { Skeleton } from "@mui/material";
 
+import "./Orders.scss";
 const Orders = () => {
   const [verifyModal, setVerifyModal] = useState(false);
   const [orderId, setOrderId] = useState(null);
 
-  const { orders, loading, error } = useSelector((state) => state.order);
+  const { orders, loading } = useSelector((state) => state.order);
   const token = getAccessTokenFromLocalStorage();
 
   const { user_id } = useParams();
@@ -50,14 +49,11 @@ const Orders = () => {
 
     if (!token) navigate("/");
     dispatch(fetchOrders(token));
-    if (error) {
-      toast(error, { type: "error" });
-    }
-  }, [dispatch, token, navigate, error]);
+  }, [dispatch, token, navigate]);
 
   return (
     <div id="purchase">
-      <ProfileNav activePage={"My orders"} user_id={user_id} />
+      <ProfileNav activePage={"My Orders"} user_id={user_id} />
       <section id="data">
         <div className="data-head">
           <h3>My orders</h3>
@@ -119,13 +115,13 @@ const Orders = () => {
           </div>
         ) : orders?.length ? (
           <div id="orders">
-            {orders?.map((o) => {
-              const loc = JSON.parse(o.location);
+            {orders?.map((order) => {
+              const loc = JSON.parse(order.location);
               return (
-                <div className="order" key={o.id}>
-                  {o.status != "canceled" ? (
+                <div className="order" key={order.id}>
+                  {order.status != "canceled" ? (
                     <button
-                      onClick={() => handleCancelBtn(o.id)}
+                      onClick={() => handleCancelBtn(order.id)}
                       className="cancel-order-btn"
                     >
                       ❌
@@ -146,15 +142,15 @@ const Orders = () => {
                     <div className="order-aside">
                       <ul>
                         <li>
-                          Cart number : <span>№ {o.id}</span>
+                          Cart number : <span>№ {order.id}</span>
                         </li>
                         <li>
                           Order date :{" "}
-                          <span>{`${o.createdAt
+                          <span>{`${order.createdAt
                             .split("T")[0]
                             .split("-")
                             .join(".")} ${
-                            o.createdAt.split("T")[1].split(".")[0]
+                            order.createdAt.split("T")[1].split(".")[0]
                           }`}</span>
                         </li>
                       </ul>
@@ -168,7 +164,7 @@ const Orders = () => {
                       </ul>
                       <ul>
                         <li>
-                          Secret code : <span>{o.secret_code}</span>
+                          Secret code : <span>{order.secret_code}</span>
                         </li>
                         <li>Fiscal check : </li>
                       </ul>
@@ -176,34 +172,40 @@ const Orders = () => {
                   }
                   {
                     <div className="order-body">
-                      {o.carts.map((p) => {
+                      {order.carts.map((cart) => {
+                        console.log(cart);
+
                         return (
-                          <div className="product" key={p.id}>
+                          <div className="product" key={cart.id}>
                             <div className="product-start">
                               <img
-                                src={`${URL_IMAGE}/${p.product.photo}`}
+                                src={
+                                  cart.product?.photos.length
+                                    ? `${URL_IMAGE}/${cart.product?.photos[0]?.path}`
+                                    : noImagePng
+                                }
                                 alt=""
                               />
                             </div>
                             <div className="product-end">
                               <Link
-                                to={`/product/${p.product.id}`}
+                                to={`/product/${cart.product.id}`}
                                 className="link"
                               >
-                                {p.product.name}
+                                {cart.product.name}
                               </Link>
                               <ul>
+                                <li>Price : £{cart.product.price}</li>
                                 <li>
-                                  Price : £{dollarToPound(p.product.price)}
+                                  Description : {cart.product.description}
                                 </li>
-                                <li>Description : {p.product.description}</li>
-                                <li>Count: {p.count}</li>
+                                <li>Count: {cart.count}</li>
                               </ul>
                             </div>
                           </div>
                         );
                       })}
-                      <p className={`type ${o.status}`}>{o.status}</p>
+                      <p className={`type ${order.status}`}>{order.status}</p>
                     </div>
                   }
                   {
@@ -222,7 +224,7 @@ const Orders = () => {
                         </div>
                         <div className="table">
                           <p className="key">Total amount :</p>
-                          <p className="value">£{dollarToPound(o.cost)}</p>
+                          <p className="value">£{order.cost}</p>
                         </div>
                       </div>
                     </div>

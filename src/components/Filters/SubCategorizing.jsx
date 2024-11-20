@@ -10,7 +10,9 @@ const SubCategorizing = ({ foundCatalog, subcategory }) => {
       }
     >
       <select name="category" id="category">
-        <option value="subcategory">Subcategory</option>
+        <option value="subcategory" disabled>
+          Subcategory
+        </option>
         {foundCatalog && foundCatalog?.categories.length
           ? foundCatalog?.categories.map((el) => (
               <option

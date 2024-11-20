@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AliceCarousel from "react-alice-carousel";
 import { fetchBanners } from "../../features/BannersSlice";
 import { URL_IMAGE } from "../../constants/api";
+import noImagePng from "../../assets/no-image-icon-6.png";
 
 import "./Hero.scss";
 import "react-alice-carousel/lib/alice-carousel.css";
@@ -19,7 +20,11 @@ const Hero = () => {
     ? banners.map((el) => {
         return (
           <Link key={el.id} className="link" to={`/catalog/${el.catalog.name}`}>
-            <img src={`${URL_IMAGE}/${el.photo}`} alt={el.name} width={100} />
+            <img
+              src={el.photo ? `${URL_IMAGE}/${el.photo}` : noImagePng}
+              alt={el.name}
+              width={100}
+            />
           </Link>
         );
       })

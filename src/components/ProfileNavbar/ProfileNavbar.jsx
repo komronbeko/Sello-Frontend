@@ -9,11 +9,16 @@ const ProfileNav = ({ activePage, user_id }) => {
     {
       icon: "fa-regular fa-user",
       text: "Profile",
-      link:  `/`,
+      link: `/`,
+    },
+    {
+      icon: "fa-solid fa-cart-plus",
+      text: "My Products",
+      link: "/myproducts",
     },
     {
       icon: "fa-solid fa-box",
-      text: "My orders",
+      text: "My Orders",
       link: "/orders",
     },
     {
@@ -36,7 +41,7 @@ const ProfileNav = ({ activePage, user_id }) => {
     localStorage.removeItem("token");
     navigate("/");
   }
-  
+
   return (
     <div id="navigate">
       {links.map((l) => {

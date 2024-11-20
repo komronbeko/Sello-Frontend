@@ -1,18 +1,19 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCarts } from "../../features/CartSlice";
-import { fetchLikes } from "../../features/LikesSlice";
-import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
-import { dollarToPound } from "../../utils/exchange";
-import { addToLike } from "../../utils/add-to-like";
-import { setAuthModalTrue } from "../../features/AuthModalSlice";
-
-import "./OrderCard.scss";
-import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import axios from "axios";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { useEffect } from "react";
+import { fetchCarts } from "../../features/CartSlice";
+import { fetchLikes } from "../../features/LikesSlice";
+import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
+import { addToLike } from "../../utils/add-to-like";
+import { setAuthModalTrue } from "../../features/AuthModalSlice";
+import { getAccessTokenFromLocalStorage } from "../../utils/storage";
+import noImagePng from "../../assets/no-image-icon-6.png";
+
+import "./OrderCard.scss";
+import calcDisc from "../../utils/calc-disc";
 
 const CartCard = ({
   title,
@@ -65,7 +66,7 @@ const CartCard = ({
     <div id="card">
       <img
         className="card-img"
-        src={`${URL_IMAGE}/${photo}`}
+        src={photo ? `${URL_IMAGE}/${photo}` : noImagePng}
         alt={`${title}-img`}
       />
       <div className="right-card">
@@ -73,13 +74,10 @@ const CartCard = ({
           {title}
         </Link>
         <p className="price">
-          {discount
-            ? `£${dollarToPound(price - (price * discount) / 100)}`
-            : `£${dollarToPound(price)}`}
+          {calcDisc(+price, +discount)}
           {discount ? (
             <span>
-              Discount: {discount}%
-              <b className="discount-minus">£{dollarToPound(price)}</b>
+              Discount: {discount}%<b className="discount-minus">£{price}</b>
             </span>
           ) : null}
         </p>

@@ -1,22 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import "./Catalog.scss";
-import { fetchBrands } from "../../features/BrandsSlice";
-import { URL_IMAGE } from "../../constants/api";
 
 const Catalog = ({ setCatalogModal, catalogs }) => {
-  const brands = useSelector((state) => state.brand.brands);
-
   const [useCatalog, setUseCatalog] = useState(catalogs[0]);
   const [categories, setCategories] = useState([]);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(fetchBrands());
     setCategories(0);
   }, []);
 
@@ -113,18 +105,6 @@ const Catalog = ({ setCatalogModal, catalogs }) => {
             <h4 className="no-categories-text">No Categories</h4>
           )}
         </div>
-      </ul>
-      <ul className="brands">
-        {brands?.map((el) => (
-          <li key={el.id}>
-            <img
-              width={160}
-              height={80}
-              src={`${URL_IMAGE}/${el.photo}`}
-              alt={el.name}
-            />
-          </li>
-        ))}
       </ul>
     </div>
   );

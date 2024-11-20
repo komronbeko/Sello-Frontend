@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import CartCard from "../../components/OrderCard/OrderCard";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchUserOne } from "../../features/UserOneSlice";
-import { dollarToPound } from "../../utils/exchange";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { API_BASE_URL } from "../../constants/api";
 import { Skeleton } from "@mui/material";
@@ -25,7 +24,7 @@ const Cart = () => {
   const { user_id } = useParams();
   const token = getAccessTokenFromLocalStorage();
 
-  const { carts, loading, error } = useSelector((state) => state.cart);
+  const { carts, loading } = useSelector((state) => state.cart);
 
   const [tootlip, setTootlip] = useState(0);
   const [count, setCount] = useState(0);
@@ -39,11 +38,7 @@ const Cart = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-
-    if (error) {
-      toast(error, { type: "error" });
-    }
-  }, [error]);
+  }, []);
 
   useEffect(() => {
     if (!token) return navigate("/");
@@ -135,12 +130,12 @@ const Cart = () => {
           </div>
         ) : carts?.length ? (
           <div className="cards">
-            {carts?.map((i) => {
+            {carts.map((i) => {
               return (
                 <CartCard
                   key={i.id}
                   title={i.product.name}
-                  photo={i.product.photo}
+                  photo={i.product.photos[0].path}
                   id={i.product.id}
                   count={i.count}
                   price={i.product.price}
@@ -163,17 +158,14 @@ const Cart = () => {
               Count of products: <span>{count}</span>
             </li>
             <li>
-              Price <span>{dollarToPound(price)} £</span>
+              Price <span>£{price} </span>
             </li>
             <li>
               Discount
-              <span>-{discount ? dollarToPound(discount) : null} £</span>
+              <span>£{discount ? discount : null} </span>
             </li>
             <li>
-              Delivery<span>0</span>
-            </li>
-            <li>
-              Total payable:<span>{dollarToPound(total)} £</span>
+              Total payable: £<span>{total} </span>
             </li>
           </ul>
           <button id="checkout-btn" onClick={Order}>

@@ -13,64 +13,75 @@ import FilterByCatalog from "../pages/FilterProducts/FilterByCatalog";
 import FilterByCategory from "../pages/FilterProducts/FilterByCategory";
 import FilterByNestedCategory from "../pages/FilterProducts/FilterByNestedCategory";
 import NotFound from "../pages/NotFound/NotFound";
+import MyProducts from "../pages/MyProducts/Myproducts";
+// import AdminDashboard from "../pages/AdminDashboard/Main";
+import DashboardMain from "../Dashboard/Main/Main";
 
 const routes = [
-    {
-        path: '/',
-        element: <Main/> 
-    },
-    {
-        path: '/admin-login',
-        element: <Login/>
-    },
-    {
-        path: '/profile/:user_id',
-        element: <Profile/>
-    },
-    {
-        path: '/profile/:user_id/carts',
-        element: <Carts/>
-    },
-    {
-        path: '/profile/:user_id/favourites',
-        element: <Favourites/>
-    },
-    {
-        path: '/profile/:user_id/orders',
-        element: <Orders/>
-    },
-    {
-        path: '/profile/:user_id/wallet',
-        element: <Wallet/>
-    },
-    {
-        path: '/product/:id',
-        element: <ProductOne/>
-    },
-    {
-        path: '/:user_id/checkout',
-        element: <Checkout/>
-    },
-    {
-        path: '/:user_id/thank',
-        element: <Thank/>
-    },
-    {
-        path: '/catalog',
-        element: <FilterByCatalog/>
-    },
-    {
-        path: '/catalog/:category',
-        element: <FilterByCategory/>
-    },
-    {
-        path: '/catalog/:category/:subcategory',
-        element: <FilterByNestedCategory/>
-    },
-    {
-        path: '/*',
-        element: <NotFound />
-    }
+  {
+    path: "/",
+    element: <Main />,
+  },
+  {
+    path: "/admin-login",
+    element: <Login />,
+  },
+  {
+    path: "/admin/dashboard",
+    element: <DashboardMain />,
+  },
+  {
+    path: "/profile/:user_id",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/:user_id/carts",
+    element: <Carts />,
+  },
+  {
+    path: "/profile/:user_id/favourites",
+    element: <Favourites />,
+  },
+  {
+    path: "/profile/:user_id/myproducts",
+    element: <MyProducts />,
+  },
+  {
+    path: "/profile/:user_id/orders",
+    element: <Orders />,
+  },
+  {
+    path: "/profile/:user_id/wallet",
+    element: <Wallet />,
+  },
+  {
+    path: "/product/:id",
+    element: <ProductOne />,
+  },
+  {
+    path: "/:user_id/checkout",
+    element: <Checkout />,
+  },
+  {
+    path: "/:user_id/thank",
+    element: <Thank />,
+  },
+  {
+    path: "/catalog",
+    element: <FilterByCatalog />,
+  },
+  {
+    path: "/catalog/:category",
+    element: <FilterByCategory />,
+  },
+  {
+    path: "/catalog/:category/:subcategory",
+    element: <FilterByNestedCategory />,
+  },
+  {
+    path: "/*",
+    element: <NotFound />,
+  },
 ];
 
 const Routes = () => {

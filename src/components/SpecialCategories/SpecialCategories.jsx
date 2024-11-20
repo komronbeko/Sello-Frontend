@@ -23,7 +23,7 @@ const SpecialCategories = () => {
       return (
         <div className="spec-categories__skeleton">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((el) => (
-            <Skeleton key={el.id} variant="rounded" />
+            <Skeleton key={el} variant="rounded" />
           ))}
         </div>
       );

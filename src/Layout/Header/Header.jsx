@@ -7,6 +7,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MenuIcon from "@mui/icons-material/Menu";
+// import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import ClearIcon from "@mui/icons-material/Clear";
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
@@ -14,23 +16,24 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import PhoneIcon from "@mui/icons-material/Phone";
-import Logo from "../../../assets/logo.svg";
-import { fetchCatalogs } from "../../../features/CatalogsSlice";
-import { setAuthModalTrue } from "../../../features/AuthModalSlice";
+import Logo from "../../assets/logo.svg";
+import { fetchCatalogs } from "../../features/CatalogsSlice";
+import { setAuthModalTrue } from "../../features/AuthModalSlice";
 import {
   getAccessTokenFromLocalStorage,
   getAuthAssetsFromLocalStorage,
-} from "../../../utils/storage";
-import { fetchCarts } from "../../../features/CartSlice";
-import { fetchLikes } from "../../../features/LikesSlice";
+} from "../../utils/storage";
+import { fetchCarts } from "../../features/CartSlice";
+import { fetchLikes } from "../../features/LikesSlice";
 import "./Header.scss";
-import Catalog from "../../Catalog/Catalog";
-import { searchProducts } from "../../../features/SearchSlice";
+import Catalog from "../../components/Catalog/Catalog";
+import { searchProducts } from "../../features/SearchSlice";
 import { debounce } from "lodash";
 import { Link } from "react-scroll";
 import { toast } from "react-toastify";
-import sliceWords from "../../../utils/slice-words";
-import { SearchResults } from "../../SearchResults/SearchResults";
+import sliceWords from "../../utils/slice-words";
+import { SearchResults } from "../../components/SearchResults/SearchResults";
+import { Favorite, Feedback, ShoppingCart } from "@mui/icons-material";
 
 const Header = ({ catalogModal, setCatalogModal }) => {
   const [loading, setLoading] = useState(false);
@@ -143,30 +146,35 @@ const Header = ({ catalogModal, setCatalogModal }) => {
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />
               </li>
+              <li onClick={() => handleAuthModal("/myproducts")}>
+                <div>
+                  <AddShoppingCartIcon style={{ color: "gray" }} />{" "}
+                  <span>My Products</span>
+                </div>
+                <NavigateNextIcon style={{ color: "#00b3a8" }} />{" "}
+              </li>
               <li onClick={() => handleAuthModal("/orders")}>
                 <div>
-                  <FormatListBulletedIcon style={{ color: "gray" }} />{" "}
+                  <PlaylistAddCheckIcon style={{ color: "gray" }} />{" "}
                   <span>My Orders</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />{" "}
               </li>
               <li onClick={() => handleAuthModal("/favourites")}>
                 <div>
-                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
-                  <span>Favourites</span>
+                  <Favorite style={{ color: "gray" }} /> <span>Favourites</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />
               </li>
               <li onClick={() => handleAuthModal("/carts")}>
                 <div>
-                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
-                  <span>Cart</span>
+                  <ShoppingCart style={{ color: "gray" }} /> <span>Cart</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />
               </li>
               <li onClick={() => handleAuthModal("/feedback")}>
                 <div>
-                  <PersonOutlineIcon style={{ color: "gray" }} />{" "}
+                  <Feedback style={{ color: "gray" }} />{" "}
                   <span>My Feedbacks</span>
                 </div>
                 <NavigateNextIcon style={{ color: "#00b3a8" }} />

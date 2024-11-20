@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductOne } from "../../features/ProductOneSlice";
 import { fetchProductInfos } from "../../features/ProductInfoSlice";
@@ -9,14 +10,11 @@ import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
-import { dollarToPound } from "../../utils/exchange";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
 import UZImage from "../../assets/uz.svg";
-import axios from "axios";
-
-import "./ProductOne.scss";
+import noImagePng from "../../assets/no-image-icon-6.png";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import { fetchProductReviews } from "../../features/ReviewsSlice";
 import { Rating } from "@mui/material";
@@ -25,6 +23,8 @@ import { Skeleton, Grid } from "@mui/material";
 import http from "../../service/api";
 import { fetchReviewOne } from "../../features/ReviewOneSlice";
 import { DateRange } from "@mui/icons-material";
+import "./ProductOne.scss";
+import calcDisc from "../../utils/calc-disc";
 
 const ProductOne = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const ProductOne = () => {
   const productOne = useSelector((state) => state.productOne.productOne);
   const productInfos = useSelector((state) => state.productInfo.productInfos);
   const userOne = useSelector((state) => state.user.userOne);
-  const { reviews, loading, error, review_rate } = useSelector(
+  const { reviews, loading, review_rate } = useSelector(
     (state) => state.productReview
   );
   const exactReview = useSelector((state) => state.reviewOne.review);
@@ -49,6 +49,8 @@ const ProductOne = () => {
   function hover(number) {
     setTootlip(number);
   }
+
+  console.log(productOne);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,11 +62,7 @@ const ProductOne = () => {
       dispatch(fetchProductReviews({ token, product_id: id }));
       dispatch(fetchReviewOne({ token, product_id: id }));
     }
-
-    if (error) {
-      toast(error, { type: "error" });
-    }
-  }, [id, token, error]);
+  }, [id, token]);
 
   async function handleAddingToCart(id) {
     if (!token) {
@@ -104,7 +102,6 @@ const ProductOne = () => {
 
   async function handlePostingReview(e) {
     e.preventDefault();
-    console.log(token);
     if (!token) {
       toast("Log in before the Review!", { type: "warning" });
       return setModal(false);
@@ -125,7 +122,7 @@ const ProductOne = () => {
         {
           stars,
           commentary,
-          product_id: +id,
+          product_id: id,
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -193,13 +190,22 @@ const ProductOne = () => {
 
             <div className="product_info_body">
               <div className="start">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url('${URL_IMAGE}/${productOne?.photo}')`,
-                  }}
-                ></div>
-                <img src={`${URL_IMAGE}/${productOne?.photo}`} alt="" />
+                {productOne?.photos?.length ? (
+                  <>
+                    <div
+                      className="bg"
+                      style={{
+                        backgroundImage: `url('${URL_IMAGE}/${productOne.photos[0].path}')`,
+                      }}
+                    ></div>
+                    <img
+                      src={`${URL_IMAGE}/${productOne.photos[0].path}`}
+                      alt=""
+                    />
+                  </>
+                ) : (
+                  <img className="no-image" src={noImagePng} alt="no-image" />
+                )}
               </div>
               <button
                 className="liking-responsive liking-btn-common"
@@ -220,23 +226,21 @@ const ProductOne = () => {
                   <h4>Buy product for</h4>
                   <div className="price">
                     <h2>
-                      {productOne?.discount?.rate
-                        ? `£${dollarToPound(
-                            productOne?.price -
-                              (productOne?.price * productOne?.discount?.rate) /
-                                100
-                          )}`
-                        : `£${dollarToPound(productOne?.price)}`}
+                      £
+                      {calcDisc(
+                        +productOne?.price,
+                        +productOne?.discount?.rate
+                      )}
                     </h2>
                     {productOne?.discount?.rate ? (
                       <p className="discount_rate">
                         With discount rate{" "}
                         <span>{productOne?.discount?.rate}%</span>
-                        <del>£{dollarToPound(productOne?.price)}</del>
+                        <del>£{productOne?.price}</del>
                       </p>
                     ) : null}
                   </div>
-                  <p>Brand: {productOne?.brand?.name}</p>
+                  {/* <p>Brand: {productOne?.brand?.name}</p> */}
                   <div className="btns">
                     <button
                       className="add-to-cart"
@@ -390,134 +394,27 @@ const ProductOne = () => {
             {reviews.length ? (
               <ul className="reviews-list-common">
                 {reviews.map((el) => (
-                  <>
-                    <li key={el.id}>
-                      <AccountCircleIcon
-                        fontSize="large"
-                        style={{ color: "gray", width: "60px", height: "60px" }}
-                        className="account-circle-icon"
+                  <li key={el.id}>
+                    <AccountCircleIcon
+                      fontSize="large"
+                      style={{ color: "gray", width: "60px", height: "60px" }}
+                      className="account-circle-icon"
+                    />
+                    <div>
+                      <b>{el.user.username}</b>{" "}
+                      <Rating
+                        name="read-only"
+                        value={el.stars}
+                        readOnly
+                        size="small"
                       />
-                      <div>
-                        <b>{el.user.username}</b>{" "}
-                        <Rating
-                          name="read-only"
-                          value={el.stars}
-                          readOnly
-                          size="small"
-                        />
-                        <p className="review-comment">{el.commentary}</p>
-                        <p className="review-date">
-                          <DateRange />
-                          <span>{el.createdAt.split("T")[0]}</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li key={el.id}>
-                      <AccountCircleIcon
-                        fontSize="large"
-                        style={{ color: "gray", width: "60px", height: "60px" }}
-                        className="account-circle-icon"
-                      />
-                      <div>
-                        <b>{el.user.username}</b>{" "}
-                        <Rating
-                          name="read-only"
-                          value={el.stars}
-                          readOnly
-                          size="small"
-                        />
-                        <p className="review-comment">{el.commentary}</p>
-                        <p className="review-date">
-                          <DateRange />
-                          <span>{el.createdAt.split("T")[0]}</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li key={el.id}>
-                      <AccountCircleIcon
-                        fontSize="large"
-                        style={{ color: "gray", width: "60px", height: "60px" }}
-                        className="account-circle-icon"
-                      />
-                      <div>
-                        <b>{el.user.username}</b>{" "}
-                        <Rating
-                          name="read-only"
-                          value={el.stars}
-                          readOnly
-                          size="small"
-                        />
-                        <p className="review-comment">{el.commentary}</p>
-                        <p className="review-date">
-                          <DateRange />
-                          <span>{el.createdAt.split("T")[0]}</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li key={el.id}>
-                      <AccountCircleIcon
-                        fontSize="large"
-                        style={{ color: "gray", width: "60px", height: "60px" }}
-                        className="account-circle-icon"
-                      />
-                      <div>
-                        <b>{el.user.username}</b>{" "}
-                        <Rating
-                          name="read-only"
-                          value={el.stars}
-                          readOnly
-                          size="small"
-                        />
-                        <p className="review-comment">{el.commentary}</p>
-                        <p className="review-date">
-                          <DateRange />
-                          <span>{el.createdAt.split("T")[0]}</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li key={el.id}>
-                      <AccountCircleIcon
-                        fontSize="large"
-                        style={{ color: "gray", width: "60px", height: "60px" }}
-                        className="account-circle-icon"
-                      />
-                      <div>
-                        <b>{el.user.username}</b>{" "}
-                        <Rating
-                          name="read-only"
-                          value={el.stars}
-                          readOnly
-                          size="small"
-                        />
-                        <p className="review-comment">{el.commentary}</p>
-                        <p className="review-date">
-                          <DateRange />
-                          <span>{el.createdAt.split("T")[0]}</span>
-                        </p>
-                      </div>
-                    </li>
-                    <li key={el.id}>
-                      <AccountCircleIcon
-                        fontSize="large"
-                        style={{ color: "gray", width: "60px", height: "60px" }}
-                        className="account-circle-icon"
-                      />
-                      <div>
-                        <b>{el.user.username}</b>{" "}
-                        <Rating
-                          name="read-only"
-                          value={el.stars}
-                          readOnly
-                          size="small"
-                        />
-                        <p className="review-comment">{el.commentary}</p>
-                        <p className="review-date">
-                          <DateRange />
-                          <span>{el.createdAt.split("T")[0]}</span>
-                        </p>
-                      </div>
-                    </li>
-                  </>
+                      <p className="review-comment">{el.commentary}</p>
+                      <p className="review-date">
+                        <DateRange />
+                        <span>{el.createdAt.split("T")[0]}</span>
+                      </p>
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : null}
