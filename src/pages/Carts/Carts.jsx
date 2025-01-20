@@ -135,7 +135,7 @@ const Cart = () => {
                 <CartCard
                   key={i.id}
                   title={i.product.name}
-                  photo={i.product.photos[0].path}
+                  photo={i.product.photos[0]?.path}
                   id={i.product.id}
                   count={i.count}
                   price={i.product.price}
@@ -162,10 +162,10 @@ const Cart = () => {
             </li>
             <li>
               Discount
-              <span>£{discount ? discount : null} </span>
+              <span>£{discount ? discount : 0} </span>
             </li>
             <li>
-              Total payable: £<span>{total} </span>
+              Total payable: <span>£{total} </span>
             </li>
           </ul>
           <button id="checkout-btn" onClick={Order}>

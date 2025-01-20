@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import http from "../service/api";
 
-export const fetchProducts = createAsyncThunk("product/fetchProducts", () => {
-  return http.get(`/product`).then((res) => res.data.data);
-});
+export const fetchProducts = createAsyncThunk(
+  "product/fetchProducts",
+  (page) => {
+    return http.get(`/product?page=${page}&limit=10`).then((res) => res.data);
+  }
+);
 
 export const fetchUserProducts = createAsyncThunk(
   "product/fetchUserProducts",
@@ -32,12 +35,19 @@ const initialState = {
   products: [],
   userProducts: [],
   unauthorized: [],
-  error: "",
+  error: null,
+  currentPage: 1,
+  totalPages: 1,
 };
 
 const productSlice = createSlice({
   name: "product",
   initialState,
+  reducers: {
+    setPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch all products
@@ -46,7 +56,8 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload;
+        state.products = action.payload.data;
+        state.totalPages = action.payload.totalPages;
         state.error = "";
       })
       .addCase(fetchProducts.rejected, (state, action) => {
@@ -87,4 +98,5 @@ const productSlice = createSlice({
   },
 });
 
+export const { setPage } = productSlice.actions;
 export default productSlice.reducer;

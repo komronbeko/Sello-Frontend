@@ -1,9 +1,23 @@
 /* eslint-disable react/prop-types */
+import { useDispatch } from "react-redux";
 import Card from "../../components/Card/Card";
 import "./ProductsContainer.scss";
 import { Skeleton } from "@mui/material";
+import { setPage } from "../../features/ProductsSlice";
+const ProductsContainer = ({
+  data,
+  loading,
+  heading,
+  isDiscount,
+  currentPage,
+  totalPages,
+}) => {
+  const dispatch = useDispatch();
 
-const ProductsContainer = ({ data, loading, heading, isDiscount }) => {
+  const handlePageChange = (page) => {
+    dispatch(setPage(page));
+  };
+
   return (
     <div className={`products-cover ${isDiscount ? "discounts" : null}`}>
       <p className="heading">{heading}</p>
@@ -39,6 +53,31 @@ const ProductsContainer = ({ data, loading, heading, isDiscount }) => {
           )}
         </div>
       )}
+      <div className="pagination">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+        >
+          Previous
+        </button>
+
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            className={currentPage === index + 1 ? "active" : ""}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

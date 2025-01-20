@@ -16,7 +16,7 @@ const Partners = () => {
   const { partners, loading } = useSelector((state) => state.partner);
 
   function displayPartners() {
-    if (loading || !partners.length) {
+    if (loading) {
       return (
         <div className="partners-skeleton partners-grid-common">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((el) => (

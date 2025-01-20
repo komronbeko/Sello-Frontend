@@ -1,0 +1,134 @@
+#banners {
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 40px;
+    h1 {
+      text-align: center;
+    }
+    .post-button {
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .banners-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+    .banner-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+
+      img {
+        width: 100%;
+        height: 250px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        margin: 10px 0;
+      }
+
+      button {
+        margin: 5px;
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:first-child {
+          background-color: #ffc107;
+          color: #fff;
+
+          &:hover {
+            background-color: #e0a800;
+          }
+        }
+
+        &:last-child {
+          background-color: #dc3545;
+          color: #fff;
+
+          &:hover {
+            background-color: #b02a37;
+          }
+        }
+      }
+    }
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      width: 500px;
+      position: relative;
+
+      .close {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        font-size: 30px;
+        cursor: pointer;
+      }
+
+      .banner-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        input[type="text"],
+        select {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          color: gray;
+          text-transform: capitalize;
+        }
+
+        input[type="file"] {
+          padding: 5px;
+        }
+
+        button {
+          padding: 10px;
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+      }
+    }
+  }
+}

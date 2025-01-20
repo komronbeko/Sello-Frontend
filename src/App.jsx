@@ -3,13 +3,13 @@ import Layout from "./Layout";
 import MyRoutes from "./routes/Routes";
 import AuthModal from "./components/AuthModal/AuthModal";
 
-import "./App.css";
+import "./App.scss";
 
 function App() {
   const authModal = useSelector((state) => state.authModal.state);
 
   return (
-    <div className="App">
+    <div className="app">
       {authModal ? <AuthModal /> : ""}
       <Layout>
         <MyRoutes />

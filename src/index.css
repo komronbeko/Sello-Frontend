@@ -1,3 +1,5 @@
+
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +8,7 @@
   
 body {
   font-family: Inter;
-  background-color: #6b75733a;
+  /* background-color: #6b75733a; */
   overflow-x: hidden;
 }
 
@@ -20,7 +22,7 @@ a {
 }
 
 :root {
-  --primaryBg: #f1f3f3;
+  --primaryBg: white;
   --secondaryBg: #e4eceba1;
   --text-secondary: #6b7573 ;
   --green: #00b3a8;

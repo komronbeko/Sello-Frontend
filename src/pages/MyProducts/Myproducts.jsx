@@ -58,8 +58,6 @@ const MyProducts = () => {
     dispatch(fetchUserProducts(token));
   }, [token]);
 
-  console.log(userProducts);
-
   return (
     <div id="myproducts">
       {verifyClearing ? (
@@ -111,6 +109,7 @@ const MyProducts = () => {
                 id={el.id}
                 price={el.price}
                 title={el.name}
+                is_verified={el.is_verified}
               />
             ))}
           </div>

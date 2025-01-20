@@ -23,7 +23,7 @@ const ProductsWrapper = ({ data, loading }) => {
           {data.map((el) => (
             <Card
               key={el.id}
-              image={el.photos[0].path}
+              image={el.photos[0]?.path}
               discount={el.discount?.rate}
               id={el.id}
               price={el.price}

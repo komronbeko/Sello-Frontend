@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { fetchUserOne } from "../../features/UserOneSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchCarts } from "../../features/CartSlice";
 import { fetchLikes } from "../../features/LikesSlice";
 import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
@@ -19,7 +19,7 @@ const CartCard = ({
   title,
   price,
   discount,
-  count,
+  count: initialCount,
   id,
   photo,
   cart_item_id,
@@ -30,6 +30,8 @@ const CartCard = ({
 
   const token = getAccessTokenFromLocalStorage();
 
+  const [customCount, setCustomCount] = useState(initialCount);
+
   useEffect(() => {
     dispatch(fetchUserOne(token));
   }, [dispatch, token]);
@@ -38,12 +40,14 @@ const CartCard = ({
     await axios.patch(`${API_BASE_URL}/cart/count/plus/${id}`, "", {
       headers: { Authorization: "Bearer " + token },
     });
+    setCustomCount(customCount + 1);
     dispatch(fetchCarts(token));
   }
   async function minusCount(id) {
     await axios.patch(`${API_BASE_URL}/cart/count/minus/${id}`, "", {
       headers: { Authorization: "Bearer " + token },
     });
+    setCustomCount(customCount - 1);
     dispatch(fetchCarts(token));
   }
   async function deleteFromCart(id) {
@@ -81,9 +85,6 @@ const CartCard = ({
             </span>
           ) : null}
         </p>
-        <p className="country">
-          Страна доставки: <span>Узбекистан</span>
-        </p>
         <div className="end-card-footer">
           <div className="btns">
             <button onClick={() => handleLiking(id)}>
@@ -102,7 +103,7 @@ const CartCard = ({
             </button>
           </div>
           <div className="count-emiter">
-            {count === 1 ? (
+            {customCount === 1 ? (
               <button className="in-active">
                 <i className="fa-solid fa-minus"></i>
               </button>
@@ -111,7 +112,7 @@ const CartCard = ({
                 <i className="fa-solid fa-minus"></i>
               </button>
             )}
-            <h3>{count}</h3>
+            <h3>{customCount}</h3>
             <button onClick={() => PlusCount(cart_item_id)}>
               <i className="fa-solid fa-plus"></i>
             </button>

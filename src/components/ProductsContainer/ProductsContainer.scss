@@ -15,8 +15,37 @@
   .products-skeleton {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    // grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+
+    button {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      width: 80px;
+
+      cursor: pointer;
+
+      &.active {
+        background-color: #007bff;
+        color: white;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+
+    button:nth-child(2) {
+      width: 40px;
+    }
   }
 }
 
