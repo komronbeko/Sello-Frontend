@@ -1,57 +1,48 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
+import { fetchCategories } from "../../features/CategoriesSLice";
 
 const CategoryForm = ({ dispatch, token, catalogs }) => {
-  const [categoryName, setCategoryName] = useState("");
-  const [selectedCatalog, setSelectedCatalog] = useState("");
-
   const handleAddCategory = async (e) => {
     e.preventDefault();
+
+    const { category, catalog } = e.target.elements;
     try {
       const { data } = await axios.post(
         `${API_BASE_URL}/category/`,
         {
-          name: categoryName,
-          catalog_id: selectedCatalog,
+          name: category.value,
+          catalog_id: +catalog.value,
         },
         { headers: { Authorization: "Bearer " + token } }
       );
 
       toast(data.message, { type: "success" });
       dispatch(fetchCatalogs());
-      setCategoryName("");
+      dispatch(fetchCategories());
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
   return (
-    <form onSubmit={handleAddCategory}>
-      <label>Add Category</label>
-      <input
-        type="text"
-        value={categoryName}
-        onChange={(e) => setCategoryName(e.target.value)}
-        placeholder="Type Category..."
-      />
-      <select
-        value={selectedCatalog}
-        onChange={(e) => setSelectedCatalog(e.target.value)}
-      >
-        <option value="default" disabled>
+    <form onSubmit={handleAddCategory} className="category__form">
+      <h3>Add Category</h3>
+      <input placeholder="Type Category..." type="text" name="category" />
+      <select name="catalog">
+        <option value="" disabled selected>
           Select Catalog
         </option>
         {catalogs.map((el) => (
-          <option key={el.id} value={el.id}>
+          <option key={el.id} value={el.id} name="catalog">
             {el.name}
           </option>
         ))}
       </select>
-      <button type="submit">Add</button>
+      <button className="btn">Add</button>
     </form>
   );
 };

@@ -5,48 +5,56 @@ import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
 
-const NestedCategoryForm = ({ dispatch, token, catalogs, categories }) => {
-  const [nestedCategoryName, setNestedCategoryName] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedCatalog, setSelectedCatalog] = useState("");
+const NestedCategoryForm = ({ dispatch, token, catalogs }) => {
+  const [categories, setCategories] = useState([]);
+
+  console.log(categories);
 
   const handleAddNestedCategory = async (e) => {
     e.preventDefault();
+    const { nested_category, category, catalog } = e.target.elements;
     try {
+      console.log(nested_category);
+
       const { data } = await axios.post(
         `${API_BASE_URL}/nested-category/`,
         {
-          name: nestedCategoryName,
-          category_id: selectedCategory,
+          name: nested_category.value,
+          category_id: +category.value,
+          catalog_id: +catalog.value,
         },
         { headers: { Authorization: "Bearer " + token } }
       );
 
       toast(data.message, { type: "success" });
       dispatch(fetchCatalogs());
-      setNestedCategoryName("");
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
-  const handleCatalogChange = (e) => {
-    setSelectedCatalog(e.target.value);
-    const selected = catalogs.find((catalog) => catalog.id === e.target.value);
-    setSelectedCategory(selected ? selected.categories[0]?.id : "");
+  const handleCatalogChange = (catalog_id) => {
+    // console.log(catalog_id);
+
+    // setSelectedCatalog(e.target.value);
+    const selected = catalogs.find((catalog) => catalog.id == catalog_id);
+
+    setCategories(selected.categories);
   };
 
   return (
-    <form onSubmit={handleAddNestedCategory}>
-      <label>Add Sub-Category</label>
+    <form onSubmit={handleAddNestedCategory} className="nested__category__form">
+      <h3>Add Sub-Category</h3>
       <input
+        placeholder="Type Sub-Category..."
         type="text"
-        value={nestedCategoryName}
-        onChange={(e) => setNestedCategoryName(e.target.value)}
-        placeholder="Type Sub-Category"
+        name="nested_category"
       />
-      <select value={selectedCatalog} onChange={handleCatalogChange}>
-        <option value="default" disabled>
+      <select
+        onChange={(e) => handleCatalogChange(e.target.value)}
+        name="catalog"
+      >
+        <option value="" disabled selected>
           Select Catalog
         </option>
         {catalogs.map((el) => (
@@ -55,11 +63,8 @@ const NestedCategoryForm = ({ dispatch, token, catalogs, categories }) => {
           </option>
         ))}
       </select>
-      <select
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
-      >
-        <option value="default" disabled>
+      <select name="category">
+        <option value="" disabled selected>
           Select Category
         </option>
         {categories.map((el) => (
@@ -68,7 +73,7 @@ const NestedCategoryForm = ({ dispatch, token, catalogs, categories }) => {
           </option>
         ))}
       </select>
-      <button type="submit">Add</button>
+      <button className="btn">Add</button>
     </form>
   );
 };

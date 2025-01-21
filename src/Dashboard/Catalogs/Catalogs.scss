@@ -62,9 +62,31 @@
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+      .global-wrapper {
+        display: flex;
+      }
+
+      .delete {
+        color: rgb(203, 12, 12);
+        cursor: pointer;
+      }
+      .delete:hover {
+        color: red;
+      }
+
+      .edit {
+        color: green;
+        cursor: pointer;
+      }
+      .edit:hover {
+        color: rgb(11, 179, 11);
+      }
+
       h4 {
-        margin-bottom: 10px;
+        font-size: 24px;
         color: #007bff;
+        margin-bottom: 15px;
+        margin-right: 20px;
       }
 
       .category {
@@ -79,9 +101,10 @@
           margin-bottom: 5px;
 
           h5 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #333;
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: rgb(162, 114, 24);
+            margin-right: 10px;
           }
 
           ul {
@@ -90,9 +113,106 @@
             li {
               font-size: 14px;
               color: #666;
+              margin-right: 5px;
             }
           }
         }
+      }
+
+      .actions {
+        .edit,
+        .delete {
+          cursor: pointer;
+          margin-left: 10px;
+          font-size: 18px;
+
+          &:hover {
+            color: red;
+          }
+        }
+      }
+
+      ul {
+        margin-left: 20px;
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-in-out;
+
+      .modal-header {
+        background: #007bff;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .modal-content {
+        padding: 20px;
+        text-align: center;
+        font-size: 16px;
+        color: #333;
+
+        p {
+          margin-bottom: 20px;
+        }
+
+        button {
+          margin: 0 10px;
+          padding: 10px 20px;
+          font-size: 14px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s ease;
+
+          &.confirm {
+            background: #28a745;
+            color: white;
+
+            &:hover {
+              background: #218838;
+            }
+          }
+
+          &.cancel {
+            background: #dc3545;
+            color: white;
+
+            &:hover {
+              background: #c82333;
+            }
+          }
+        }
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
       }
     }
   }

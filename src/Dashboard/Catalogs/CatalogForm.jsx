@@ -1,40 +1,32 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
 
 const CatalogForm = ({ dispatch, token }) => {
-  const [catalogName, setCatalogName] = useState("");
-
   const handleAddCatalog = async (e) => {
     e.preventDefault();
+    const { catalog } = e.target.elements;
     try {
       const { data } = await axios.post(
         `${API_BASE_URL}/catalog/`,
-        { name: catalogName },
+        { name: catalog.value },
         { headers: { Authorization: "Bearer " + token } }
       );
 
       toast(data.message, { type: "success" });
       dispatch(fetchCatalogs());
-      setCatalogName("");
     } catch (error) {
       toast(error.message, { type: "error" });
     }
   };
 
   return (
-    <form onSubmit={handleAddCatalog}>
-      <label>Add Catalog</label>
-      <input
-        type="text"
-        value={catalogName}
-        onChange={(e) => setCatalogName(e.target.value)}
-        placeholder="Type Catalog..."
-      />
-      <button type="submit">Add</button>
+    <form onSubmit={handleAddCatalog} className="catalog__form">
+      <h3>Add Catalog</h3>
+      <input placeholder="Type Catalog..." type="text" name="catalog" />
+      <button className="btn">Add</button>
     </form>
   );
 };
