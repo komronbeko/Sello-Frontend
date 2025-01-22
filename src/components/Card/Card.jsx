@@ -19,6 +19,7 @@ import "./Card.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Verified } from "@mui/icons-material";
+import { fetchUnauthorizedProducts } from "../../features/ProductsSlice";
 
 const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
       );
 
       toast(data.message, { type: "success" });
+      dispatch(fetchUnauthorizedProducts(token));
     } catch (error) {
       toast(error.message, { type: "error" });
     }
@@ -117,7 +119,7 @@ const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
         {isAdmin ? (
           <button onClick={() => handleVerify(id)}>Verify</button>
         ) : (
-          <button
+          <div
             type="button"
             className="add-to-cart"
             onClick={(event) => handleAddingToCart(event, id)}
@@ -131,7 +133,7 @@ const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
             ) : (
               "Add to Cart"
             )}
-          </button>
+          </div>
         )}
       </div>
     </div>

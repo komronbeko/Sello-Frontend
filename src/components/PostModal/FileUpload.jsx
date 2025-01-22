@@ -23,7 +23,6 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function InputFileUpload({ files, setFiles }) {
-  //   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
 
   const handleFileChange = (event) => {

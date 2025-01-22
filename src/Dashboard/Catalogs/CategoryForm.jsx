@@ -1,24 +1,21 @@
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
-import axios from "axios";
-import { API_BASE_URL } from "../../constants/api";
+// import axios from "axios";
+// import { API_BASE_URL } from "../../constants/api";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
 import { fetchCategories } from "../../features/CategoriesSLice";
+import http from "../../service/api";
 
-const CategoryForm = ({ dispatch, token, catalogs }) => {
+const CategoryForm = ({ dispatch, catalogs }) => {
   const handleAddCategory = async (e) => {
     e.preventDefault();
 
     const { category, catalog } = e.target.elements;
     try {
-      const { data } = await axios.post(
-        `${API_BASE_URL}/category/`,
-        {
-          name: category.value,
-          catalog_id: +catalog.value,
-        },
-        { headers: { Authorization: "Bearer " + token } }
-      );
+      const { data } = await http.post("/category", {
+        name: category.value,
+        catalog_id: catalog.value,
+      });
 
       toast(data.message, { type: "success" });
       dispatch(fetchCatalogs());

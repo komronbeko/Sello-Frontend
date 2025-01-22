@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import { useEffect, useState } from "react";
 import CategoryForm from "./CategoryForm";
 import NestedCategoryForm from "./NestedCategoryForm";
@@ -10,7 +9,6 @@ import "./Catalogs.scss";
 
 const Catalogs = () => {
   const { catalogs } = useSelector((state) => state.catalog);
-  const token = getAccessTokenFromLocalStorage();
   const [categories, setCategories] = useState([]);
   const dispatch = useDispatch();
 
@@ -23,11 +21,10 @@ const Catalogs = () => {
   return (
     <div id="catalogs">
       <div className="form__container">
-        <CatalogForm dispatch={dispatch} token={token} />
-        <CategoryForm dispatch={dispatch} catalogs={catalogs} token={token} />
+        <CatalogForm dispatch={dispatch} />
+        <CategoryForm dispatch={dispatch} catalogs={catalogs} />
         <NestedCategoryForm
           dispatch={dispatch}
-          token={token}
           catalogs={catalogs}
           categories={categories}
         />

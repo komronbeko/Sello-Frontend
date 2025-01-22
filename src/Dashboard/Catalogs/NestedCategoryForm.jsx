@@ -1,30 +1,21 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { API_BASE_URL } from "../../constants/api";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
+import http from "../../service/api";
 
-const NestedCategoryForm = ({ dispatch, token, catalogs }) => {
+const NestedCategoryForm = ({ dispatch, catalogs }) => {
   const [categories, setCategories] = useState([]);
-
-  console.log(categories);
 
   const handleAddNestedCategory = async (e) => {
     e.preventDefault();
     const { nested_category, category, catalog } = e.target.elements;
     try {
-      console.log(nested_category);
-
-      const { data } = await axios.post(
-        `${API_BASE_URL}/nested-category/`,
-        {
-          name: nested_category.value,
-          category_id: +category.value,
-          catalog_id: +catalog.value,
-        },
-        { headers: { Authorization: "Bearer " + token } }
-      );
+      const { data } = await http.post("/nested-category", {
+        name: nested_category.value,
+        category_id: category.value,
+        catalog_id: catalog.value,
+      });
 
       toast(data.message, { type: "success" });
       dispatch(fetchCatalogs());

@@ -82,6 +82,18 @@
         background-color: rgb(33, 125, 125);
       }
     }
+
+    .add-to-cart {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: rgb(33, 103, 103);
+      color: white;
+      border-radius: 6px;
+      padding: 4px;
+      font-size: 14px;
+    }
   }
   button.add-to-like {
     position: absolute;

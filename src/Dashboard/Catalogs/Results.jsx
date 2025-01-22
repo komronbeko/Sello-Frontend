@@ -7,10 +7,9 @@ import { useState } from "react";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
 
 const Results = ({ catalogs, dispatch }) => {
-  const [editMode, setEditMode] = useState(null); // { type: 'catalog' | 'category' | 'nested', id: number, value: string }
-  const [modal, setModal] = useState(null); // { type: 'catalog' | 'category' | 'nested', id: number }
+  const [editMode, setEditMode] = useState(null);
+  const [modal, setModal] = useState(null);
 
-  // Handle editing
   const handleEdit = async () => {
     try {
       const { type, id, value } = editMode;
@@ -26,7 +25,6 @@ const Results = ({ catalogs, dispatch }) => {
     }
   };
 
-  // Handle deletion
   const handleDelete = async () => {
     try {
       const { type, id } = modal;
