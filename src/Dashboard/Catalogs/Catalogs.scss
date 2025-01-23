@@ -66,7 +66,7 @@
       }
 
       .delete {
-        color: rgb(203, 12, 12);
+        color: var(--delete);
         cursor: pointer;
       }
       .delete:hover {
@@ -78,7 +78,7 @@
         cursor: pointer;
       }
       .edit:hover {
-        color: rgb(11, 179, 11);
+        color: var(--edit-hover);
       }
 
       h4 {
@@ -152,7 +152,7 @@
       border-radius: 10px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      z-index: 1000;
+      z-index: 100;
       animation: fadeIn 0.3s ease-in-out;
 
       .modal-header {

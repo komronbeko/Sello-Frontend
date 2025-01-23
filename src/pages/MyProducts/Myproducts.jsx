@@ -110,6 +110,7 @@ const MyProducts = () => {
                 price={el.price}
                 title={el.name}
                 is_verified={el.is_verified}
+                is_owner={true}
               />
             ))}
           </div>

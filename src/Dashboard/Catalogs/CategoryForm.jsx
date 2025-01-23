@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import { toast } from "react-toastify";
-// import axios from "axios";
-// import { API_BASE_URL } from "../../constants/api";
 import { fetchCatalogs } from "../../features/CatalogsSlice";
 import { fetchCategories } from "../../features/CategoriesSLice";
 import http from "../../service/api";

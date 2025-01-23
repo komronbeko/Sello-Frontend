@@ -25,6 +25,14 @@
         height: 200px;
       }
     }
+  }
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
     p {
       font-size: 14px;
       text-transform: capitalize;
@@ -32,36 +40,44 @@
         color: var(--green);
       }
     }
-    .title {
-      display: flex;
-      justify-content: space-between;
-      height: 60px;
-      margin-top: 10px;
 
-      path {
-        color: var(--darkGreen);
-      }
+    .edit {
+      color: green;
+      cursor: pointer;
     }
-    .old-price {
-      text-decoration: line-through;
-      font-size: 14px;
-      font-weight: normal;
-      color: gray;
+    .edit:hover {
+      color: var(--edit-hover);
     }
-    .discount {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      span {
-        font-size: 10px;
-        padding: 5px;
-        border-radius: 20px;
-        color: white;
-        background-color: #df4c5a;
-      }
+    .delete {
+      color: var(--delete);
+      cursor: pointer;
+    }
+
+    .delete:hover {
+      color: red;
     }
   }
+
+  .old-price {
+    text-decoration: line-through;
+    font-size: 14px;
+    font-weight: normal;
+    color: gray;
+  }
+  .discount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    span {
+      font-size: 10px;
+      padding: 5px;
+      border-radius: 20px;
+      color: white;
+      background-color: #df4c5a;
+    }
+  }
+
   .end {
     width: 100%;
     display: flex;
@@ -93,6 +109,7 @@
       border-radius: 6px;
       padding: 4px;
       font-size: 14px;
+      cursor: pointer;
     }
   }
   button.add-to-like {
@@ -109,6 +126,7 @@
     transition: all ease-in-out 0.2s;
     cursor: pointer;
   }
+
   button.add-to-like.active {
     color: var(--green);
   }

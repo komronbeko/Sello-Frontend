@@ -1,22 +1,32 @@
 .auth-modal {
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.507), rgba(0, 0, 0, 0.548));
-  z-index: 50;
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100vh;
+  z-index: 50;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  backdrop-filter: blur(8px);
 
   .block {
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 60%;
-    background-color: white;
-    border-radius: 10px;
-    padding: 3px;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); // Adds a soft shadow for depth
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02); // Slight scale-up on hover
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); // Intensifies the shadow on hover
+    }
 
     .close-auth-modal {
       position: absolute;
@@ -237,6 +247,23 @@
         }
       }
     }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  animation: fadeIn 0.4s ease-out;
+
+  .block {
+    animation: fadeIn 0.4s ease-out;
   }
 }
 

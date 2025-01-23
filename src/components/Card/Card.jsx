@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { fetchLikes } from "../../features/LikesSlice";
 import { fetchCarts } from "../../features/CartSlice";
-import { API_BASE_URL, URL_IMAGE } from "../../constants/api";
+import { URL_IMAGE } from "../../constants/api";
 import { addToLike } from "../../utils/add-to-like";
 import { addToCart } from "../../utils/add-to-cart";
 import { setAuthModalTrue } from "../../features/AuthModalSlice";
@@ -14,14 +14,23 @@ import { useEffect } from "react";
 import { fetchUserOne } from "../../features/UserOneSlice";
 import noImagePng from "../../assets/no-image-icon-6.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { toast } from "react-toastify";
+import { Delete, Edit, Verified } from "@mui/icons-material";
+import { fetchUnauthorizedProducts } from "../../features/ProductsSlice";
+import http from "../../service/api";
 
 import "./Card.scss";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Verified } from "@mui/icons-material";
-import { fetchUnauthorizedProducts } from "../../features/ProductsSlice";
 
-const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
+const Card = ({
+  image,
+  title,
+  price,
+  discount,
+  id,
+  isAdmin,
+  is_verified,
+  is_owner,
+}) => {
   const dispatch = useDispatch();
 
   const token = getAccessTokenFromLocalStorage();
@@ -59,19 +68,10 @@ const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
 
   async function handleVerify(id) {
     try {
-      const { data } = await axios.patch(
-        `${API_BASE_URL}/product/verify`,
-        {
-          product_id: id,
-          is_verified: true,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const { data } = await http.patch("/product/verify", {
+        product_id: id,
+        is_verified: true,
+      });
 
       toast(data.message, { type: "success" });
       dispatch(fetchUnauthorizedProducts(token));
@@ -82,7 +82,11 @@ const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
 
   return (
     <div className="card">
-      {!isAdmin ? (
+      {is_owner && is_verified ? (
+        <button className="add-to-like">
+          <Verified />
+        </button>
+      ) : !isAdmin ? (
         <button className="add-to-like" onClick={() => handleLiking(id)}>
           {userOne?.likes?.some((el) => el.product_id == id) ? (
             <FavoriteIcon style={{ color: "#00b3a8" }} />
@@ -99,22 +103,32 @@ const Card = ({ image, title, price, discount, id, isAdmin, is_verified }) => {
             className="start"
           />
         </div>
-        <div className="title">
-          <p>{title}</p>
-          {is_verified ? <Verified fontSize="small" /> : null}
-        </div>
-        {discount ? (
-          <div className="discount">
-            <div>
-              <h4 className="old-price">£{price}</h4>
-              <h4>£{price - (price * 10) / 100}</h4>
-            </div>
-            <span>{10}%</span>
-          </div>
-        ) : (
-          <h4>£{price}</h4>
-        )}
       </Link>
+      <div className="title">
+        <Link to={`/product/${id}`}>
+          <p>{title}</p>
+        </Link>
+        <div className="card_actions">
+          {isAdmin || is_owner ? (
+            <div>
+              {" "}
+              <Edit className="edit" fontSize="small" />{" "}
+              <Delete className="delete" fontSize="small" />
+            </div>
+          ) : null}
+        </div>
+      </div>
+      {discount ? (
+        <div className="discount">
+          <div>
+            <h4 className="old-price">£{price}</h4>
+            <h4>£{price - (price * 10) / 100}</h4>
+          </div>
+          <span>{10}%</span>
+        </div>
+      ) : (
+        <h4>£{price}</h4>
+      )}
       <div className="end">
         {isAdmin ? (
           <button onClick={() => handleVerify(id)}>Verify</button>

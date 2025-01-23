@@ -1,65 +1,99 @@
 .cancel-modal {
-    width: 100vw;
-    height: 100vh;
-    z-index: 30;
-    position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 30;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8));
+  backdrop-filter: blur(5px); // Adds a frosted glass effect
+  opacity: 0; // Initial state
+  transform: scale(0.95); // Slightly scaled down initially
+  animation: fadeIn 0.6s ease forwards; // Smooth fade-in animation
+
+  p {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    color: var(--primaryBg);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .cancel-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 20px;
     justify-content: center;
-    transition: all ease-in-out 0.4s;
-    top: 0px;
-    left: 0px;
-    
-    p{
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 30px;
-        color: white;
-    }
-    
-    .cancel-wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        justify-content: center;
-        align-items: center;
-        padding: 50px;
-        background-color: #05726b;
-        border-radius: 6px;
-        transition: all ease-in-out 1s;
-       
-        .cancel-end{
-            display: flex;
-            gap: 20px;
-            button:first-child{
-                padding: 10px;
-                color: white;
-                border: 2px solid red;
-                border-radius: 6px;
-                background-color: red;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            button:first-child:hover{
-                border: 2px solid red;
-                color: red;
-                background-color: white;
-            }
-            button:last-child{
-                padding: 10px;
-                color: white;
-                border: 2px solid blue;
-                border-radius: 6px;
-                background-color: blue;
-                font-weight: bold;
-                cursor: pointer;
-            }
-            button:last-child:hover{
-                border: 2px solid blue;
-                color: blue;
-                background-color: white;
-            }
+    align-items: center;
+    padding: 50px;
+    background-color: var(--darkGreen);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9); // Slightly scaled down initially
+    animation: scaleIn 0.6s ease forwards; // Smooth scaling animation
+
+    .cancel-end {
+      display: flex;
+      gap: 20px;
+
+      button {
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      button:first-child {
+        color: var(--primaryBg);
+        border: 2px solid var(--delete);
+        background-color: var(--delete);
+
+        &:hover {
+          border: 2px solid var(--delete);
+          color: var(--delete);
+          background-color: var(--primaryBg);
         }
+      }
+
+      button:last-child {
+        color: var(--primaryBg);
+        border: 2px solid var(--green);
+        background-color: var(--green);
+
+        &:hover {
+          border: 2px solid var(--green);
+          color: var(--green);
+          background-color: var(--primaryBg);
+        }
+      }
     }
+  }
+}
+
+// Keyframes for smoother transitions
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

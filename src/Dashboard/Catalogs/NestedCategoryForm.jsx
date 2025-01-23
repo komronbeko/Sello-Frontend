@@ -25,9 +25,6 @@ const NestedCategoryForm = ({ dispatch, catalogs }) => {
   };
 
   const handleCatalogChange = (catalog_id) => {
-    // console.log(catalog_id);
-
-    // setSelectedCatalog(e.target.value);
     const selected = catalogs.find((catalog) => catalog.id == catalog_id);
 
     setCategories(selected.categories);

@@ -32,6 +32,8 @@ a {
   --gray: #3b3b3b;
   --black: #100f0f;
   --primaryBorder: rgba(226, 215, 215, 0.829);
+  --delete:  rgb(203, 12, 12);
+  --edit-hover: rgb(11, 179, 11);
 }
 
 .products-container{
