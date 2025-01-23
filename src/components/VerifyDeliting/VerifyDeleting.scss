@@ -77,6 +77,48 @@
   }
 }
 
+@media (max-width: 768px) {
+  .cancel-wrapper {
+    width: 90%;
+    padding: 30px;
+  }
+
+  p {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .cancel-end {
+    flex-direction: column;
+    gap: 15px;
+
+    button {
+      width: 100%; // Full-width buttons for smaller screens
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .cancel-wrapper {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .cancel-end {
+    gap: 10px;
+
+    button {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+}
+
 // Keyframes for smoother transitions
 @keyframes fadeIn {
   0% {
