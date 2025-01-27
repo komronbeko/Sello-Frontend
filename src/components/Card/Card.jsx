@@ -56,7 +56,7 @@ const Card = ({
     }
   }, [token, dispatch]);
 
-  async function handleAddingToCart(event, id) {
+  async function handleAddingToCart(event) {
     event.preventDefault();
     event.stopPropagation();
     if (!token) {
@@ -65,7 +65,7 @@ const Card = ({
     await addToCart(id, token);
     dispatch(fetchCarts(token));
   }
-  async function handleLiking(id) {
+  async function handleLiking() {
     if (!token) {
       return dispatch(setAuthModalTrue());
     }
@@ -74,7 +74,7 @@ const Card = ({
     dispatch(fetchUserOne(token));
   }
 
-  async function handleVerify(id) {
+  async function handleVerify() {
     try {
       const { data } = await http.patch("/product/verify", {
         product_id: id,

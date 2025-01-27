@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
       return;
     }
 
-    if (token) {
+    if (!token) {
       return dispatch(setAuthModalTrue());
     }
     navigate(`/profile/${authAssets?.user_id}/${route}`);

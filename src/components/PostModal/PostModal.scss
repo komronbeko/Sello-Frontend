@@ -2,43 +2,62 @@
   width: 100vw;
   position: fixed;
   min-height: 100vh;
-  top: 0px;
+  top: 0;
   display: flex;
   flex-direction: column;
   padding-top: 80px;
   align-items: center;
   z-index: 50;
-  background: rgba(0, 0, 0, 0.286);
+  background: rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.4s ease-in-out;
+  overflow: hidden;
+
+  &.closing {
+    animation: fadeOut 0.4s ease-in-out;
+  }
+
   .modal {
     background-color: white;
     width: 50%;
     height: 82vh;
     padding: 20px;
-    border-radius: 6px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s ease-in-out;
+
     .modal-head {
       width: 100%;
       position: relative;
+
       h2 {
         font-weight: normal;
         font-size: 40px;
         margin-bottom: 10px;
       }
+
       p {
         width: 100%;
         color: gray;
       }
+
       div {
         position: absolute;
         top: 0;
         right: 0;
-        border: 0;
         font-size: 20px;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--green);
+          transition: color 0.3s ease-in-out;
+        }
       }
     }
+
     .modal-body {
       width: 100%;
       display: flex;
@@ -47,11 +66,13 @@
       border: 1px solid var(--primaryBorder);
       border-radius: 6px;
       gap: 30px;
+
       .form-body {
         width: 100%;
         display: flex;
         gap: 30px;
         justify-content: space-between;
+
         .table {
           width: 100%;
           display: flex;
@@ -59,10 +80,17 @@
           align-items: center;
           gap: 15px;
           justify-content: center;
+
           img {
             width: 50%;
             border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+
+            &:hover {
+              transform: scale(1.05);
+            }
           }
+
           #file_lable {
             width: 60%;
             background-color: white;
@@ -72,28 +100,34 @@
             padding: 5px;
             color: var(--green);
             transition: all ease-in-out 0.4s;
+
             &:hover {
               background-color: var(--green);
               color: white;
             }
+
             &:active {
               background-color: rgb(0, 85, 255);
               color: white;
             }
           }
         }
+
         .input-table {
           align-items: start;
           justify-content: start;
+
           .inp-label {
             width: 100%;
             display: flex;
             flex-direction: column;
             gap: 6px;
+
             label {
               color: gray;
               font-size: 12px;
             }
+
             input,
             select {
               padding: 6px;
@@ -102,13 +136,16 @@
               color: rgb(38, 38, 38);
               text-transform: capitalize;
             }
+
             .inputs {
               width: 100%;
               display: flex;
+
               .radio-label {
                 width: 50%;
                 display: flex;
                 gap: 10px;
+
                 label {
                   font-size: 15px;
                 }
@@ -123,31 +160,37 @@
           padding: 10px;
         }
       }
+
       .form-footer {
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 15px;
+
         button {
           padding: 10px;
           width: 20%;
           font-size: 18px;
           border-radius: 8px;
-          transition: all ease-in-out 0.1s;
+          transition: all ease-in-out 0.2s;
+
           &:nth-child(1) {
             background-color: white;
             color: gray;
             border: 0.8px solid gray;
+
             &:hover {
               background-color: gray;
               color: white;
             }
           }
+
           &:nth-child(2) {
             background-color: var(--green);
             color: white;
             border: 0;
+
             &:hover {
               background-color: #00948b;
             }
@@ -157,6 +200,7 @@
     }
   }
 
+  // Scrollbar
   .modal::-webkit-scrollbar {
     height: 4px;
     width: 6px;
@@ -167,6 +211,7 @@
   }
 }
 
+// Media Queries
 @media only screen and (max-width: 1200px) {
   .post-modal {
     .modal {
@@ -178,6 +223,7 @@
 @media only screen and (max-width: 960px) {
   .post-modal {
     padding-top: 50px;
+
     .modal {
       width: 70%;
     }
@@ -185,32 +231,6 @@
 }
 
 @media only screen and (max-width: 740px) {
-  #myproducts-data {
-    padding: 10px;
-    border-radius: 6px;
-
-    .data-head {
-      h3 {
-        font-size: 28px;
-      }
-
-      button {
-        font-size: 14px;
-      }
-    }
-
-    .actions {
-      button {
-        padding: 4px 8px;
-        font-size: 14px;
-      }
-    }
-
-    .data-body {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
   .post-modal {
     .modal {
       width: 80%;
@@ -219,15 +239,9 @@
 }
 
 @media only screen and (max-width: 500px) {
-  #myproducts-data {
-    .data-body {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   .post-modal {
     .modal {
-      width: 100%;
+      width: 95%;
       height: 84vh;
       padding: 20px 10px;
 
@@ -235,6 +249,7 @@
         h2 {
           font-size: 30px;
         }
+
         p {
           font-size: 14px;
         }
@@ -249,5 +264,35 @@
         }
       }
     }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

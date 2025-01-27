@@ -145,7 +145,7 @@ const PostModal = ({ setPostModal, token }) => {
               </div>
 
               <div className="inp-label">
-                <label htmlFor="price">Price (£)</label>
+                <label htmlFor="price">Price</label>
                 <input type="number" name="price" id="price" required />
               </div>
               <div className="inp-label">

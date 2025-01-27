@@ -168,7 +168,7 @@ const ProductOne = () => {
             <div className="product_info_head">
               <div className="start">
                 <h2>{productOne?.name}</h2>
-                <Rating precision={0.5} readOnly value={review_rate} />
+                <Rating precision={0.5} readOnly value={+review_rate} />
               </div>
               <button
                 className="liking-btn-common"

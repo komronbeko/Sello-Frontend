@@ -7,7 +7,6 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import MenuIcon from "@mui/icons-material/Menu";
-// import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import ClearIcon from "@mui/icons-material/Clear";
 import CloseIcon from "@mui/icons-material/Close";
@@ -210,13 +209,13 @@ const Header = ({ catalogModal, setCatalogModal }) => {
             {catalogModal ? (
               <ClearIcon
                 fontSize="small"
-                style={{ color: "#00b3a8" }}
+                style={{ color: "#089d93" }}
                 onClick={clearSearchInput}
               />
             ) : (
               <FormatListBulletedIcon
                 fontSize="small"
-                style={{ color: "#00b3a8" }}
+                style={{ color: "#089d93" }}
               />
             )}
             <p className="catalogbtn-text">Catalog</p>
