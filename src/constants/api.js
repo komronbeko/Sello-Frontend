@@ -1,5 +1,5 @@
-// const API_ADDRESS = "https://sello-backend.oty2.com";
-const API_ADDRESS = "http://localhost:4000";
+const API_ADDRESS = "https://sello-backend.oty2.com";
+// const API_ADDRESS = "http://localhost:4000";
 
 export const API_BASE_URL = `${API_ADDRESS}/api`;
 export const URL_IMAGE = `${API_ADDRESS}/uploads`;
