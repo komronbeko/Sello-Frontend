@@ -5,8 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import ProfileNav from "../../components/ProfileNavbar/ProfileNavbar";
 import { getAccessTokenFromLocalStorage } from "../../utils/storage";
 import Card from "../../components/Card/Card";
-import axios from "axios";
-import { API_BASE_URL } from "../../constants/api";
 import NoProducts from "../../components/NoProducts/NoProducts";
 import VerifyDeleting from "../../components/VerifyDeliting/VerifyDeleting";
 import { SkeletonContainer } from "../../components/SkeletonContainer/SkeletonContainer";
@@ -17,6 +15,7 @@ import { fetchUserProducts } from "../../features/ProductsSlice";
 
 import "./MyProducts.scss";
 import PostModal from "../../components/PostModal/PostModal";
+import http from "../../service/api";
 
 const MyProducts = () => {
   // Call Redux states
@@ -38,10 +37,8 @@ const MyProducts = () => {
   // Handle deleting all user products
   async function clearUserProducts() {
     try {
-      await axios.delete(`${API_BASE_URL}/product/delete/user-products`, {
-        headers: { Authorization: "Bearer " + token },
-      });
-      toast("Products cleared.", { type: "info" });
+      const { data } = await http.delete("/product/soft-delete/user-products");
+      toast(data.message, { type: "info" });
       dispatch(fetchUserProducts(token));
       setVerifyClearing(false);
     } catch (error) {
@@ -56,7 +53,7 @@ const MyProducts = () => {
     if (!token) navigate("/");
 
     dispatch(fetchUserProducts(token));
-  }, [token]);
+  }, [token, dispatch, navigate]);
 
   return (
     <div id="myproducts">

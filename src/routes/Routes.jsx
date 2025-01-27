@@ -14,6 +14,7 @@ import FilterByCategory from "../pages/FilterProducts/FilterByCategory";
 import FilterByNestedCategory from "../pages/FilterProducts/FilterByNestedCategory";
 import NotFound from "../pages/NotFound/NotFound";
 import MyProducts from "../pages/MyProducts/Myproducts";
+import History from "../pages/History/History";
 // import AdminDashboard from "../pages/AdminDashboard/Main";
 import DashboardMain from "../Dashboard/Main/Main";
 
@@ -53,6 +54,10 @@ const routes = [
   {
     path: "/profile/:user_id/wallet",
     element: <Wallet />,
+  },
+  {
+    path: "/profile/:user_id/history",
+    element: <History />,
   },
   {
     path: "/product/:id",

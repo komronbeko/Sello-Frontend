@@ -31,6 +31,12 @@ const ProfileNav = ({ activePage, user_id }) => {
       text: "Wallet",
       link: "/wallet",
     },
+
+    {
+      icon: "fa-solid fa-history",
+      text: "History",
+      link: "/history",
+    },
   ];
 
   function page(link) {
