@@ -146,9 +146,9 @@ const Card = ({
           </div>
         </Link>
         <div className="title">
-          <Link to={`/product/${id}`}>
-            <p>{title}</p>
-          </Link>
+          <p>
+            <Link to={`/product/${id}`}>{title}</Link>
+          </p>
           <div className="card_actions">
             {(isAdmin || is_owner) && !is_deleted ? (
               <div>
