@@ -21,6 +21,8 @@ const CategoryForm = ({ dispatch, catalogs }) => {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+
+    e.target.reset();
   };
 
   return (

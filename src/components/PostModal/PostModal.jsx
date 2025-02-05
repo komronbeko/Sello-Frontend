@@ -8,6 +8,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../constants/api";
 import { fetchUserProducts } from "../../features/ProductsSlice";
 import InputFileUpload from "./FileUpload";
+import http from "../../service/api";
 
 // import http from "../../service/api";
 
@@ -18,18 +19,18 @@ const PostModal = ({ setPostModal, token }) => {
 
   // state to hold categories of chosen catalog
   const [categories, setCategories] = useState([]);
-  const [files, setFiles] = useState([]);
-
-  // state to hold nested-categories of chosen category
   const [nestedCategories, setNestedCategories] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [subcategorySuggested, setSubcategorySuggested] = useState("");
 
-  // set initial states for categories and sub-categories
   useEffect(() => {
     if (catalogs.length) {
       setCategories(catalogs[0].categories);
-
       if (catalogs[0].categories.length) {
-        setNestedCategories(catalogs[0].categories[0].nestedCategories);
+        setNestedCategories([
+          ...catalogs[0].categories[0].nestedCategories,
+          { id: "other", name: "Other" },
+        ]);
       }
     }
   }, [catalogs.length]);
@@ -71,28 +72,20 @@ const PostModal = ({ setPostModal, token }) => {
       } = e.target.elements;
 
       // Send product data with photoPaths
-      const { data } = await axios.post(
-        `${API_BASE_URL}/product`,
-        {
-          name: name.value,
-          description: description.value,
-          price: Number(price.value),
-          delivery_country: delivery_country.value,
-          delivery: Boolean(delivery.value),
-          refund: Boolean(refund.value),
-          unpacked: Boolean(unpacked.value),
-          catalog_id: catalog.value,
-          category_id: category.value,
-          nested_category_id: nested_category.value,
-          photoPaths: uploadedPhotoPaths, // Use uploaded paths here
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      const { data } = await http.post("/product", {
+        name: name.value,
+        description: description.value,
+        price: Number(price.value),
+        delivery_country: delivery_country.value,
+        delivery: Boolean(delivery.value),
+        refund: Boolean(refund.value),
+        unpacked: Boolean(unpacked.value),
+        catalog_id: catalog.value,
+        category_id: category.value,
+        nested_category_id:
+          nested_category.value !== "default" ? nested_category.value : null,
+        photoPaths: uploadedPhotoPaths, // Use uploaded paths here
+      });
 
       toast(data.message, { type: "success" });
       dispatch(fetchUserProducts(token));
@@ -107,7 +100,9 @@ const PostModal = ({ setPostModal, token }) => {
     catalogs.map((el) => {
       if (el.id == catalog_id) {
         setCategories(el.categories);
-        setNestedCategories(el.categories[0].nestedCategories);
+        setNestedCategories(
+          el.categories.length ? el.categories[0].nestedCategories : []
+        );
       }
     });
   }
@@ -117,6 +112,11 @@ const PostModal = ({ setPostModal, token }) => {
     categories.map((el) =>
       el.name === category ? setNestedCategories(el.nestedCategories) : null
     );
+  }
+
+  function suggestSubcategory() {
+    // Placeholder: Replace with AI-based suggestion logic (e.g., API call to AI model)
+    setSubcategorySuggested("Suggested: Electronics Accessories");
   }
 
   return (
@@ -245,8 +245,9 @@ const PostModal = ({ setPostModal, token }) => {
                   onChange={(e) => handleCatalogChange(e.target.value)}
                   name="catalog"
                   id="catalog"
+                  defaultValue="default"
                 >
-                  <option value="" disabled selected>
+                  <option value="default" disabled>
                     Select Catalog
                   </option>
                   {catalogs.map((el) => (
@@ -263,8 +264,9 @@ const PostModal = ({ setPostModal, token }) => {
                   name="category"
                   id="category"
                   onChange={(e) => handleCategoryChange(e.target.value)}
+                  defaultValue="default"
                 >
-                  <option disabled selected>
+                  <option disabled value="default">
                     Select Category
                   </option>
                   {categories.map((el) => (
@@ -274,20 +276,27 @@ const PostModal = ({ setPostModal, token }) => {
                   ))}
                 </select>
               </div>
-              {/* ) : null} */}
               {nestedCategories.length ? (
                 <div className="inp-label">
-                  <label htmlFor="nested_category">Sub-Category</label>
-                  <select name="nested_category" id="nested_category">
-                    <option disabled selected>
-                      Select Sub-Category
-                    </option>
+                  <label htmlFor="nested_category">
+                    Sub-Category (Optional)
+                  </label>
+                  <select
+                    name="nested_category"
+                    id="nested_category"
+                    defaultValue="default"
+                  >
+                    <option value="default">No Sub-Category</option>
                     {nestedCategories.map((el) => (
                       <option key={el.id} value={el.id}>
                         {el.name}
                       </option>
                     ))}
                   </select>
+                  <p className="suggestion" onClick={suggestSubcategory}>
+                    {subcategorySuggested ||
+                      "Need help? Click for suggestions."}
+                  </p>
                 </div>
               ) : null}
             </div>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router";
 
-const SubCategorizing = ({ foundCatalog, subcategory }) => {
+const SubCategorizing = ({ foundCatalog }) => {
   const navigate = useNavigate();
   return (
     <form
@@ -9,17 +9,13 @@ const SubCategorizing = ({ foundCatalog, subcategory }) => {
         navigate(`/catalog/${foundCatalog?.name}/${e.target.value}`)
       }
     >
-      <select name="category" id="category">
+      <select name="category" id="category" defaultValue="subcategory">
         <option value="subcategory" disabled>
           Subcategory
         </option>
         {foundCatalog && foundCatalog?.categories.length
           ? foundCatalog?.categories.map((el) => (
-              <option
-                key={el.id}
-                value={el.name}
-                selected={el.name === subcategory ? true : false}
-              >
+              <option key={el.id} value={el.name}>
                 {el.name}
               </option>
             ))

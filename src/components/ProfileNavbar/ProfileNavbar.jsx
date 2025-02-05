@@ -44,7 +44,10 @@ const ProfileNav = ({ activePage, user_id }) => {
   }
 
   function logout() {
-    localStorage.removeItem("token");
+    console.log("logout");
+
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("auth-assets");
     navigate("/");
   }
 

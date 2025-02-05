@@ -2,6 +2,7 @@
 import { toast } from "react-toastify";
 import http from "../../service/api";
 import { setAuthAssetsToLocalStorage } from "../../utils/storage";
+import { TextField } from "@mui/material";
 
 const EmailOtp = ({ setAuthNavigator }) => {
   async function handleSubmit(e) {
@@ -28,11 +29,22 @@ const EmailOtp = ({ setAuthNavigator }) => {
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} id="send">
+    <form onSubmit={(e) => handleSubmit(e)} className="form">
+      <b>
+        If your email is registered in our system, You will get verifaction code
+        shortly!
+      </b>
       <div className="data">
-        <label htmlFor="verify-code">Enter your email</label>
-        <input type="email" name="email" required />
-        <button>Next</button>
+        <TextField
+          type="email"
+          name="email"
+          label="Email"
+          placeholder="example@gmail.com"
+          variant="outlined"
+          fullWidth
+          required
+        />
+        <button className="register-next-btn">Next</button>
       </div>
     </form>
   );

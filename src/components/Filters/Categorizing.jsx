@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
-const Categorizing = ({ category }) => {
+const Categorizing = () => {
   const catalogs = useSelector((state) => state.catalog.catalogs);
 
   function directToCategory(value) {
@@ -14,17 +14,13 @@ const Categorizing = ({ category }) => {
   const navigate = useNavigate();
   return (
     <form onChange={(e) => directToCategory(e.target.value)}>
-      <select name="category" id="category">
+      <select name="category" id="category" defaultValue="category">
         <option value="category" disabled>
           Category
         </option>
         {catalogs.length
           ? catalogs.map((el) => (
-              <option
-                key={el.id}
-                value={el.name}
-                selected={el.name === category ? el.name : ""}
-              >
+              <option key={el.id} value={el.name}>
                 {el.name}
               </option>
             ))

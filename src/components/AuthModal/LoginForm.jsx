@@ -1,9 +1,14 @@
-/* eslint-disable react/prop-types */
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import http from "../../service/api";
 import { setAuthAssetsToLocalStorage } from "../../utils/storage";
+import { TextField, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginForm = ({ setAuthNavigator }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   async function handleSubmit(e) {
     toast("Please wait...", { type: "info" });
     e.preventDefault();
@@ -20,35 +25,54 @@ const LoginForm = ({ setAuthNavigator }) => {
         user_id: data.data.user_id,
       });
     } catch (error) {
-      toast(error.response.data.message, { type: "error" });
+      toast(error.response.data.message[0], { type: "error" });
     }
 
     e.target.reset();
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} id="send">
+    <form onSubmit={handleSubmit} className="form">
       <h3>Welcome!</h3>
       <b>Login to your Account</b>
       <div className="data">
-        <input
+        <TextField
           type="email"
           name="email"
+          label="Email"
           placeholder="example@gmail.com"
+          variant="outlined"
+          fullWidth
           required
         />
-        <input
-          type="password"
+        <TextField
+          type={showPassword ? "text" : "password"}
           name="password"
+          label="Password"
           placeholder="••••••••"
+          variant="outlined"
+          fullWidth
           required
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
-        <button>Next</button>
+        <button className="register-next-btn">Next</button>
+
         <p
           onClick={() => setAuthNavigator("auth-register")}
           className="auth-hyper-link"
         >
-          Dont have an account yet?
+          Don&apos;t have an account yet?
         </p>
         <p
           onClick={() => setAuthNavigator("email-otp")}
@@ -59,6 +83,10 @@ const LoginForm = ({ setAuthNavigator }) => {
       </div>
     </form>
   );
+};
+
+LoginForm.propTypes = {
+  setAuthNavigator: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

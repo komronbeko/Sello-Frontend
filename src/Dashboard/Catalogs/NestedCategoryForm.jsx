@@ -22,6 +22,8 @@ const NestedCategoryForm = ({ dispatch, catalogs }) => {
     } catch (error) {
       toast(error.message, { type: "error" });
     }
+
+    e.target.reset();
   };
 
   const handleCatalogChange = (catalog_id) => {

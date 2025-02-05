@@ -13,7 +13,7 @@ import VerifyOtp from "./VerifyOtp";
 import PassReset from "./PassReset";
 
 const AuthModal = () => {
-  const [authNavigator, setAuthNavigator] = useState("auth-register");
+  const [authNavigator, setAuthNavigator] = useState("auth-login");
 
   const dispatch = useDispatch();
 

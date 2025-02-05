@@ -36,7 +36,7 @@ const Main = () => {
         heading="All Products!"
         loading={loading}
         isDiscount={false}
-        totalPages={totalPages}
+        totalPages={totalPages || 1}
         currentPage={currentPage}
       />
       <SpecialCategories />

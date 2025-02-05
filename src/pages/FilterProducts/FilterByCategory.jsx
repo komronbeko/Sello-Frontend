@@ -73,7 +73,7 @@ const FilterByCategory = () => {
               setSortingValue={setSortingValue}
               catalog_id={foundCatalog?.id}
             />
-            <Categorizing category={category} />
+            <Categorizing />
             <SubCategorizing foundCatalog={foundCatalog} />
           </div>
           <FilterAside filterAssets={filterAssets} data={products} />
